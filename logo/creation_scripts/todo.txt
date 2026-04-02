@@ -1,0 +1,154 @@
+You are in a local folder that contains:
+- ./sources/ (input master SVGs)
+- ./logo-export-checklist.xlsx (an export checklist spreadsheet)
+Create a Python 3 script named generate_assets.py plus a requirements.txt and README.md.
+
+Goal:
+Read logo-export-checklist.xlsx (sheet "Export Checklist") and generate all requested exports into an ./output/ directory, respecting:
+- Suggested Path (as subfolders under ./output/)
+- Filename (exact unless collisions require deterministic suffixing)
+- Format (PNG, SVG, ICO)
+- Export Px (W×H) or special cases
+
+Also create a Markdown manifest at:
+- ./output/ASSETS_MANIFEST.md
+This manifest will be committed to git along with the generated assets.
+
+Inputs:
+Only these files exist in ./sources and MUST be used as masters:
+- icon-light.svg
+- icon-dark.svg
+- icon-monochrome.svg
+- logo-light.svg
+- logo-dark.svg
+- logo-icon-lockup-light.svg
+- logo-icon-lockup-dark.svg
+
+Do NOT reference, require, or implement any logic for:
+- icon-favicon-micro.svg
+- og-template.png / og-template.svg
+
+Terminology:
+- Logo Type values in the sheet: icon, logo, logo+icon (sometimes "logo or icon" — handle this case)
+- Logo Color values in the sheet: light, dark, monochrome, auto
+
+Core rules:
+A) Row expansion:
+- If Logo Color == "auto": expand the row into TWO rows:
+  1) Logo Color = "light"
+  2) Logo Color = "dark"
+- IMPORTANT: avoid overwriting outputs by making filenames unique.
+  If the original filename does not already contain "-light" or "-dark", insert "-light" or "-dark" before the file extension.
+  Example: "icon.svg" -> "icon-light.svg" and "icon-dark.svg"
+  Example: "favicon-32x32.png" -> "favicon-32x32-light.png" and "favicon-32x32-dark.png"
+  If the filename already includes light/dark, do not modify it.
+
+B) Selecting source SVG:
+- For Logo Type == "icon":
+  - light -> sources/icon-light.svg
+  - dark -> sources/icon-dark.svg
+  - monochrome -> sources/icon-monochrome.svg
+- For Logo Type == "logo":
+  - light -> sources/logo-light.svg
+  - dark -> sources/logo-dark.svg
+- For Logo Type == "logo+icon":
+  - light -> sources/logo-icon-lockup-light.svg
+  - dark -> sources/logo-icon-lockup-dark.svg
+- For Logo Type == "logo or icon":
+  - choose based on filename:
+    - if filename contains "logo" OR row "Platform/Use" contains "Docs" or "Email", prefer "logo"
+    - otherwise prefer "icon"
+  - then apply the normal color mapping above.
+- If a mapping cannot be determined, SKIP the row with a clear reason.
+
+C) If Format is SVG:
+- Copy the selected source SVG to the output location.
+- Exception: If the output filename is "safari-pinned-tab.svg", always copy sources/icon-monochrome.svg regardless of other fields.
+
+D) If Format is PNG:
+- Parse the target pixel size from "Export Px (W×H)".
+- Handle these patterns:
+  1) "N×N" -> output_width=N, output_height=N
+  2) "~(auto)×H" -> output_height=H and width auto (preserve aspect ratio)
+  3) Ranges like "216–350 × 216–350" -> export TWO files:
+     - one at 216×216 with suffix "-216" before extension
+     - one at 350×350 with suffix "-350" before extension
+     Example: azure-logo-large.png -> azure-logo-large-216.png and azure-logo-large-350.png
+- Use CairoSVG to rasterize SVG->PNG.
+- Transparent background by default.
+- For "~(auto)×H", compute width by preserving aspect ratio from the rendered SVG.
+
+E) If Format is ICO:
+- Expect favicon.ico row includes sizes like "16,32,48" in the "Export Px (W×H)" cell.
+- Generate a multi-size ICO using Pillow:
+  - Rasterize the selected icon SVG to PNG for each size
+  - Build one .ico that includes all those sizes
+- If Logo Color == auto (after expansion), you will generate BOTH:
+  - favicon-light.ico
+  - favicon-dark.ico
+  (apply the filename suffix rule from A)
+
+F) Open Graph row handling (1200×630):
+- Do NOT attempt to design OG images (no template is provided).
+- If a row requests a 1200×630 PNG (e.g., "Open Graph"), SKIP it with:
+  "SKIP OG requires template (no og-template provided): <row summary>"
+
+Folder & outputs:
+- Create ./output/<Suggested Path>/ if missing (Suggested Path is relative under output).
+- Write file to the resolved filename (after suffixing rules).
+- For generated variants (Azure 216/350), keep them in the same Suggested Path folder.
+- For SKIP rows, do not create empty placeholder files.
+
+Manifest generation:
+- Produce ./output/ASSETS_MANIFEST.md
+- It must contain:
+  1) A header with generation timestamp (ISO format) and the source spreadsheet name.
+  2) A table with one row per generated output file containing:
+     - Platform/Use
+     - Logo Type
+     - Logo Color
+     - Format
+     - Size Spec
+     - Export Px (W×H)
+     - Suggested Path
+     - Filename (final resolved)
+     - Relative Output Path (relative to ./output, e.g., "web/favicons/favicon-32x32-light.png")
+  3) Sorting:
+     - Sort by Suggested Path, then Filename.
+- For rows that expand (auto -> light/dark, range -> 216/350), each generated file must get its own row in the manifest.
+
+Logging:
+- Print a concise line per generated file:
+  "OK <relative_output_path>"
+- If a row is skipped, print:
+  "SKIP <reason> <row summary>"
+- If required source files are missing, fail fast with a clear error listing missing inputs.
+
+CLI:
+- generate_assets.py should run with no args:
+  python generate_assets.py
+- Optional args:
+  --output output (default "output")
+  --sources sources (default "sources")
+  --excel logo-export-checklist.xlsx (default)
+  --sheet "Export Checklist" (default)
+  --dry-run (don’t write, just show what would happen)
+
+Robustness:
+- Use openpyxl to read XLSX.
+- Validate required columns exist: Platform/Use, Logo Type, Logo Color, Format, Size Spec, Export Px (W×H), Suggested Path, Filename, Notes
+- Handle Windows/macOS/Linux paths safely (use pathlib).
+- Errors should be actionable (which row failed and why).
+
+Create requirements.txt with minimal deps:
+- openpyxl
+- cairosvg
+- pillow
+
+Create README.md explaining:
+- required source files in ./sources
+- how auto expands to light/dark and how filenames are suffixed
+- how to run
+- where outputs land
+- which rows are intentionally skipped (Open Graph without a template)
+- how the manifest is generated and intended to be committed

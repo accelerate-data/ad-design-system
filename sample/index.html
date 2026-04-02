@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accelerate Data — Design System</title>
+  <style>
+    /* ── Brand Tokens ─────────────────────────────── */
+    :root {
+      /* Primary */
+      --pacific:  #00b4d8;
+      --navy:     #03045e;
+      --seafoam:  #00dd92;
+      /* Secondary */
+      --powder:   #caf0f8;
+      --arctic:   #90e0ef;
+      --ocean:    #0077b6;
+      /* Neutrals */
+      --pearl:    #f2f2f2;
+      --smoke:    #171c21;
+      /* Semantic */
+      --success:     #00dd92;
+      --success-alt: #00c77f;
+      --warning:     #f59e0b;
+      --warning-alt: #d97706;
+      --error:       #ef4444;
+      --error-alt:   #dc2626;
+      --info:        #00b4d8;
+      --info-alt:    #0096b4;
+
+      /* Typography */
+      --font-sans: 'Geist', 'SF Pro', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Geist Mono', 'SF Mono', Menlo, monospace;
+
+      /* Radius */
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+
+      /* Motion */
+      --ease: cubic-bezier(0.25, 1, 0.5, 1);
+      --duration-micro: 150ms;
+      --duration-standard: 200ms;
+      --duration-emphasis: 250ms;
+    }
+
+    /* ── Light Mode ───────────────────────────────── */
+    [data-theme="light"] {
+      --bg-base:       #ffffff;
+      --bg-surface:    var(--pearl);
+      --bg-raised:     #ffffff;
+      --text-primary:  var(--navy);
+      --text-secondary:#444c5c;
+      --text-muted:    #6b7280;
+      --border:        #d1d9e0;
+      --shadow:        0 1px 4px rgba(3,4,94,0.08), 0 4px 16px rgba(3,4,94,0.06);
+    }
+
+    /* ── Dark Mode ────────────────────────────────── */
+    [data-theme="dark"] {
+      --bg-base:       var(--smoke);
+      --bg-surface:    #1e2329;
+      --bg-raised:     #262c33;
+      --text-primary:  var(--powder);
+      --text-secondary:#90b4c8;
+      --text-muted:    #6b8899;
+      --border:        #2e3d4f;
+      --shadow:        0 1px 4px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-base);
+      color: var(--text-primary);
+      transition: background var(--duration-emphasis) var(--ease), color var(--duration-emphasis) var(--ease);
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── Layout ───────────────────────────────────── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── Nav ──────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-raised);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background var(--duration-emphasis) var(--ease), border-color var(--duration-emphasis) var(--ease);
+    }
+
+    .nav-logo {
+      height: 32px;
+      width: auto;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color var(--duration-micro) var(--ease);
+    }
+    nav a:hover { color: var(--pacific); }
+
+    /* ── Theme Toggle ─────────────────────────────── */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all var(--duration-standard) var(--ease);
+      font-family: var(--font-sans);
+    }
+    .theme-toggle:hover {
+      border-color: var(--pacific);
+      color: var(--pacific);
+    }
+    .theme-toggle svg { width: 15px; height: 15px; }
+
+    /* ── Hero ─────────────────────────────────────── */
+    .hero {
+      padding: 80px 32px 60px;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pacific);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span { color: var(--pacific); }
+
+    .hero p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Buttons ──────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 16px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      border: none;
+      transition: background var(--duration-standard) var(--ease), opacity var(--duration-standard) var(--ease), box-shadow var(--duration-standard) var(--ease);
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .btn-sm { height: 32px; font-size: 13px; padding: 6px 12px; }
+    .btn-lg { height: 48px; font-size: 15px; padding: 10px 24px; }
+
+    .btn-primary {
+      background: var(--pacific);
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: var(--ocean);
+      box-shadow: 0 4px 16px rgba(0,180,216,0.25);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--navy);
+      border: 1px solid var(--navy);
+    }
+    .btn-secondary:hover {
+      border-color: var(--pacific);
+      color: var(--pacific);
+    }
+    [data-theme="dark"] .btn-secondary {
+      color: var(--powder);
+      border-color: var(--powder);
+    }
+    [data-theme="dark"] .btn-secondary:hover {
+      border-color: var(--pacific);
+      color: var(--pacific);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--pacific);
+    }
+    .btn-ghost:hover {
+      background: rgba(0,180,216,0.1);
+    }
+
+    .btn-accent {
+      background: var(--seafoam);
+      color: var(--navy);
+    }
+    .btn-accent:hover {
+      opacity: 0.9;
+      box-shadow: 0 4px 16px rgba(0,221,146,0.25);
+    }
+
+    .btn-danger {
+      background: var(--error);
+      color: #ffffff;
+    }
+    .btn-danger:hover {
+      background: var(--error-alt);
+      box-shadow: 0 4px 16px rgba(239,68,68,0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--pacific);
+      color: var(--pacific);
+    }
+
+    /* ── Section ──────────────────────────────────── */
+    section {
+      padding: 64px 32px;
+    }
+
+    section + section {
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 32px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: -24px;
+      margin-bottom: 32px;
+      max-width: 600px;
+    }
+
+    /* ── Logo Showcase ────────────────────────────── */
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .logo-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .logo-preview {
+      display: flex;
+      height: 100px;
+    }
+
+    .logo-preview-light, .logo-preview-dark {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .logo-preview-light {
+      background: #ffffff;
+    }
+
+    .logo-preview-dark {
+      background: var(--smoke);
+    }
+
+    .logo-preview img {
+      max-height: 40px;
+      max-width: 100%;
+      width: auto;
+    }
+
+    .logo-meta {
+      padding: 12px 16px;
+      background: var(--bg-raised);
+      border-top: 1px solid var(--border);
+    }
+
+    .logo-meta-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .logo-meta code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      word-break: break-all;
+      display: block;
+      line-height: 1.5;
+    }
+
+    /* ── Color Palette ────────────────────────────── */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
+    }
+
+    .swatch {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .swatch-color {
+      height: 80px;
+    }
+
+    .swatch-info {
+      padding: 10px 12px;
+      background: var(--bg-raised);
+    }
+
+    .swatch-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .swatch-hex {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .swatch-role {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pacific);
+      margin-top: 4px;
+    }
+
+    /* ── Typography Showcase ──────────────────────── */
+    .type-stack { display: flex; flex-direction: column; gap: 24px; }
+
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .type-meta {
+      width: 130px;
+      flex-shrink: 0;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+
+    /* ── Buttons Showcase ─────────────────────────── */
+    .btn-showcase-group {
+      margin-bottom: 28px;
+    }
+
+    .btn-showcase-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .btn-showcase-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+    }
+
+    .btn-showcase-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Cards ────────────────────────────────────── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      transition: box-shadow var(--duration-standard) var(--ease);
+    }
+    .card:hover {
+      box-shadow: 0 8px 32px rgba(0,180,216,0.12);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 20px;
+    }
+
+    .card-icon.pacific  { background: rgba(0,180,216,0.12); }
+    .card-icon.seafoam  { background: rgba(0,221,146,0.12); }
+    .card-icon.navy     { background: rgba(3,4,94,0.08); }
+
+    .card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+    }
+
+    .card-metric {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .metric-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--pacific);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── Input Fields ─────────────────────────────── */
+    .input-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .input-group .input-hint {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+
+    .input-field {
+      height: 40px;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--bg-raised);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      outline: none;
+      transition: border-color var(--duration-micro) var(--ease), box-shadow var(--duration-micro) var(--ease);
+    }
+
+    .input-field::placeholder {
+      color: var(--text-muted);
+    }
+
+    .input-field:focus {
+      border-color: var(--pacific);
+      box-shadow: 0 0 0 2px rgba(0,180,216,0.2);
+    }
+
+    .input-field.input-error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 2px rgba(239,68,68,0.2);
+    }
+
+    .input-field:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .input-error-msg {
+      font-size: 12px;
+      color: var(--error);
+      font-weight: 500;
+    }
+
+    /* ── Badge / Tag ──────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .badge-pacific { background: rgba(0,180,216,0.12); color: var(--pacific); }
+    .badge-seafoam { background: rgba(0,221,146,0.12); color: #00a870; }
+    .badge-navy    { background: rgba(3,4,94,0.08);    color: var(--navy); }
+    .badge-success { background: rgba(0,221,146,0.12); color: var(--success-alt); }
+    .badge-warning { background: rgba(245,158,11,0.12); color: var(--warning-alt); }
+    .badge-error   { background: rgba(239,68,68,0.12); color: var(--error-alt); }
+    .badge-info    { background: rgba(0,180,216,0.12); color: var(--info-alt); }
+
+    [data-theme="dark"] .badge-navy {
+      background: rgba(202,240,248,0.08);
+      color: var(--arctic);
+    }
+    [data-theme="dark"] .badge-success { color: var(--success); }
+    [data-theme="dark"] .badge-warning { color: var(--warning); }
+    [data-theme="dark"] .badge-error   { color: var(--error); }
+    [data-theme="dark"] .badge-info    { color: var(--info); }
+
+    .badges-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badges-section {
+      margin-bottom: 24px;
+    }
+
+    .badges-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .badges-section-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-family: var(--font-mono);
+    }
+
+    /* ── Code Block ───────────────────────────────── */
+    .code-block {
+      background: var(--smoke);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--arctic);
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+
+    [data-theme="light"] .code-block {
+      background: #0d1117;
+    }
+
+    .code-block .kw  { color: var(--seafoam); }
+    .code-block .str { color: var(--powder); }
+    .code-block .fn  { color: var(--pacific); }
+    .code-block .cm  { color: #4d5f6a; }
+
+    /* ── CTA Banner ───────────────────────────────── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--navy) 0%, #061a3a 100%);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .cta-banner h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-banner p {
+      font-size: 14px;
+      color: var(--arctic);
+      max-width: 420px;
+    }
+
+    /* ── Footer ───────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    footer img {
+      height: 24px;
+      opacity: 0.6;
+    }
+
+    /* ── Responsive ───────────────────────────────── */
+    @media (max-width: 640px) {
+      nav, section, .hero { padding-left: 16px; padding-right: 16px; }
+      .cta-banner { flex-direction: column; text-align: center; }
+      .logo-grid { grid-template-columns: 1fr; }
+      .input-showcase { grid-template-columns: 1fr; }
+      .type-row { flex-direction: column; gap: 4px; }
+      .type-meta { width: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ─────────────────────────────── -->
+  <nav>
+    <img
+      id="nav-logo"
+      class="nav-logo"
+      src="http://assets.acceleratedata.ai/logo/product/ui/logo-dark-h32.svg"
+      alt="Accelerate Data"
+    />
+    <div class="nav-right">
+      <a href="#">Product</a>
+      <a href="#">Solutions</a>
+      <a href="#">Docs</a>
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        Dark mode
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Hero ───────────────────────────────────── -->
+  <div class="hero container">
+    <span class="hero-eyebrow">Design System</span>
+    <h1>Your data,<br/><span>governed &amp; fast</span></h1>
+    <p>
+      Accelerate Data helps engineering teams build high-quality,
+      governed data products that come together correctly, efficiently, and fast.
+    </p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary">Get started free</button>
+      <button class="btn btn-accent">See a demo</button>
+      <button class="btn btn-outline">Read the docs</button>
+    </div>
+  </div>
+
+  <!-- ── Logo Showcase ──────────────────────────── -->
+  <section class="container">
+    <div class="section-label">Brand Assets</div>
+    <div class="section-title">Logo Showcase</div>
+    <p class="section-subtitle">All logos served from CDN. Each variant shown on light and dark backgrounds.</p>
+    <div class="logo-grid">
+      <!-- Icon SVG (vector) -->
+      <div class="logo-item">
+        <div class="logo-preview">
+          <div class="logo-preview-light">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/icon-dark.svg" alt="Icon dark SVG" style="height:32px" />
+          </div>
+          <div class="logo-preview-dark">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/icon-light.svg" alt="Icon light SVG" style="height:32px" />
+          </div>
+        </div>
+        <div class="logo-meta">
+          <div class="logo-meta-label">Icon SVG</div>
+          <code>icon-dark.svg</code>
+          <code>icon-light.svg</code>
+        </div>
+      </div>
+
+      <!-- Icon 64px PNG -->
+      <div class="logo-item">
+        <div class="logo-preview">
+          <div class="logo-preview-light">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/icon-dark-64.png" alt="Icon dark 64" />
+          </div>
+          <div class="logo-preview-dark">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/icon-light-64.png" alt="Icon light 64" />
+          </div>
+        </div>
+        <div class="logo-meta">
+          <div class="logo-meta-label">Icon 64px PNG</div>
+          <code>icon-dark-64.png</code>
+          <code>icon-light-64.png</code>
+        </div>
+      </div>
+
+      <!-- Wordmark h24 -->
+      <div class="logo-item">
+        <div class="logo-preview">
+          <div class="logo-preview-light">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-dark-h24.svg" alt="Wordmark dark h24" />
+          </div>
+          <div class="logo-preview-dark">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-light-h24.svg" alt="Wordmark light h24" />
+          </div>
+        </div>
+        <div class="logo-meta">
+          <div class="logo-meta-label">Wordmark h24</div>
+          <code>logo-dark-h24.svg</code>
+          <code>logo-light-h24.svg</code>
+        </div>
+      </div>
+
+      <!-- Wordmark h32 -->
+      <div class="logo-item">
+        <div class="logo-preview">
+          <div class="logo-preview-light">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-dark-h32.svg" alt="Wordmark dark h32" />
+          </div>
+          <div class="logo-preview-dark">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-light-h32.svg" alt="Wordmark light h32" />
+          </div>
+        </div>
+        <div class="logo-meta">
+          <div class="logo-meta-label">Wordmark h32</div>
+          <code>logo-dark-h32.svg</code>
+          <code>logo-light-h32.svg</code>
+        </div>
+      </div>
+
+      <!-- Wordmark h48 -->
+      <div class="logo-item">
+        <div class="logo-preview">
+          <div class="logo-preview-light">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-dark-h48.svg" alt="Wordmark dark h48" />
+          </div>
+          <div class="logo-preview-dark">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-light-h48.svg" alt="Wordmark light h48" />
+          </div>
+        </div>
+        <div class="logo-meta">
+          <div class="logo-meta-label">Wordmark h48</div>
+          <code>logo-dark-h48.svg</code>
+          <code>logo-light-h48.svg</code>
+        </div>
+      </div>
+
+      <!-- Lockup 48px -->
+      <div class="logo-item">
+        <div class="logo-preview">
+          <div class="logo-preview-light">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-icon-lockup-dark-48.svg" alt="Lockup dark 48" />
+          </div>
+          <div class="logo-preview-dark">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-icon-lockup-light-48.svg" alt="Lockup light 48" />
+          </div>
+        </div>
+        <div class="logo-meta">
+          <div class="logo-meta-label">Icon+Wordmark Lockup 48</div>
+          <code>logo-icon-lockup-dark-48.svg</code>
+          <code>logo-icon-lockup-light-48.svg</code>
+        </div>
+      </div>
+
+      <!-- Lockup 96px -->
+      <div class="logo-item">
+        <div class="logo-preview">
+          <div class="logo-preview-light">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-icon-lockup-dark-96.svg" alt="Lockup dark 96" />
+          </div>
+          <div class="logo-preview-dark">
+            <img src="http://assets.acceleratedata.ai/logo/product/ui/logo-icon-lockup-light-96.svg" alt="Lockup light 96" />
+          </div>
+        </div>
+        <div class="logo-meta">
+          <div class="logo-meta-label">Icon+Wordmark Lockup 96</div>
+          <code>logo-icon-lockup-dark-96.svg</code>
+          <code>logo-icon-lockup-light-96.svg</code>
+        </div>
+      </div>
+
+      <!-- Favicon SVG -->
+      <div class="logo-item">
+        <div class="logo-preview">
+          <div class="logo-preview-light">
+            <img src="http://assets.acceleratedata.ai/logo/web/favicons/icon-dark.svg" alt="Favicon dark SVG" style="height:32px" />
+          </div>
+          <div class="logo-preview-dark">
+            <img src="http://assets.acceleratedata.ai/logo/web/favicons/icon-light.svg" alt="Favicon light SVG" style="height:32px" />
+          </div>
+        </div>
+        <div class="logo-meta">
+          <div class="logo-meta-label">Favicon SVG</div>
+          <code>web/favicons/icon-dark.svg</code>
+          <code>web/favicons/icon-light.svg</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Color Palette ──────────────────────────── -->
+  <section class="container">
+    <div class="section-label">Brand Identity</div>
+    <div class="section-title">Color Palette</div>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#00b4d8"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Pacific</div>
+          <div class="swatch-hex">#00b4d8</div>
+          <div class="swatch-role">Primary</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#03045e"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Navy</div>
+          <div class="swatch-hex">#03045e</div>
+          <div class="swatch-role">Text / Depth</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#00dd92"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Seafoam</div>
+          <div class="swatch-hex">#00dd92</div>
+          <div class="swatch-role">Accent</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#caf0f8"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Powder</div>
+          <div class="swatch-hex">#caf0f8</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#90e0ef"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Arctic</div>
+          <div class="swatch-hex">#90e0ef</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0077b6"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ocean</div>
+          <div class="swatch-hex">#0077b6</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f2f2f2; border-bottom:1px solid #e0e0e0"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Pearl</div>
+          <div class="swatch-hex">#f2f2f2</div>
+          <div class="swatch-role">Light BG</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#171c21"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Smoke</div>
+          <div class="swatch-hex">#171c21</div>
+          <div class="swatch-role">Dark BG</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#00dd92"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Success</div>
+          <div class="swatch-hex">#00dd92</div>
+          <div class="swatch-role">Semantic</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f59e0b"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Warning</div>
+          <div class="swatch-hex">#f59e0b</div>
+          <div class="swatch-role">Semantic</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#ef4444"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Error</div>
+          <div class="swatch-hex">#ef4444</div>
+          <div class="swatch-role">Semantic</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#00b4d8"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Info</div>
+          <div class="swatch-hex">#00b4d8</div>
+          <div class="swatch-role">Semantic</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Typography Scale ─────────────────────────── -->
+  <section class="container">
+    <div class="section-label">Brand Identity</div>
+    <div class="section-title">Typography Scale</div>
+    <div class="type-stack">
+      <div class="type-row">
+        <div class="type-meta">Display / 32px</div>
+        <div style="font-size:32px; font-weight:600; letter-spacing:-0.02em; line-height:1.15;">Data clarity</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">H1 / 24px</div>
+        <div style="font-size:24px; font-weight:600; letter-spacing:-0.02em;">Accelerate your pipeline</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">H2 / 18px</div>
+        <div style="font-size:18px; font-weight:600; letter-spacing:-0.02em;">Governed data products</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">H3 / 16px</div>
+        <div style="font-size:16px; font-weight:600;">Section heading level three</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">Body / 14px</div>
+        <div style="font-size:14px; font-weight:400; line-height:1.7; color:var(--text-secondary);">Precise, rational, and deeply systems-minded. Their guidance is clear and exact; they strip away ambiguity and simplify complex structures.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">Caption / 12px</div>
+        <div style="font-size:12px; font-weight:500; color:var(--text-muted);">Updated 3 hours ago by data-platform-ci</div>
+      </div>
+      <div class="type-row" style="border:none; padding-bottom:0">
+        <div class="type-meta">Micro / 11px</div>
+        <div style="font-size:11px; font-weight:500; color:var(--text-muted); letter-spacing:0.02em;">v2.4.1 &middot; 48ms &middot; 200 OK</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Buttons ──────────────────────────────────── -->
+  <section class="container">
+    <div class="section-label">Components</div>
+    <div class="section-title">Buttons</div>
+
+    <div class="btn-showcase-group">
+      <div class="btn-showcase-label">Primary</div>
+      <div class="btn-showcase-row">
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary">Default</button>
+        <button class="btn btn-primary btn-lg">Large</button>
+      </div>
+    </div>
+
+    <div class="btn-showcase-group">
+      <div class="btn-showcase-label">Secondary / Outline</div>
+      <div class="btn-showcase-row">
+        <button class="btn btn-secondary btn-sm">Small</button>
+        <button class="btn btn-secondary">Default</button>
+        <button class="btn btn-secondary btn-lg">Large</button>
+      </div>
+    </div>
+
+    <div class="btn-showcase-group">
+      <div class="btn-showcase-label">Ghost</div>
+      <div class="btn-showcase-row">
+        <button class="btn btn-ghost btn-sm">Small</button>
+        <button class="btn btn-ghost">Default</button>
+        <button class="btn btn-ghost btn-lg">Large</button>
+      </div>
+    </div>
+
+    <div class="btn-showcase-group">
+      <div class="btn-showcase-label">Accent</div>
+      <div class="btn-showcase-row">
+        <button class="btn btn-accent btn-sm">Small</button>
+        <button class="btn btn-accent">Default</button>
+        <button class="btn btn-accent btn-lg">Large</button>
+      </div>
+    </div>
+
+    <div class="btn-showcase-group">
+      <div class="btn-showcase-label">Danger</div>
+      <div class="btn-showcase-row">
+        <button class="btn btn-danger btn-sm">Small</button>
+        <button class="btn btn-danger">Default</button>
+        <button class="btn btn-danger btn-lg">Large</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Feature Cards ──────────────────────────── -->
+  <section class="container">
+    <div class="section-label">Components</div>
+    <div class="section-title">Cards</div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon pacific">&#9889;</div>
+        <h3>Sub-second queries</h3>
+        <p>Execute complex analytical queries across billions of rows in milliseconds. No pre-aggregation required.</p>
+        <div class="card-metric">
+          <span class="metric-value">10x</span>
+          <span class="metric-label">faster than standard warehouses</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon seafoam">&#128274;</div>
+        <h3>Governance built in</h3>
+        <p>Column-level access controls, data lineage, and audit trails that satisfy even the most rigorous compliance requirements.</p>
+        <div class="card-metric">
+          <span class="metric-value">100%</span>
+          <span class="metric-label">coverage across all assets</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon navy">&#128208;</div>
+        <h3>Declarative pipelines</h3>
+        <p>Define data products in code. Version-controlled, testable, and reproducible from dev to production.</p>
+        <div class="card-metric">
+          <span class="metric-value">3min</span>
+          <span class="metric-label">from commit to production</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Input Fields ─────────────────────────────── -->
+  <section class="container">
+    <div class="section-label">Components</div>
+    <div class="section-title">Input Fields</div>
+    <div class="input-showcase">
+      <div class="input-group">
+        <label>Default</label>
+        <input class="input-field" type="text" placeholder="Enter pipeline name..." />
+        <span class="input-hint">default state</span>
+      </div>
+      <div class="input-group">
+        <label>Focused</label>
+        <input class="input-field" type="text" placeholder="Click to focus..." id="focus-demo" />
+        <span class="input-hint">focus: border Pacific, ring 2px</span>
+      </div>
+      <div class="input-group">
+        <label>Error</label>
+        <input class="input-field input-error" type="text" value="invalid-name!!" />
+        <span class="input-error-msg">Pipeline name contains invalid characters</span>
+        <span class="input-hint">error: border red, ring 2px</span>
+      </div>
+      <div class="input-group">
+        <label>Disabled</label>
+        <input class="input-field" type="text" placeholder="Locked field" disabled />
+        <span class="input-hint">disabled: opacity 0.5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Badges & Tags ────────────────────────────── -->
+  <section class="container">
+    <div class="section-label">Components</div>
+    <div class="section-title">Badges &amp; Tags</div>
+
+    <div class="badges-section">
+      <div class="badges-section-label">Brand</div>
+      <div class="badges-grid">
+        <span class="badge badge-pacific">Pacific</span>
+        <span class="badge badge-seafoam">Seafoam</span>
+        <span class="badge badge-navy">Navy</span>
+      </div>
+    </div>
+
+    <div class="badges-section">
+      <div class="badges-section-label">Semantic</div>
+      <div class="badges-grid">
+        <span class="badge badge-success">Success</span>
+        <span class="badge badge-warning">Warning</span>
+        <span class="badge badge-error">Error</span>
+        <span class="badge badge-info">Info</span>
+      </div>
+    </div>
+
+    <div class="badges-section">
+      <div class="badges-section-label">Usage Examples</div>
+      <div class="badges-grid">
+        <span class="badge badge-success">&#10003; Production</span>
+        <span class="badge badge-warning">&#9888; Pending review</span>
+        <span class="badge badge-error">&#10005; Failed</span>
+        <span class="badge badge-info">&#8505; In progress</span>
+        <span class="badge badge-pacific">v2.4.1</span>
+        <span class="badge badge-navy">Governed</span>
+        <span class="badge badge-seafoam">Tier: Gold</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Code Sample ─────────────────────────────── -->
+  <section class="container">
+    <div class="section-label">Developer Experience</div>
+    <div class="section-title">Declarative, version-controlled data</div>
+    <div class="code-block">
+<span class="cm">-- orders_daily.sql</span>
+<span class="kw">{{</span> config(
+    materialized=<span class="str">'incremental'</span>,
+    unique_key=<span class="str">'order_date'</span>,
+    tags=[<span class="str">'governance:pii'</span>, <span class="str">'tier:gold'</span>]
+) <span class="kw">}}</span>
+
+<span class="kw">select</span>
+    date_trunc(<span class="str">'day'</span>, created_at)   <span class="kw">as</span> order_date,
+    count(*)                          <span class="kw">as</span> order_count,
+    sum(amount_usd)                   <span class="kw">as</span> revenue_usd,
+    <span class="fn">avg</span>(amount_usd)                   <span class="kw">as</span> avg_order_value
+<span class="kw">from</span> <span class="fn">{{ ref('stg_orders') }}</span>
+<span class="kw">where</span> status = <span class="str">'completed'</span>
+<span class="kw">group by</span> 1
+    </div>
+  </section>
+
+  <!-- ── CTA Banner ─────────────────────────────── -->
+  <section class="container">
+    <div class="cta-banner">
+      <div>
+        <h2>Ready to accelerate?</h2>
+        <p>Join engineering teams building governed, high-quality data products at scale.</p>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <button class="btn btn-accent">Start free trial</button>
+        <button class="btn" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">Talk to sales</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────── -->
+  <footer>
+    <img
+      id="footer-logo"
+      src="http://assets.acceleratedata.ai/logo/product/ui/logo-dark-h24.svg"
+      alt="Accelerate Data"
+    />
+    <p>&copy; 2026 Accelerate Data. All rights reserved.</p>
+    <p style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted);">Design system showcase &middot; v2.0</p>
+  </footer>
+
+  <!-- ── Theme Toggle Script ─────────────────────── -->
+  <script>
+    const sunIcon = '<path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 5a7 7 0 1 0 0 14A7 7 0 0 0 12 5z"/>';
+    const moonIcon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+
+      // Swap nav + footer logos
+      const navSrc    = next === 'dark'
+        ? 'http://assets.acceleratedata.ai/logo/product/ui/logo-light-h32.svg'
+        : 'http://assets.acceleratedata.ai/logo/product/ui/logo-dark-h32.svg';
+      const footerSrc = next === 'dark'
+        ? 'http://assets.acceleratedata.ai/logo/product/ui/logo-light-h24.svg'
+        : 'http://assets.acceleratedata.ai/logo/product/ui/logo-dark-h24.svg';
+
+      document.getElementById('nav-logo').src    = navSrc;
+      document.getElementById('footer-logo').src = footerSrc;
+
+      // Update toggle button
+      const icon = document.getElementById('theme-icon');
+      icon.innerHTML = next === 'dark' ? sunIcon : moonIcon;
+      document.getElementById('theme-btn').childNodes[1].textContent = next === 'dark' ? ' Light mode' : ' Dark mode';
+    }
+  </script>
+
+</body>
+</html>
