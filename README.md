@@ -1,8 +1,11 @@
 # ad-design-system
 
-Accelerate Data's design system — brand assets and the `ad-design-system` Claude/Codex plugin.
+Accelerate Data's design system repo. Two distinct kinds of content live here:
 
-This repo contains two distinct kinds of content:
+1. **The `ad-design-system` Claude/Codex plugin** under [`plugin/`](./plugin).
+2. **Brand reference material** at the repo root — logo assets, brand book, theme configs, documentation. Maintained alongside the plugin but **not shipped with it**.
+
+---
 
 ## 1. Plugin source — [`plugin/`](./plugin)
 
@@ -15,33 +18,53 @@ claude plugin install ad-design-system@ad-internal-marketplace
 
 See [`plugin/README.md`](./plugin/README.md) for plugin-specific details.
 
-The marketplace entry references this repo via `git-subdir` with `path: "plugin"`, so plugin installs do **not** include the brand assets listed below.
+The marketplace entry references this repo via `git-subdir` with `path: "plugin"`, so plugin installs do **not** include any of the content below.
+
+---
 
 ## 2. Brand reference material (repo root, not shipped with the plugin)
 
+### Documentation
+
+| Doc | Audience | Purpose |
+|---|---|---|
+| [`logo/ASSETS_FOR_AI.md`](./logo/ASSETS_FOR_AI.md) | LLM agents, automation | Machine-readable manifest of every logo asset (path, CDN URL, dimensions, background-color fit). Use this over pattern-interpolation when an agent needs to pick a logo. |
+| [`logo/ASSETS_FOR_DEVELOPERS.md`](./logo/ASSETS_FOR_DEVELOPERS.md) | Developers integrating logos | Quick-picks table and the "light vs dark" cheat sheet (the name describes artwork color, not page theme). |
+| [`logo/creation_scripts/README.md`](./logo/creation_scripts/README.md) | Brand maintainers | How `generate_assets.py` reads `logo-export-checklist.xlsx` and produces the full export tree from the 7 source SVGs. |
+| [`gamma-theme.md`](./gamma-theme.md) | Anyone making Gamma decks | Brand-aligned color, text, and background values to paste into Gamma's theme builder. |
+| [`Accelerate Data - Brand Book.pdf`](./Accelerate%20Data%20-%20Brand%20Book.pdf) | All brand consumers | Authoritative brand guidelines — the source of truth that everything else distills. |
+
+### Asset tree
+
 ```
-├── logo/                     # All logo assets by platform
-│   ├── product/ui/           # Product UI icons and wordmarks (SVG + PNG)
-│   ├── web/favicons/         # Favicons, PWA icons, Safari pinned tab
-│   ├── marketing/social/     # Social media avatars
-│   ├── marketplaces/         # Azure marketplace logos
-│   ├── ops/email/            # Email template logos
-│   ├── docs/                 # Documentation site logos
-│   ├── archive/              # Source SVGs and previous exports
-│   └── creation_scripts/     # Asset generation automation
-├── gamma-theme.md            # Gamma presentation theme config
+├── logo/
+│   ├── ASSETS_FOR_AI.md               # LLM-readable manifest
+│   ├── ASSETS_FOR_DEVELOPERS.md       # Developer quick-reference
+│   ├── product/ui/                    # Product UI icons and wordmarks (SVG + PNG)
+│   ├── web/favicons/                  # Favicons, PWA icons, Safari pinned tab
+│   ├── marketing/social/              # Social media avatars
+│   ├── marketplaces/                  # Azure marketplace logos
+│   ├── ops/email/                     # Email template logos
+│   ├── docs/                          # Documentation site logos
+│   ├── archive/                       # Source SVGs and previous exports
+│   └── creation_scripts/              # Asset generation automation (see its own README)
+├── gamma-theme.md
 └── Accelerate Data - Brand Book.pdf
 ```
 
-- The CDN (`http://assets.acceleratedata.ai/logo/`) is the authoritative runtime source; `logo/` mirrors what's there.
-- These live at repo root so contributors maintaining the brand system have them available, but they are intentionally **excluded** from plugin installs. Do not reference them from inside `plugin/`.
+### CDN
 
-## Quick references
+The CDN is the authoritative runtime source for logos; the `logo/` tree mirrors what lives there.
 
-- Color tokens: [`plugin/skills/ad-frontend-design/assets/colors.json`](./plugin/skills/ad-frontend-design/assets/colors.json)
-- Logo usage guide: `logo/ASSETS_FOR_DEVELOPERS.md`
-- Full design spec: [`plugin/skills/ad-frontend-design/SKILL.md`](./plugin/skills/ad-frontend-design/SKILL.md)
-- CDN base URL: `http://assets.acceleratedata.ai/logo/`
+```
+http://assets.acceleratedata.ai/logo/
+```
+
+Full URL = base + path from `ASSETS_FOR_AI.md` / `ASSETS_FOR_DEVELOPERS.md`.
+
+**Rule:** always look up a logo path from the manifest. Do not construct URLs by pattern interpolation.
+
+---
 
 ## Development
 
@@ -56,15 +79,19 @@ chmod +x .githooks/pre-commit
 
 ### Plugin version
 
-The plugin version lives in [`plugin/.claude-plugin/plugin.json`](./plugin/.claude-plugin/plugin.json). CI enforces a version bump on any PR that touches `plugin/**`.
+The plugin version lives in [`plugin/.claude-plugin/plugin.json`](./plugin/.claude-plugin/plugin.json). CI enforces a version bump on any PR that touches `plugin/**` (see [`.github/workflows/version-bump-check.yml`](./.github/workflows/version-bump-check.yml)).
 
 ### Regenerating logo assets
+
+See [`logo/creation_scripts/README.md`](./logo/creation_scripts/README.md) for details. Short version:
 
 ```bash
 cd logo/creation_scripts
 pip install -r requirements.txt
 python generate_assets.py
 ```
+
+---
 
 ## License
 
