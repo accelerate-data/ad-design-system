@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-04-21T00:00:00Z",
+  "repo_root": "ad-design-system/plugin",
+  "primary_languages": ["Markdown", "JSON"],
+  "package_managers": [],
+  "test_frameworks": [],
+  "applications": [
+    {
+      "name": "ad-design-system plugin",
+      "type": "shared plugin source",
+      "description": "Plugin source for Accelerate Data's front-end design system. Ships Claude and Codex manifests and canonical skills under skills/. Lives inside the ad-design-system repo alongside non-plugin brand assets (logo/, brand book, gamma-theme.md) at the parent level."
+    }
+  ],
+  "modules": {
+    "claude_manifest": {
+      "path": ".claude-plugin/plugin.json",
+      "description": "Claude plugin manifest for this plugin."
+    },
+    "codex_manifest": {
+      "path": ".codex-plugin/plugin.json",
+      "description": "Codex plugin manifest for this plugin."
+    },
+    "skills": {
+      "path": "skills/",
+      "description": "Canonical skill directories. Each skill owns its SKILL.md and any supporting references or assets."
+    }
+  },
+  "key_directories": {
+    "skills/": "All skill content owned by this plugin",
+    ".claude-plugin/": "Claude plugin manifest",
+    ".codex-plugin/": "Codex plugin manifest"
+  },
+  "skills": [
+    {
+      "name": "ad-frontend-design",
+      "path": "skills/ad-frontend-design/",
+      "description": "Accelerate Data's unified front-end design system. Enforces brand-compliant, premium UI across product, marketing, docs, and demos.",
+      "references": [
+        "skills/ad-frontend-design/component-examples.md"
+      ],
+      "assets": [
+        "skills/ad-frontend-design/assets/colors.json",
+        "skills/ad-frontend-design/assets/logos/"
+      ]
+    }
+  ],
+  "conventions": {
+    "skill_location": "All first-party skills live under skills/<skill-name>/",
+    "supporting_material": "References, assets, and agents stay inside the owning skill directory when needed",
+    "local_dev_symlinks": "For direct local use, symlink skills/<skill-name> into ~/.claude/skills/<skill-name> and ~/.codex/skills/<skill-name>",
+    "cross_repo_dependencies": "Do not add references that require files outside the plugin/ subtree. The parent repo's logo/ and brand book are not shipped with the plugin.",
+    "codex_repo_guidance": "Codex uses AGENTS.md directly as the repo-local guidance surface; there is no separate Codex adapter file."
+  },
+  "notes_for_agents": {
+    "startup": "Read this file before exploring the plugin. It is the primary startup context for structure, skill inventory, and conventions.",
+    "marketplace_model": "This plugin is referenced from accelerate-data/plugin-marketplace via git-subdir with path 'plugin'. Only the plugin/ subtree is installed for users.",
+    "update_repo_map": "Refresh this file whenever manifests, skill layout, or skill inventory changes."
+  }
+}
