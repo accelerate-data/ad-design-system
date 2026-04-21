@@ -1,0 +1,26 @@
+{
+  "name": "ad-design-system",
+  "description": "Accelerate Data's unified front-end design system. Brand-compliant, premium UI for vibeData product, marketing, docs, and demos.",
+  "author": {
+    "name": "Accelerate Data"
+  },
+  "repository": "https://github.com/accelerate-data/ad-design-system",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "design-system",
+    "brand",
+    "frontend",
+    "codex",
+    "claude-code"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AD Design System",
+    "shortDescription": "Accelerate Data front-end design system and brand skills.",
+    "developerName": "Accelerate Data",
+    "category": "Design",
+    "capabilities": [],
+    "screenshots": []
+  }
+}
