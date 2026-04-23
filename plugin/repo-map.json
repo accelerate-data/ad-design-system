@@ -8,7 +8,7 @@
     {
       "name": "ad-design-system plugin",
       "type": "shared plugin source",
-      "description": "Plugin source for Accelerate Data's front-end design system. Ships Claude and Codex manifests and canonical skills under skills/. Lives inside the ad-design-system repo alongside non-plugin brand assets (logo/, brand book, gamma-theme.md) at the parent level."
+      "description": "Plugin source for Accelerate Data's design system. Ships Claude and Codex manifests and canonical skills under skills/. Lives inside the ad-design-system repo alongside non-plugin brand assets (logo/, brand book, gamma-theme.md) at the parent level."
     }
   ],
   "modules": {
@@ -32,15 +32,15 @@
   },
   "skills": [
     {
-      "name": "ad-frontend-design",
-      "path": "skills/ad-frontend-design/",
-      "description": "Accelerate Data's unified front-end design system. Enforces brand-compliant, premium UI across product, marketing, docs, and demos.",
+      "name": "applying-ad-design-system",
+      "path": "skills/applying-ad-design-system/",
+      "description": "Accelerate Data visual brand guidance for vibeData UI. Use for brand-compliant premium surfaces across product, marketing, docs, demos, and internal tools.",
       "references": [
-        "skills/ad-frontend-design/component-examples.md"
+        "skills/applying-ad-design-system/component-examples.md"
       ],
       "assets": [
-        "skills/ad-frontend-design/assets/colors.json",
-        "skills/ad-frontend-design/assets/logos/"
+        "skills/applying-ad-design-system/assets/colors.json",
+        "skills/applying-ad-design-system/assets/logos/"
       ]
     }
   ],
