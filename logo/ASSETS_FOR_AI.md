@@ -7,8 +7,8 @@
 <!-- background_for: dark-bg=requires dark/colored bg | light-bg=requires light/white bg | any=works on any bg -->
 <!-- width_px / height_px: pixel dimensions for raster; nominal display size for h-named SVGs; — for fully scalable vectors -->
 <!-- cdn_base_url: http://assets.acceleratedata.ai/logo/ — url column = cdn_base_url + path -->
-<!-- design_system_skill: branding/ad-frontend-design/SKILL.md -->
-<!-- design_system_description: Complete frontend design system with color tokens, typography, spacing, component patterns, and logo usage guidelines -->
+<!-- design_system_skill: branding/plugin/skills/applying-ad-design-system/SKILL.md -->
+<!-- design_system_description: Complete design system with color tokens, typography, spacing, component patterns, and logo usage guidelines -->
 
 <!-- naming_patterns:
   icons:    icon-{dark|light}.svg (unsized vector) OR icon-{dark|light}-{size}.png (sized raster: 16,20,24,28,32,40,48,64,96,128,256,512)

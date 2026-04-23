@@ -1,6 +1,6 @@
 # AD Design System Plugin
 
-Accelerate Data's unified front-end design system — shared as a plugin for Claude Code and Codex.
+Accelerate Data's design system — shared as a plugin for Claude Code and Codex.
 
 This directory is the plugin source. It lives inside the `ad-design-system` repository, alongside non-plugin brand assets (`logo/`, brand book, Gamma theme) that stay at the repo root and are **not** included in plugin installs.
 
@@ -15,7 +15,7 @@ plugin/
 ├── .claude-plugin/plugin.json
 ├── .codex-plugin/plugin.json
 ├── skills/
-│   └── ad-frontend-design/
+│   └── applying-ad-design-system/
 ├── AGENTS.md
 ├── CLAUDE.md
 ├── repo-map.json
@@ -38,8 +38,8 @@ For local development without a marketplace, symlink each skill directory into `
 ```bash
 mkdir -p ~/.claude/skills
 
-ln -s /absolute/path/to/ad-design-system/plugin/skills/ad-frontend-design \
-  ~/.claude/skills/ad-frontend-design
+ln -s /absolute/path/to/ad-design-system/plugin/skills/applying-ad-design-system \
+  ~/.claude/skills/applying-ad-design-system
 ```
 
 The symlink name should match the skill directory name.
@@ -53,8 +53,8 @@ For local development without a marketplace:
 ```bash
 mkdir -p ~/.codex/skills
 
-ln -s /absolute/path/to/ad-design-system/plugin/skills/ad-frontend-design \
-  ~/.codex/skills/ad-frontend-design
+ln -s /absolute/path/to/ad-design-system/plugin/skills/applying-ad-design-system \
+  ~/.codex/skills/applying-ad-design-system
 ```
 
 ## Development Notes
@@ -75,4 +75,4 @@ chmod +x .githooks/pre-commit
 
 ## Current Skills
 
-- `ad-frontend-design` — brand-compliant front-end design system for all Accelerate Data surfaces.
+- `applying-ad-design-system` — brand-compliant visual guidance for all Accelerate Data surfaces.

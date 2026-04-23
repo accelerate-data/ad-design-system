@@ -1,6 +1,6 @@
 # AD Design System Plugin
 
-Shared plugin for Accelerate Data's front-end design system, used by Claude Code and Codex.
+Shared plugin for Accelerate Data's design system, used by Claude Code and Codex.
 
 **Maintenance rule:** This file contains durable repository guidance, not volatile inventory. If a fact is easy to rediscover from the tree or will go stale when files move, keep it in `repo-map.json` instead.
 

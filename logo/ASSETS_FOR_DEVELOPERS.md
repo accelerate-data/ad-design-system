@@ -43,9 +43,9 @@ Most common assets for new integrations:
 
 ## Design System Skill
 
-The `branding/ad-frontend-design/` directory provides a complete frontend design system covering color tokens, typography scales, spacing, and component patterns. It enforces brand-compliant UI across product, marketing, docs, and demo surfaces. The skill also includes logo selection guidance with CDN integration for the assets listed above.
+The `branding/plugin/skills/applying-ad-design-system/` directory provides a complete design system covering color tokens, typography scales, spacing, component patterns, and logo guidance. It enforces brand-compliant UI across product, marketing, docs, and demo surfaces. The skill also includes logo selection guidance with CDN integration for the assets listed above.
 
-See [`branding/ad-frontend-design/SKILL.md`](../ad-frontend-design/SKILL.md) for the full specification.
+See [`branding/plugin/skills/applying-ad-design-system/SKILL.md`](../plugin/skills/applying-ad-design-system/SKILL.md) for the full specification.
 
 ---
 

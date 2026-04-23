@@ -1,7 +1,7 @@
 {
   "name": "ad-design-system",
-  "description": "Accelerate Data's unified front-end design system. Brand-compliant, premium UI for vibeData product, marketing, docs, and demos.",
-  "version": "0.1.0",
+  "description": "Accelerate Data design system plugin for brand-compliant vibeData UI, logo usage, color tokens, typography, spacing, and component patterns.",
+  "version": "0.1.1",
   "author": {
     "name": "Accelerate Data"
   },
@@ -11,7 +11,7 @@
     "skills",
     "design-system",
     "brand",
-    "frontend",
+    "ui",
     "claude-code",
     "codex"
   ],

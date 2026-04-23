@@ -1,9 +1,9 @@
 ---
-name: ad-frontend-design
-description: Accelerate Data's unified front-end design system for vibeData. Enforces brand-compliant, premium UI across all surfaces - product, marketing, docs, and demos. Use when building any interface representing Accelerate Data brand.
+name: applying-ad-design-system
+description: Accelerate Data visual brand guidance for vibeData UI. Use for brand-compliant premium surfaces across product, marketing, docs, demos, and internal tools when the interface represents Accelerate Data.
 ---
 
-# Accelerate Data Front End Design
+# Accelerate Data Design System
 
 This skill defines the visual language for all Accelerate Data interfaces. It synthesizes the brand book's authoritative guidelines with senior UI/UX principles to create a cohesive, premium design system. Apply these principles to every screen, component, and interaction.
 
