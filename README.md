@@ -21,8 +21,8 @@ See [`plugin/README.md`](./plugin/README.md) for plugin-specific details.
 The expanded plugin supports UX-engineering work across three layers:
 
 - `applying-design-system` — AD-owned brand application: colors, typography, spacing, logos, motion, layout tone.
-- `component` — upstream-attributed component workflow: spec, docs, dev, review, spec-review, audit.
-- `design-screen` — upstream-attributed screen workflow: compose screens from existing components, check responsive behavior and page states, then ship.
+- `component` — upstream-attributed component workflow: spec, docs, dev, review, spec-review, accessibility checks, audit.
+- `design-screen` — upstream-attributed screen workflow: compose screens from existing components, check responsive behavior and page states, continue without Figma when needed, then ship.
 
 Use the root logo docs and brand book for source reference, but keep runtime skill guidance inside `plugin/`.
 

@@ -11,6 +11,7 @@ PLUGIN_NAME = "design-system"
 AD_SKILL_NAME = "applying-design-system"
 OLD_AD_SKILL_NAME = "applying" + "-ad-design-system"
 OLD_BRANDING_SKILL_PATH = "branding/plugin/skills/" + AD_SKILL_NAME
+OLD_MARKETPLACE_INSTALL = "ad-design-system" + "@ad-internal-marketplace"
 MANIFEST_PATHS = [
     PLUGIN_DIR / ".claude-plugin" / "plugin.json",
     PLUGIN_DIR / ".codex-plugin" / "plugin.json",
@@ -128,6 +129,10 @@ class SkillDescriptionTests(unittest.TestCase):
                 )
                 self.assertNotIn(
                     OLD_BRANDING_SKILL_PATH,
+                    path.read_text(encoding="utf-8"),
+                )
+                self.assertNotIn(
+                    OLD_MARKETPLACE_INSTALL,
                     path.read_text(encoding="utf-8"),
                 )
 
