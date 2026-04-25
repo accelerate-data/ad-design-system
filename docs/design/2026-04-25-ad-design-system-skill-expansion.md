@@ -9,7 +9,9 @@
 The current `ad-design-system` plugin provides one first-party brand compliance
 skill under `plugin/skills/applying-ad-design-system/`. That keeps Accelerate
 Data visual guidance available in Claude Code and Codex, but the target plugin
-identity should be broader and less AD-prefixed: `design-system`.
+identity should be broader and less AD-prefixed: `design-system`. As part of
+that identity shift, the first-party skill should be renamed to
+`applying-design-system`.
 
 Separately, `Maximepodgorski/agent-skills` provides two design-system workflow
 skills that fit the same user intent:
@@ -43,7 +45,7 @@ The plugin will contain three runtime skills:
 ```text
 plugin/
   skills/
-    applying-ad-design-system/  # AD-owned brand compliance skill
+    applying-design-system/     # AD-owned brand compliance skill
     component/                  # generated from Maxime upstream + AD adapter
     design-screen/              # generated from Maxime upstream + AD adapter
 ```
@@ -58,10 +60,14 @@ project-context workflow, not a design-system workflow, and belongs in
 - Keep the GitHub source path stable unless we separately decide to rename the
   repository.
 - Keep AD-owned brand compliance guidance as a first-class skill.
+- Rename the AD-owned skill from `applying-ad-design-system` to
+  `applying-design-system`.
 - Add portable component and screen-composition workflows without hand-editing
   vendored upstream files.
 - Make upstream provenance obvious to future agents and maintainers.
 - Keep Codex behavior correct when upstream text mentions `CLAUDE.md`.
+- Add focused behavioral eval coverage because the plugin will expose and adapt
+  upstream workflow skills through the Accelerate Data marketplace.
 
 ## Non-goals
 
@@ -70,8 +76,9 @@ project-context workflow, not a design-system workflow, and belongs in
 - Do not require plugin installs to include root repo brand assets outside the
   `plugin/` subtree.
 - Do not maintain a long-lived manual fork of upstream skill content.
-- Do not add Promptfoo evals in the first implementation unless the skill
-  content is materially rewritten.
+- Do not add a broad exhaustive eval suite in the first implementation. Keep
+  evals focused on routing, attribution, portability, and Figma fallback
+  behavior introduced by this takeover.
 
 ## Source Layout
 
@@ -81,13 +88,14 @@ generates installed skill content from it.
 ```text
 vendor/
   maxime-agent-skills/
+    LICENSE
     component/
     design-screen/
     kickoff/              # present only if sync pulls the full selected tree
 
 plugin/
   skills/
-    applying-ad-design-system/
+    applying-design-system/
     component/
     design-screen/
 ```
@@ -95,9 +103,29 @@ plugin/
 `vendor/maxime-agent-skills/` is raw upstream material. Agents must not edit it
 directly unless explicitly asked to change the vendor snapshot.
 
+`plugin/skills/applying-design-system/` is the renamed AD-owned runtime skill.
+
 `plugin/skills/component/` and `plugin/skills/design-screen/` are generated
 installed skills. They are copied from upstream and then patched with the
 Accelerate Data adapter transform.
+
+## Upstream Attribution and License
+
+The generated `component` and `design-screen` skills remain attributed to
+`Maximepodgorski/agent-skills`. The upstream material is MIT-licensed, and the
+implementation may include that material in the plugin as long as the upstream
+copyright and permission notice remain present.
+
+The sync process must preserve:
+
+- The upstream `LICENSE` file in `vendor/maxime-agent-skills/LICENSE`.
+- Upstream authorship/provenance in generated skill metadata or adjacent
+  generated notices.
+- A machine-readable upstream snapshot record with repository URL, branch,
+  commit SHA, included paths, sync timestamp, and adapter version.
+
+This keeps attribution explicit without treating the upstream skills as
+first-party Accelerate Data-authored content.
 
 ## Why Generated Copies, Not Symlinks
 
@@ -127,11 +155,15 @@ content:
 - Replace "generate `CLAUDE.md`" guidance only if it appears in included
   design-system skills. The generated output target must be agent-specific and
   must ask once if the target repo convention is unclear.
-- Keep Figma MCP as optional for `component` and `design-screen spec`.
-- Keep `design-screen craft` marked as requiring Figma MCP write capability.
+- Keep Figma MCP optional for the skills overall. `component` and
+  `design-screen spec` must degrade to text/codebase mode when Figma is
+  unavailable.
+- Keep `design-screen craft` available only when Figma MCP write capability is
+  present. When it is unavailable, the generated skill must route users to the
+  non-Figma `ship` path rather than treating the whole skill as blocked.
 - Map "Task tool" and "parallel subagents" wording to generic agent parallel
   review guidance with a single-agent fallback.
-- Preserve upstream license notices and upstream skill authorship.
+- Preserve upstream license notices, attribution, and upstream skill authorship.
 
 The adapter should not rewrite skill intent, design-system principles, or
 workflow structure beyond portability fixes.
@@ -144,11 +176,13 @@ Add a weekly GitHub Actions workflow that:
 2. Fetches `https://github.com/Maximepodgorski/agent-skills` at the default
    branch.
 3. Copies selected upstream directories into `vendor/maxime-agent-skills/`.
-4. Regenerates `plugin/skills/component/` and
+4. Records the exact upstream commit and adapter version used for the generated
+   output.
+5. Regenerates `plugin/skills/component/` and
    `plugin/skills/design-screen/`.
-5. Applies the AD adapter transform.
-6. Runs repository checks.
-7. Opens a pull request when the generated output changes.
+6. Applies the AD adapter transform.
+7. Runs repository checks.
+8. Opens a pull request when the generated output changes.
 
 The workflow should not auto-push directly to `main`. A PR keeps upstream
 changes reviewable, especially because skill text is runtime behavior.
@@ -173,11 +207,13 @@ adds the generated skills and vendor source. Guidance should make these
 boundaries explicit:
 
 - `vendor/maxime-agent-skills/` is vendored upstream source.
+- `vendor/maxime-agent-skills/LICENSE` is the upstream MIT license notice for
+  the generated upstream-derived skills.
 - `plugin/skills/component/` and `plugin/skills/design-screen/` are generated
   from upstream plus adapter patches.
 - Agents must warn before editing generated or vendored skill content by hand.
 - AD-owned skill content remains under
-  `plugin/skills/applying-ad-design-system/`.
+  `plugin/skills/applying-design-system/`.
 
 ## Verification
 
@@ -186,16 +222,19 @@ Implementation verification should include:
 - `git diff --check`
 - Plugin manifest validation, if this repo has a local validator at that point.
 - Existing Python tests under `tests/`.
+- Test updates that reflect the renamed `applying-design-system` skill and the
+  renamed plugin identity.
 - A targeted content check that no generated runtime skill tells Codex to use
   only `CLAUDE.md`.
+- A targeted attribution check that generated upstream-derived skills retain
+  upstream provenance and the vendored MIT license notice.
+- Focused Promptfoo smoke evals for plugin routing, upstream attribution,
+  Codex/Claude guidance portability, and Figma-unavailable fallback behavior.
 - A manual install smoke test through the local marketplace after the
   marketplace entry points at the updated plugin version.
 
 ## Open Questions
 
-- Should the existing skill directory be renamed from
-  `applying-ad-design-system` to `brand-compliance`, or should we preserve the
-  current skill name for routing stability?
 - Should generated upstream skills carry a short AD-specific preamble at the
   top of each `SKILL.md`, or should adapter changes be inline only?
 - Should the weekly sync use a small script committed in this repo, or keep the
