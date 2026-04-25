@@ -1,14 +1,17 @@
 {
   "generated_at": "2026-04-21T00:00:00Z",
   "repo_root": "ad-design-system/plugin",
-  "primary_languages": ["Markdown", "JSON"],
+  "primary_languages": [
+    "Markdown",
+    "JSON"
+  ],
   "package_managers": [],
   "test_frameworks": [],
   "applications": [
     {
       "name": "design-system plugin",
       "type": "shared plugin source",
-      "description": "Plugin source for Accelerate Data's design system. Ships Claude and Codex manifests and canonical skills under skills/. Lives inside the ad-design-system repo alongside non-plugin brand assets (logo/, brand book, gamma-theme.md) at the parent level."
+      "description": "Plugin source for Accelerate Data's design system. Ships Claude and Codex manifests plus three installed skills under skills/: AD-owned brand application, upstream-derived component workflow, and upstream-derived screen composition. Lives inside the ad-design-system repo alongside source-only brand assets and upstream vendor snapshots at the parent level."
     }
   ],
   "modules": {
@@ -33,7 +36,8 @@
     "skills/": "All skill content owned by this plugin",
     ".claude-plugin/": "Claude plugin manifest",
     ".codex-plugin/": "Codex plugin manifest",
-    "THIRD_PARTY_NOTICES.md": "Installed notice for Maximepodgorski/agent-skills content"
+    "THIRD_PARTY_NOTICES.md": "Installed upstream attribution and MIT license notice for generated upstream-derived skills",
+    "../vendor/maxime-agent-skills/": "Source-only raw upstream snapshot for generated component and design-screen skills; not included in plugin installs"
   },
   "skills": [
     {
@@ -75,6 +79,9 @@
   "notes_for_agents": {
     "startup": "Read this file before exploring the plugin. It is the primary startup context for structure, skill inventory, and conventions.",
     "marketplace_model": "This plugin is referenced from accelerate-data/plugin-marketplace via git-subdir with path 'plugin'. Only the plugin/ subtree is installed for users.",
-    "update_repo_map": "Refresh this file whenever manifests, skill layout, or skill inventory changes."
+    "update_repo_map": "Refresh this file whenever manifests, skill layout, or skill inventory changes.",
+    "generated_upstream_skills": "skills/component/ and skills/design-screen/ are generated from ../vendor/maxime-agent-skills/ via ../scripts/sync_maxime_agent_skills.py. Change the adapter and rerun sync rather than hand-editing generated content.",
+    "ux_engineering_coverage": "applying-design-system covers AD brand application; component covers component spec, docs, dev, review, accessibility, token usage, and audit; design-screen covers screen composition, responsive behavior, page states, and implementation handoff.",
+    "third_party_notices": "Keep THIRD_PARTY_NOTICES.md installed with the plugin whenever upstream-derived skills are shipped."
   }
 }

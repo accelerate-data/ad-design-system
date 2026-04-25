@@ -43,6 +43,12 @@ mkdir -p ~/.claude/skills
 
 ln -s /absolute/path/to/ad-design-system/plugin/skills/applying-design-system \
   ~/.claude/skills/applying-design-system
+
+ln -s /absolute/path/to/ad-design-system/plugin/skills/component \
+  ~/.claude/skills/component
+
+ln -s /absolute/path/to/ad-design-system/plugin/skills/design-screen \
+  ~/.claude/skills/design-screen
 ```
 
 The symlink name should match the skill directory name.
@@ -58,6 +64,12 @@ mkdir -p ~/.codex/skills
 
 ln -s /absolute/path/to/ad-design-system/plugin/skills/applying-design-system \
   ~/.codex/skills/applying-design-system
+
+ln -s /absolute/path/to/ad-design-system/plugin/skills/component \
+  ~/.codex/skills/component
+
+ln -s /absolute/path/to/ad-design-system/plugin/skills/design-screen \
+  ~/.codex/skills/design-screen
 ```
 
 ## Development Notes
@@ -81,6 +93,17 @@ chmod +x .githooks/pre-commit
 - `applying-design-system` — brand-compliant visual guidance for all Accelerate Data surfaces.
 - `component` — generated upstream-derived component workflow from Maximepodgorski/agent-skills.
 - `design-screen` — generated upstream-derived screen workflow from Maximepodgorski/agent-skills.
+
+## UX Engineering Workflows
+
+| Need | Use |
+|---|---|
+| Apply AD brand tone, colors, typography, spacing, logos, and motion | `applying-design-system` |
+| Specify, document, implement, or review a reusable component | `component` |
+| Compose a screen from existing components and ship it | `design-screen` |
+| Check accessibility, token usage, variants, and component API quality | `component review` or `component audit` |
+| Check responsive behavior, loading/empty/error states, and layout composition | `design-screen review` |
+| Continue without Figma | Use text/codebase mode; skip `design-screen craft` and continue with `design-screen ship` |
 
 ## License
 
