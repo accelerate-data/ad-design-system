@@ -1,7 +1,7 @@
 {
   "name": "ad-design-system",
-  "version": "0.1.1",
-  "description": "Accelerate Data design system plugin for brand-compliant vibeData UI, logo usage, color tokens, typography, spacing, and component patterns.",
+  "version": "0.1.2",
+  "description": "Brand compliance guidance for Accelerate Data and vibeData interfaces, including logo usage, color tokens, typography, spacing, and component patterns.",
   "author": {
     "name": "Accelerate Data"
   },
@@ -17,18 +17,18 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Accelerate Data Design System",
-    "shortDescription": "Brand-compliant UI guidance for vibeData surfaces.",
-    "longDescription": "Design system guidance for Accelerate Data and vibeData interfaces, including visual brand direction, color tokens, typography, spacing, component patterns, and logo selection.",
+    "displayName": "Brand Compliance",
+    "shortDescription": "Brand-compliant UI guidance for Accelerate Data and vibeData surfaces.",
+    "longDescription": "Brand compliance guidance for Accelerate Data and vibeData interfaces, including visual direction, color tokens, typography, spacing, component patterns, and logo selection.",
     "developerName": "Accelerate Data",
     "category": "Design",
     "capabilities": [
       "Write"
     ],
     "defaultPrompt": [
-      "Apply the Accelerate Data design system to this UI.",
-      "Choose the right vibeData logo and colors.",
-      "Review this screen for brand compliance."
+      "Apply brand compliance guidance to this interface.",
+      "Review this screen for brand compliance.",
+      "Choose the right vibeData logo, colors, and component patterns."
     ],
     "brandColor": "#00B4D8"
   }

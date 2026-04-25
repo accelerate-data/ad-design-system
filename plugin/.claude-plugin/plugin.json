@@ -1,7 +1,7 @@
 {
   "name": "ad-design-system",
-  "description": "Accelerate Data design system plugin for brand-compliant vibeData UI, logo usage, color tokens, typography, spacing, and component patterns.",
-  "version": "0.1.1",
+  "description": "Brand compliance guidance for Accelerate Data and vibeData interfaces, including logo usage, color tokens, typography, spacing, and component patterns.",
+  "version": "0.1.2",
   "author": {
     "name": "Accelerate Data"
   },
