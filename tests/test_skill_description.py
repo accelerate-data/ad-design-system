@@ -146,6 +146,15 @@ class SkillDescriptionTests(unittest.TestCase):
             "MIT License", (vendor_dir / "LICENSE").read_text(encoding="utf-8")
         )
 
+    def test_installed_third_party_notice_includes_upstream_mit_license(self):
+        notice_path = PLUGIN_DIR / "THIRD_PARTY_NOTICES.md"
+        self.assertTrue(notice_path.is_file())
+
+        notice = notice_path.read_text(encoding="utf-8")
+        self.assertIn("Maximepodgorski/agent-skills", notice)
+        self.assertIn("MIT License", notice)
+        self.assertIn("Copyright", notice)
+
     def test_generated_skills_do_not_contain_forbidden_runtime_terms(self):
         forbidden_terms = [
             "Read `CLAUDE.md` + codebase",
@@ -275,6 +284,28 @@ class SkillDescriptionTests(unittest.TestCase):
             for asset_path in skill.get("assets", []):
                 with self.subTest(skill=skill["name"], asset=asset_path):
                     self.assertTrue((PLUGIN_DIR / asset_path).exists())
+
+    def test_repo_map_lists_every_installed_skill_directory(self):
+        repo_map = json.loads((PLUGIN_DIR / "repo-map.json").read_text(encoding="utf-8"))
+        mapped_skill_paths = {skill["path"].rstrip("/") for skill in repo_map["skills"]}
+        installed_skill_paths = {
+            str(path.relative_to(PLUGIN_DIR))
+            for path in (PLUGIN_DIR / "skills").iterdir()
+            if (path / "SKILL.md").is_file()
+        }
+
+        self.assertEqual(installed_skill_paths, mapped_skill_paths)
+
+    def test_readme_lists_generated_skill_inventory_and_notices(self):
+        readme = (PLUGIN_DIR / "README.md").read_text(encoding="utf-8")
+
+        for required_text in [
+            "component",
+            "design-screen",
+            "THIRD_PARTY_NOTICES.md",
+        ]:
+            with self.subTest(required_text=required_text):
+                self.assertIn(required_text, readme)
 
 
 if __name__ == "__main__":

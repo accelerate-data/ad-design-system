@@ -15,7 +15,10 @@ plugin/
 ├── .claude-plugin/plugin.json
 ├── .codex-plugin/plugin.json
 ├── skills/
-│   └── applying-design-system/
+│   ├── applying-design-system/
+│   ├── component/
+│   └── design-screen/
+├── THIRD_PARTY_NOTICES.md
 ├── AGENTS.md
 ├── CLAUDE.md
 ├── repo-map.json
@@ -76,12 +79,14 @@ chmod +x .githooks/pre-commit
 ## Current Skills
 
 - `applying-design-system` — brand-compliant visual guidance for all Accelerate Data surfaces.
+- `component` — generated upstream-derived component workflow from Maximepodgorski/agent-skills.
+- `design-screen` — generated upstream-derived screen workflow from Maximepodgorski/agent-skills.
 
 ## License
 
 This plugin subtree is licensed under Elastic License 2.0. See [LICENSE](./LICENSE).
 
-Upstream-derived generated skills retain upstream MIT attribution in installed
-skill metadata or adjacent installed notices. The source repo also keeps the raw
-upstream snapshot under repo-root `vendor/`, which is not part of plugin
+Upstream-derived generated skills retain upstream MIT attribution in
+[THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md). The source repo also keeps
+the raw upstream snapshot under repo-root `vendor/`, which is not part of plugin
 installs.

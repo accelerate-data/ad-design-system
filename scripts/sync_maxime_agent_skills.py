@@ -248,6 +248,39 @@ def write_upstream_record(
     )
 
 
+def write_third_party_notices(
+    destination: Path,
+    *,
+    upstream_source: str,
+    repo_url: str,
+    included_paths: list[str],
+    license_text: str,
+) -> None:
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    content = "\n".join(
+        [
+            "# Third-Party Notices",
+            "",
+            "This plugin includes generated runtime skill content derived from "
+            f"`{upstream_source}`.",
+            "",
+            "## Maximepodgorski/agent-skills",
+            "",
+            f"- Upstream repository: {repo_url}",
+            f"- Included paths: {', '.join(included_paths)}",
+            "- Runtime copies: `skills/component/`, `skills/design-screen/`",
+            "",
+            "The upstream content is licensed under the MIT License:",
+            "",
+            "```text",
+            license_text.strip(),
+            "```",
+            "",
+        ]
+    )
+    destination.write_text(content, encoding="utf-8")
+
+
 def build_upstream_record(
     *,
     repo_url: str,
@@ -329,6 +362,7 @@ def sync(repo_root: Path, branch: str = DEFAULT_BRANCH) -> None:
 
         vendor_root.mkdir(parents=True, exist_ok=True)
         copy_file(upstream_root / "LICENSE", vendor_root / "LICENSE")
+        license_text = (vendor_root / "LICENSE").read_text(encoding="utf-8")
 
         for skill_name in ["component", "design-screen"]:
             copy_tree(upstream_root / skill_name, vendor_root / skill_name)
@@ -343,6 +377,13 @@ def sync(repo_root: Path, branch: str = DEFAULT_BRANCH) -> None:
             commit=current_commit(upstream_root),
             included_paths=INCLUDED_PATHS,
             sync_timestamp=_sync_timestamp(),
+        )
+        write_third_party_notices(
+            repo_root / "plugin" / "THIRD_PARTY_NOTICES.md",
+            upstream_source=UPSTREAM_SOURCE,
+            repo_url=REPO_URL,
+            included_paths=INCLUDED_PATHS,
+            license_text=license_text,
         )
     finally:
         tmp.cleanup()

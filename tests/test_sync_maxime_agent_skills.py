@@ -230,17 +230,26 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
                 path.read_text(encoding="utf-8")
                 for path in generated_root.rglob("*.md")
             )
+            third_party_notice = (
+                repo_root / "plugin" / "THIRD_PARTY_NOTICES.md"
+            ).read_text(encoding="utf-8")
 
         for forbidden_term in FORBIDDEN_RUNTIME_TERMS:
             with self.subTest(forbidden_term=forbidden_term):
                 self.assertNotIn(forbidden_term, generated_markdown)
         self.assertEqual(first_upstream, second_upstream)
         self.assertEqual("2026-04-25T00:00:00Z", second_upstream["sync_timestamp"])
+        self.assertIn("Maximepodgorski/agent-skills", third_party_notice)
+        self.assertIn("MIT License", third_party_notice)
+        self.assertIn("Copyright", third_party_notice)
 
     def _write_fake_upstream(self, upstream: Path) -> None:
         (upstream / "component" / "references" / "actions").mkdir(parents=True)
         (upstream / "design-screen" / "references" / "actions").mkdir(parents=True)
-        (upstream / "LICENSE").write_text("MIT License\n", encoding="utf-8")
+        (upstream / "LICENSE").write_text(
+            "MIT License\n\nCopyright (c) 2025 Maxime Podgorski\n",
+            encoding="utf-8",
+        )
         (upstream / "component" / "SKILL.md").write_text(
             "\n".join(
                 [
