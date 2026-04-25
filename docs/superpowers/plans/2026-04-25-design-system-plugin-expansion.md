@@ -920,7 +920,7 @@ Run:
 
 ```bash
 python -m json.tool plugin/repo-map.json >/dev/null
-rg -n "applying\\-ad\\-design\\-system|ad-design-system@ad-internal-marketplace" README.md plugin logo docs/design
+rg -n "applying[-]ad[-]design[-]system|ad-design-system[@]ad-internal-marketplace" README.md plugin logo docs/design
 python -m unittest tests.test_skill_description -v
 ```
 
@@ -1350,7 +1350,7 @@ Expected: validator passes. If `claude` is not installed or the command is unava
 Run:
 
 ```bash
-rg -n "Read `CLAUDE.md` \\+ codebase|Read CLAUDE.md → project conventions|Task tool|run_in_background|figma-use|applying\\-ad\\-design\\-system|ad-design-system@ad-internal-marketplace" README.md plugin logo docs/design tests scripts vendor
+rg -n "Read `CLAUDE.md` \\+ codebase|Read CLAUDE.md → project conventions|Task tool|run_in_background|figma-use|applying[-]ad[-]design[-]system|ad-design-system[@]ad-internal-marketplace" README.md plugin logo docs/design tests scripts vendor
 ```
 
 Expected: no matches. If matches remain, update the relevant source or adapter and rerun the sync script.
