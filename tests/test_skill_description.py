@@ -5,10 +5,10 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_DIR = ROOT / "plugin"
-SKILL_DIR = PLUGIN_DIR / "skills" / "applying-ad-design-system"
-SKILL_PATH = SKILL_DIR / "SKILL.md"
-PLUGIN_NAME = "ad-design-system"
-SKILL_NAME = "applying-ad-design-system"
+AD_SKILL_DIR = PLUGIN_DIR / "skills" / "applying-design-system"
+AD_SKILL_PATH = AD_SKILL_DIR / "SKILL.md"
+PLUGIN_NAME = "design-system"
+AD_SKILL_NAME = "applying-design-system"
 
 REMOTE_COMPONENT_DESCRIPTION = """
 Design system component workflow. Spec, document, implement, review, spec-review, and audit
@@ -21,43 +21,29 @@ Auto-activates on: "component", "spec component", "doc component",
 """
 
 
-def frontmatter_description(path: Path) -> str:
+def frontmatter_field(path: Path, field: str) -> str:
     lines = path.read_text(encoding="utf-8").splitlines()
     if not lines or lines[0] != "---":
-        raise AssertionError("SKILL.md must start with YAML frontmatter")
+        raise AssertionError(f"{path} must start with YAML frontmatter")
 
     for line in lines[1:]:
         if line == "---":
             break
-        if line.startswith("description: "):
-            return line.split("description: ", 1)[1].strip()
+        if line.startswith(f"{field}: "):
+            return line.split(f"{field}: ", 1)[1].strip()
 
-    raise AssertionError("SKILL.md frontmatter must include a description")
-
-
-def frontmatter_name(path: Path) -> str:
-    lines = path.read_text(encoding="utf-8").splitlines()
-    if not lines or lines[0] != "---":
-        raise AssertionError("SKILL.md must start with YAML frontmatter")
-
-    for line in lines[1:]:
-        if line == "---":
-            break
-        if line.startswith("name: "):
-            return line.split("name: ", 1)[1].strip()
-
-    raise AssertionError("SKILL.md frontmatter must include a name")
+    raise AssertionError(f"{path} frontmatter must include {field}")
 
 
 class SkillDescriptionTests(unittest.TestCase):
     def test_skill_plugin_identity_uses_design_system_name(self):
-        self.assertTrue(SKILL_DIR.is_dir())
+        self.assertTrue(AD_SKILL_DIR.is_dir())
+        self.assertFalse((PLUGIN_DIR / "skills" / "applying-ad-design-system").exists())
         self.assertFalse((ROOT / "ad-frontend-design").exists())
         self.assertFalse((ROOT / "ad-design-system").exists())
         self.assertFalse((ROOT / "skills" / "ad-design-system").exists())
         self.assertFalse((ROOT / "skills").exists())
-        self.assertFalse((PLUGIN_DIR / "skills" / "ad-frontend-design").exists())
-        self.assertEqual(SKILL_NAME, frontmatter_name(SKILL_PATH))
+        self.assertEqual(AD_SKILL_NAME, frontmatter_field(AD_SKILL_PATH, "name"))
 
     def test_claude_and_codex_plugin_manifests_exist(self):
         for manifest_path in [
@@ -67,6 +53,7 @@ class SkillDescriptionTests(unittest.TestCase):
             with self.subTest(manifest_path=manifest_path):
                 self.assertFalse(manifest_path.exists())
 
+        versions = set()
         for manifest_path in [
             PLUGIN_DIR / ".claude-plugin" / "plugin.json",
             PLUGIN_DIR / ".codex-plugin" / "plugin.json",
@@ -77,13 +64,23 @@ class SkillDescriptionTests(unittest.TestCase):
                 self.assertEqual("./skills/", manifest["skills"])
                 self.assertIn("design system", manifest["description"].lower())
                 self.assertIn("version", manifest)
+                versions.add(manifest["version"])
 
-    def test_design_system_description_does_not_conflict_with_component_skill(self):
-        local = frontmatter_description(SKILL_PATH).lower()
+        self.assertEqual(1, len(versions))
+
+    def test_codex_manifest_displays_design_system(self):
+        manifest = json.loads(
+            (PLUGIN_DIR / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual("Design System", manifest["interface"]["displayName"])
+        self.assertIn("component", manifest["interface"]["longDescription"].lower())
+        self.assertIn("screen", manifest["interface"]["longDescription"].lower())
+
+    def test_ad_skill_description_does_not_conflict_with_component_skill(self):
+        local = frontmatter_field(AD_SKILL_PATH, "description").lower()
         remote = REMOTE_COMPONENT_DESCRIPTION.lower()
 
         remote_activation_terms = [
-            "design system",
             "component workflow",
             "ds component",
             "component spec",
@@ -99,8 +96,8 @@ class SkillDescriptionTests(unittest.TestCase):
 
         self.assertEqual([], conflicts)
 
-    def test_design_system_description_stays_brand_visual_specific(self):
-        local = frontmatter_description(SKILL_PATH).lower()
+    def test_ad_skill_description_stays_brand_visual_specific(self):
+        local = frontmatter_field(AD_SKILL_PATH, "description").lower()
 
         for required_term in ["accelerate data", "vibedata", "brand", "visual"]:
             with self.subTest(required_term=required_term):

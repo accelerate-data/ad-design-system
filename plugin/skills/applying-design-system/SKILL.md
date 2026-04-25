@@ -1,5 +1,5 @@
 ---
-name: applying-ad-design-system
+name: applying-design-system
 description: Accelerate Data visual brand guidance for vibeData UI. Use for brand-compliant premium surfaces across product, marketing, docs, demos, and internal tools when the interface represents Accelerate Data.
 ---
 
