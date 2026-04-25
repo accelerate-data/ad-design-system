@@ -164,8 +164,8 @@ content:
 - Keep `design-screen craft` available only when Figma MCP write capability is
   present. When it is unavailable, the generated skill must route users to the
   non-Figma `ship` path rather than treating the whole skill as blocked.
-- Map "Task tool" and "parallel subagents" wording to generic agent parallel
-  review guidance with a single-agent fallback.
+- Map upstream Claude-specific parallel review wording to generic agent
+  parallel review guidance with a single-agent fallback.
 - Preserve upstream license notices, attribution, and upstream skill authorship.
 
 The adapter should not rewrite skill intent, design-system principles, or
