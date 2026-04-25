@@ -116,6 +116,124 @@ class SkillDescriptionTests(unittest.TestCase):
             with self.subTest(required_term=required_term):
                 self.assertIn(required_term, local)
 
+    def test_generated_upstream_skills_are_present(self):
+        for skill_name in ["component", "design-screen"]:
+            with self.subTest(skill_name=skill_name):
+                skill_dir = PLUGIN_DIR / "skills" / skill_name
+                self.assertTrue((skill_dir / "SKILL.md").is_file())
+                self.assertTrue((skill_dir / "README.md").is_file())
+                skill_text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+                self.assertIn(
+                    "x-upstream-source: Maximepodgorski/agent-skills", skill_text
+                )
+
+    def test_upstream_provenance_and_license_are_present(self):
+        vendor_dir = ROOT / "vendor" / "maxime-agent-skills"
+        self.assertTrue((vendor_dir / "LICENSE").is_file())
+        self.assertTrue((vendor_dir / "UPSTREAM.json").is_file())
+        upstream = json.loads(
+            (vendor_dir / "UPSTREAM.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            "https://github.com/Maximepodgorski/agent-skills",
+            upstream["repo_url"],
+        )
+        self.assertEqual(
+            ["LICENSE", "component", "design-screen"], upstream["included_paths"]
+        )
+        self.assertIn("adapter_version", upstream)
+        self.assertIn(
+            "MIT License", (vendor_dir / "LICENSE").read_text(encoding="utf-8")
+        )
+
+    def test_generated_skills_do_not_contain_forbidden_runtime_terms(self):
+        forbidden_terms = [
+            "Read `CLAUDE.md` + codebase",
+            "Read CLAUDE.md \u2192 project conventions",
+            "Task tool",
+            "run_in_background",
+            "figma-use",
+            "skillNames",
+        ]
+        generated_root = PLUGIN_DIR / "skills"
+        offenders = []
+
+        for skill_name in ["component", "design-screen"]:
+            for path in (generated_root / skill_name).rglob("*.md"):
+                text = path.read_text(encoding="utf-8")
+                for forbidden_term in forbidden_terms:
+                    if forbidden_term in text:
+                        offenders.append(
+                            f"{path.relative_to(ROOT)} contains {forbidden_term}"
+                        )
+
+        self.assertEqual([], offenders)
+
+    def test_design_screen_keeps_non_figma_path_when_figma_is_unavailable(self):
+        craft_path = (
+            PLUGIN_DIR
+            / "skills"
+            / "design-screen"
+            / "references"
+            / "actions"
+            / "craft.md"
+        )
+        text = craft_path.read_text(encoding="utf-8")
+        self.assertIn("Figma MCP write capability is unavailable", text)
+        self.assertIn("continue with `ship`", text)
+
+    def test_generated_skills_cover_ux_engineering_workflows(self):
+        required_paths = [
+            PLUGIN_DIR / "skills" / "component" / "references" / "actions" / "spec.md",
+            PLUGIN_DIR / "skills" / "component" / "references" / "actions" / "dev.md",
+            PLUGIN_DIR
+            / "skills"
+            / "component"
+            / "references"
+            / "actions"
+            / "review.md",
+            PLUGIN_DIR
+            / "skills"
+            / "component"
+            / "references"
+            / "principles"
+            / "accessibility.md",
+            PLUGIN_DIR
+            / "skills"
+            / "design-screen"
+            / "references"
+            / "actions"
+            / "spec.md",
+            PLUGIN_DIR
+            / "skills"
+            / "design-screen"
+            / "references"
+            / "actions"
+            / "ship.md",
+            PLUGIN_DIR
+            / "skills"
+            / "design-screen"
+            / "references"
+            / "principles"
+            / "page-states.md",
+            PLUGIN_DIR
+            / "skills"
+            / "design-screen"
+            / "references"
+            / "principles"
+            / "responsive.md",
+            PLUGIN_DIR
+            / "skills"
+            / "design-screen"
+            / "references"
+            / "principles"
+            / "layout-patterns.md",
+        ]
+
+        for path in required_paths:
+            with self.subTest(path=path):
+                self.assertTrue(path.is_file())
+
     def test_live_guidance_does_not_reference_stale_paths(self):
         plugin_guidance_paths = [
             path
