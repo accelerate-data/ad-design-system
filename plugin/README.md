@@ -81,5 +81,7 @@ chmod +x .githooks/pre-commit
 
 This plugin subtree is licensed under Elastic License 2.0. See [LICENSE](./LICENSE).
 
-Upstream-generated skills will retain their upstream MIT notices under `vendor/`
-once those generated skills are added.
+Upstream-derived generated skills retain upstream MIT attribution in installed
+skill metadata or adjacent installed notices. The source repo also keeps the raw
+upstream snapshot under repo-root `vendor/`, which is not part of plugin
+installs.
