@@ -67,6 +67,10 @@ project-context workflow, not a design-system workflow, and belongs in
 - Keep Codex behavior correct when upstream text mentions `CLAUDE.md`.
 - Add focused behavioral eval coverage because the plugin will expose and adapt
   upstream workflow skills through the Accelerate Data marketplace.
+- Cover the practical UX-engineering workflow: brand application, component
+  specification and implementation, component review, screen composition from
+  existing components, accessibility checks, responsive behavior, page states,
+  and handoff when Figma is unavailable.
 
 ## Non-goals
 
@@ -228,7 +232,9 @@ Implementation verification should include:
 - A targeted attribution check that generated upstream-derived skills retain
   upstream provenance and the vendored MIT license notice.
 - Focused Promptfoo smoke evals for plugin routing, upstream attribution,
-  Codex/Claude guidance portability, and Figma-unavailable fallback behavior.
+  Codex/Claude guidance portability, Figma-unavailable fallback behavior, and
+  UX-engineer coverage for accessibility, responsive behavior, page states,
+  component workflow, and screen composition.
 - A manual install smoke test through the local marketplace after the
   marketplace entry points at the updated plugin version.
 

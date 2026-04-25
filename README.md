@@ -2,21 +2,29 @@
 
 Accelerate Data's design system repo. Two distinct kinds of content live here:
 
-1. **The `ad-design-system` Claude/Codex plugin** under [`plugin/`](./plugin).
+1. **The `design-system` Claude/Codex plugin** under [`plugin/`](./plugin).
 2. **Brand reference material** at the repo root — logo assets, brand book, theme configs, documentation. Maintained alongside the plugin but **not shipped with it**.
 
 ---
 
 ## 1. Plugin source — [`plugin/`](./plugin)
 
-The `ad-design-system` plugin for Claude Code and Codex. This subtree is what gets installed by users of the Accelerate Data marketplace:
+The `design-system` plugin for Claude Code and Codex. This subtree is what gets installed by users of the Accelerate Data marketplace:
 
 ```bash
 claude marketplace add accelerate-data/plugin-marketplace
-claude plugin install ad-design-system@ad-internal-marketplace
+claude plugin install design-system@ad-internal-marketplace
 ```
 
 See [`plugin/README.md`](./plugin/README.md) for plugin-specific details.
+
+The expanded plugin supports UX-engineering work across three layers:
+
+- `applying-design-system` — AD-owned brand application: colors, typography, spacing, logos, motion, layout tone.
+- `component` — upstream-attributed component workflow: spec, docs, dev, review, spec-review, audit.
+- `design-screen` — upstream-attributed screen workflow: compose screens from existing components, check responsive behavior and page states, then ship.
+
+Use the root logo docs and brand book for source reference, but keep runtime skill guidance inside `plugin/`.
 
 The marketplace entry references this repo via `git-subdir` with `path: "plugin"`, so plugin installs do **not** include any of the content below.
 
@@ -79,7 +87,7 @@ chmod +x .githooks/pre-commit
 
 ### Plugin version
 
-The plugin version lives in [`plugin/.claude-plugin/plugin.json`](./plugin/.claude-plugin/plugin.json). CI enforces a version bump on any PR that touches `plugin/**` (see [`.github/workflows/version-bump-check.yml`](./.github/workflows/version-bump-check.yml)).
+The plugin version lives in both [`plugin/.claude-plugin/plugin.json`](./plugin/.claude-plugin/plugin.json) and [`plugin/.codex-plugin/plugin.json`](./plugin/.codex-plugin/plugin.json). CI enforces matching bumped versions on any PR that touches `plugin/**` (see [`.github/workflows/version-bump-check.yml`](./.github/workflows/version-bump-check.yml)).
 
 ### Regenerating logo assets
 

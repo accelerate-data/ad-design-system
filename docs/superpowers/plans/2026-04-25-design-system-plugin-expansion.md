@@ -23,6 +23,7 @@ The key decisions are:
 - Preserve upstream attribution, the upstream MIT license notice, and machine-readable upstream provenance.
 - Keep Figma optional for the skills overall. `design-screen craft` may require Figma write capability, but missing Figma must route users to non-Figma `ship` guidance instead of blocking the whole skill.
 - Add focused behavioral evals for plugin routing, upstream attribution, Codex/Claude guidance portability, and Figma-unavailable fallback behavior.
+- Ensure the final plugin covers practical UX-engineering work: applying AD brand guidance, specifying and implementing components, reviewing component quality, composing screens from existing components, checking accessibility, handling responsive behavior and page states, and continuing without Figma.
 
 ## File Structure
 
@@ -52,6 +53,7 @@ Modify:
 - `plugin/CLAUDE.md` - mirror Claude routing for renamed and generated skills.
 - `plugin/README.md` - update install commands, layout, local symlinks, and current skills.
 - `plugin/repo-map.json` - update manifests, skill inventory, vendor notes, and generated-source notes.
+- `README.md` - update repo-level plugin identity, install command, workflow summary, and version note.
 - `tests/test_skill_description.py` - update identity assertions and add runtime-content checks.
 - `.github/workflows/version-bump-check.yml` - enforce both manifest versions, not only Claude.
 
@@ -670,6 +672,23 @@ Append these tests to `SkillDescriptionTests` in `tests/test_skill_description.p
         text = craft_path.read_text(encoding="utf-8")
         self.assertIn("Figma MCP write capability is unavailable", text)
         self.assertIn("continue with `ship`", text)
+
+    def test_generated_skills_cover_ux_engineering_workflows(self):
+        required_paths = [
+            PLUGIN_DIR / "skills" / "component" / "references" / "actions" / "spec.md",
+            PLUGIN_DIR / "skills" / "component" / "references" / "actions" / "dev.md",
+            PLUGIN_DIR / "skills" / "component" / "references" / "actions" / "review.md",
+            PLUGIN_DIR / "skills" / "component" / "references" / "principles" / "accessibility.md",
+            PLUGIN_DIR / "skills" / "design-screen" / "references" / "actions" / "spec.md",
+            PLUGIN_DIR / "skills" / "design-screen" / "references" / "actions" / "ship.md",
+            PLUGIN_DIR / "skills" / "design-screen" / "references" / "principles" / "page-states.md",
+            PLUGIN_DIR / "skills" / "design-screen" / "references" / "principles" / "responsive.md",
+            PLUGIN_DIR / "skills" / "design-screen" / "references" / "principles" / "layout-patterns.md",
+        ]
+
+        for path in required_paths:
+            with self.subTest(path=path):
+                self.assertTrue(path.is_file())
 ```
 
 - [ ] **Step 2: Run tests to verify failure**
@@ -733,12 +752,47 @@ git commit -m "feat: generate upstream design system skills"
 ### Task 4: Update Repo Guidance and Plugin Docs
 
 **Files:**
+- Modify: `README.md`
 - Modify: `plugin/AGENTS.md`
 - Modify: `plugin/CLAUDE.md`
 - Modify: `plugin/README.md`
 - Modify: `plugin/repo-map.json`
 
-- [ ] **Step 1: Update plugin guidance**
+- [ ] **Step 1: Update repo README**
+
+Update `README.md` so the top-level repo accurately describes the post-expansion UX-engineer workflow:
+
+```markdown
+# ad-design-system
+
+Accelerate Data's design system repo. Two distinct kinds of content live here:
+
+1. **The `design-system` Claude/Codex plugin** under [`plugin/`](./plugin).
+2. **Brand reference material** at the repo root — logo assets, brand book, theme configs, documentation. Maintained alongside the plugin but **not shipped with it**.
+```
+
+Update the install command:
+
+```bash
+claude marketplace add accelerate-data/plugin-marketplace
+claude plugin install design-system@ad-internal-marketplace
+```
+
+Add this workflow summary under the plugin section:
+
+```markdown
+The expanded plugin supports UX-engineering work across three layers:
+
+- `applying-design-system` — AD-owned brand application: colors, typography, spacing, logos, motion, layout tone.
+- `component` — upstream-attributed component workflow: spec, docs, dev, review, spec-review, audit.
+- `design-screen` — upstream-attributed screen workflow: compose screens from existing components, check responsive behavior and page states, then ship.
+
+Use the root logo docs and brand book for source reference, but keep runtime skill guidance inside `plugin/`.
+```
+
+Update the version note to say both `plugin/.claude-plugin/plugin.json` and `plugin/.codex-plugin/plugin.json` carry the plugin version and CI enforces matching bumped versions.
+
+- [ ] **Step 2: Update plugin guidance**
 
 Update `plugin/AGENTS.md` to keep the existing sections and add these facts:
 
@@ -757,7 +811,21 @@ The AD-owned runtime skill is `skills/applying-design-system/`.
 
 In the same file, update any legacy AD-prefixed skill references to `applying-design-system`.
 
-- [ ] **Step 2: Update Claude routing**
+Add this UX-engineering coverage rule:
+
+```markdown
+## UX Engineering Coverage
+
+The plugin should give engineers enough guidance to build usable product UI, not just brand-colored UI:
+
+- `applying-design-system` covers AD brand application, visual tone, logos, color, type, spacing, layout, and motion.
+- `component` covers component spec, documentation, implementation, review, accessibility, token usage, and audit.
+- `design-screen` covers screen composition from existing components, responsive behavior, page states, and implementation handoff.
+
+When changing generated upstream-derived skills, keep this coverage intact and update evals if routing or fallback behavior changes.
+```
+
+- [ ] **Step 3: Update Claude routing**
 
 Update `plugin/CLAUDE.md` skill list to include:
 
@@ -769,7 +837,7 @@ Update `plugin/CLAUDE.md` skill list to include:
 
 Also update old install-boundary wording from `ad-design-system` to `design-system` where it describes plugin identity, not repository name.
 
-- [ ] **Step 3: Update README**
+- [ ] **Step 4: Update plugin README**
 
 Update `plugin/README.md` layout block to include:
 
@@ -819,7 +887,22 @@ Update current skills:
 - `design-screen` — upstream-attributed screen composition workflow.
 ```
 
-- [ ] **Step 4: Update repo map**
+Add this UX-engineer workflow table:
+
+```markdown
+## UX Engineering Workflows
+
+| Need | Use |
+|---|---|
+| Apply AD brand tone, colors, typography, spacing, logos, and motion | `applying-design-system` |
+| Specify, document, implement, or review a reusable component | `component` |
+| Compose a screen from existing components and ship it | `design-screen` |
+| Check accessibility, token usage, variants, and component API quality | `component review` or `component audit` |
+| Check responsive behavior, loading/empty/error states, and layout composition | `design-screen review` |
+| Continue without Figma | Use text/codebase mode; skip `design-screen craft` and continue with `design-screen ship` |
+```
+
+- [ ] **Step 5: Update repo map**
 
 Update `plugin/repo-map.json` so:
 
@@ -827,31 +910,32 @@ Update `plugin/repo-map.json` so:
 - `key_directories` includes `../vendor/maxime-agent-skills/`.
 - `skills` contains `applying-design-system`, `component`, and `design-screen`.
 - `notes_for_agents` includes the generated-content rule.
+- `notes_for_agents` includes a UX-engineering coverage note covering brand application, component workflow, screen composition, accessibility, responsive behavior, and page states.
 
 Use valid JSON and preserve relative paths from the `plugin/` directory.
 
-- [ ] **Step 5: Run guidance checks**
+- [ ] **Step 6: Run guidance checks**
 
 Run:
 
 ```bash
 python -m json.tool plugin/repo-map.json >/dev/null
-rg -n "applying\\-ad\\-design\\-system|ad-design-system@ad-internal-marketplace" plugin
+rg -n "applying\\-ad\\-design\\-system|ad-design-system@ad-internal-marketplace" README.md plugin logo docs/design
 python -m unittest tests.test_skill_description -v
 ```
 
 Expected:
 
 - `json.tool` exits 0.
-- `rg` exits 1 with no matches inside `plugin/`.
+- `rg` exits 1 with no stale live references.
 - Tests pass.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 Run:
 
 ```bash
-git add plugin/AGENTS.md plugin/CLAUDE.md plugin/README.md plugin/repo-map.json
+git add README.md plugin/AGENTS.md plugin/CLAUDE.md plugin/README.md plugin/repo-map.json
 git commit -m "docs: document design system plugin expansion"
 ```
 
@@ -907,11 +991,13 @@ function route(prompt) {
   if (
     text.includes("button component") ||
     text.includes("component spec") ||
-    text.includes("spec-review")
+    text.includes("spec-review") ||
+    text.includes("accessibility") ||
+    text.includes("keyboard")
   ) {
     return [
       "skill: component",
-      "reason: request is about a design-system component workflow",
+      "reason: request is about a design-system component workflow, including accessibility and token checks",
       "fallback: use text/codebase mode when Figma is unavailable; read AGENTS.md for Codex and CLAUDE.md for Claude when present",
       "attribution: upstream Maximepodgorski/agent-skills",
     ].join("\n");
@@ -920,11 +1006,15 @@ function route(prompt) {
   if (
     text.includes("billing settings screen") ||
     text.includes("compose") ||
-    text.includes("existing components")
+    text.includes("existing components") ||
+    text.includes("responsive") ||
+    text.includes("empty state") ||
+    text.includes("loading state") ||
+    text.includes("error state")
   ) {
     return [
       "skill: design-screen",
-      "reason: request is about composing a screen from existing components",
+      "reason: request is about composing a screen from existing components, including responsive behavior and page states",
       "fallback: Figma write access unavailable, skip craft and continue with ship",
       "attribution: upstream Maximepodgorski/agent-skills",
     ].join("\n");
@@ -969,6 +1059,7 @@ prompts:
     - Use AGENTS.md for Codex, CLAUDE.md for Claude, and read both when both exist.
     - Figma is optional for component and design-screen spec; continue from text/codebase context when unavailable.
     - design-screen craft requires Figma write capability. If unavailable, skip craft and continue with design-screen ship.
+    - UX-engineering coverage includes brand application, component workflows, accessibility, responsive behavior, page states, and Figma-free implementation handoff.
 
     User request: {{request}}
 
@@ -1016,6 +1107,26 @@ tests:
         value: "only CLAUDE.md"
       - type: contains
         value: "AGENTS.md"
+
+  - vars:
+      request: Review a form field component for keyboard accessibility, token usage, variants, and component API quality.
+    assert:
+      - type: contains
+        value: "skill: component"
+      - type: contains
+        value: "accessibility"
+      - type: contains
+        value: "token"
+
+  - vars:
+      request: Compose a responsive onboarding screen using existing components, including loading state, empty state, and error state.
+    assert:
+      - type: contains
+        value: "skill: design-screen"
+      - type: contains
+        value: "responsive"
+      - type: contains
+        value: "page states"
 ```
 
 This is an intentionally small smoke suite. It verifies takeover-specific behavior instead of attempting to prove the whole upstream workflow.
@@ -1035,6 +1146,7 @@ These evals cover:
 - Upstream attribution for generated `component` and `design-screen` skills.
 - Codex/Claude repo-guidance portability.
 - Figma-unavailable fallback behavior.
+- UX-engineer coverage for accessibility, responsive behavior, page states, component workflow, and screen composition.
 
 Run:
 
@@ -1238,7 +1350,7 @@ Expected: validator passes. If `claude` is not installed or the command is unava
 Run:
 
 ```bash
-rg -n "Read `CLAUDE.md` \\+ codebase|Read CLAUDE.md → project conventions|Task tool|run_in_background|figma-use|applying\\-ad\\-design\\-system|ad-design-system@ad-internal-marketplace" plugin tests scripts vendor
+rg -n "Read `CLAUDE.md` \\+ codebase|Read CLAUDE.md → project conventions|Task tool|run_in_background|figma-use|applying\\-ad\\-design\\-system|ad-design-system@ad-internal-marketplace" README.md plugin logo docs/design tests scripts vendor
 ```
 
 Expected: no matches. If matches remain, update the relevant source or adapter and rerun the sync script.
