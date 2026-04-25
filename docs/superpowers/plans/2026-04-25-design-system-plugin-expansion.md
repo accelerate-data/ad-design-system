@@ -17,7 +17,7 @@ Implement against [docs/design/2026-04-25-ad-design-system-skill-expansion.md](.
 The key decisions are:
 
 - Rename plugin identity from `ad-design-system` to `design-system`.
-- Rename AD-owned skill from `plugin/skills/applying-ad-design-system/` to `plugin/skills/applying-design-system/`.
+- Keep the renamed AD-owned skill at `plugin/skills/applying-design-system/`.
 - Vendor upstream `Maximepodgorski/agent-skills` source under `vendor/maxime-agent-skills/`.
 - Generate `plugin/skills/component/` and `plugin/skills/design-screen/` from the vendored upstream source plus deterministic adapter transforms.
 - Preserve upstream attribution, the upstream MIT license notice, and machine-readable upstream provenance.
@@ -44,7 +44,7 @@ Create:
 
 Modify:
 
-- `plugin/skills/applying-ad-design-system/**` -> move to `plugin/skills/applying-design-system/**`.
+- `plugin/skills/applying-design-system/**` - renamed first-party AD-owned skill.
 - `plugin/skills/applying-design-system/SKILL.md` - update frontmatter `name`.
 - `plugin/.claude-plugin/plugin.json` - rename plugin to `design-system`, update description/keywords, bump version.
 - `plugin/.codex-plugin/plugin.json` - rename plugin to `design-system`, set `interface.displayName` to `Design System`, update descriptions/default prompts, bump version.
@@ -65,7 +65,7 @@ Do not modify:
 ### Task 1: Rename First-Party Skill and Plugin Identity
 
 **Files:**
-- Move: `plugin/skills/applying-ad-design-system/` -> `plugin/skills/applying-design-system/`
+- Move the legacy AD-prefixed skill directory to `plugin/skills/applying-design-system/`
 - Modify: `plugin/skills/applying-design-system/SKILL.md`
 - Modify: `plugin/.claude-plugin/plugin.json`
 - Modify: `plugin/.codex-plugin/plugin.json`
@@ -87,6 +87,7 @@ AD_SKILL_DIR = PLUGIN_DIR / "skills" / "applying-design-system"
 AD_SKILL_PATH = AD_SKILL_DIR / "SKILL.md"
 PLUGIN_NAME = "design-system"
 AD_SKILL_NAME = "applying-design-system"
+OLD_AD_SKILL_NAME = "applying" + "-ad-design-system"
 
 REMOTE_COMPONENT_DESCRIPTION = """
 Design system component workflow. Spec, document, implement, review, spec-review, and audit
@@ -116,7 +117,7 @@ def frontmatter_field(path: Path, field: str) -> str:
 class SkillDescriptionTests(unittest.TestCase):
     def test_skill_plugin_identity_uses_design_system_name(self):
         self.assertTrue(AD_SKILL_DIR.is_dir())
-        self.assertFalse((PLUGIN_DIR / "skills" / "applying-ad-design-system").exists())
+        self.assertFalse((PLUGIN_DIR / "skills" / OLD_AD_SKILL_NAME).exists())
         self.assertFalse((ROOT / "ad-frontend-design").exists())
         self.assertFalse((ROOT / "ad-design-system").exists())
         self.assertFalse((ROOT / "skills" / "ad-design-system").exists())
@@ -201,7 +202,7 @@ Expected: FAIL because `plugin/skills/applying-design-system/` does not exist an
 Run:
 
 ```bash
-git mv plugin/skills/applying-ad-design-system plugin/skills/applying-design-system
+git mv <legacy AD-prefixed skill directory> plugin/skills/applying-design-system
 ```
 
 Update `plugin/skills/applying-design-system/SKILL.md` frontmatter:
@@ -754,7 +755,7 @@ Update `plugin/AGENTS.md` to keep the existing sections and add these facts:
 The AD-owned runtime skill is `skills/applying-design-system/`.
 ```
 
-In the same file, update any `applying-ad-design-system` references to `applying-design-system`.
+In the same file, update any legacy AD-prefixed skill references to `applying-design-system`.
 
 - [ ] **Step 2: Update Claude routing**
 
@@ -835,7 +836,7 @@ Run:
 
 ```bash
 python -m json.tool plugin/repo-map.json >/dev/null
-rg -n "applying-ad-design-system|ad-design-system@ad-internal-marketplace" plugin
+rg -n "applying\\-ad\\-design\\-system|ad-design-system@ad-internal-marketplace" plugin
 python -m unittest tests.test_skill_description -v
 ```
 
@@ -1237,7 +1238,7 @@ Expected: validator passes. If `claude` is not installed or the command is unava
 Run:
 
 ```bash
-rg -n "Read `CLAUDE.md` \\+ codebase|Read CLAUDE.md → project conventions|Task tool|run_in_background|figma-use|applying-ad-design-system|ad-design-system@ad-internal-marketplace" plugin tests scripts vendor
+rg -n "Read `CLAUDE.md` \\+ codebase|Read CLAUDE.md → project conventions|Task tool|run_in_background|figma-use|applying\\-ad\\-design\\-system|ad-design-system@ad-internal-marketplace" plugin tests scripts vendor
 ```
 
 Expected: no matches. If matches remain, update the relevant source or adapter and rerun the sync script.

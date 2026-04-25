@@ -7,7 +7,7 @@
 ## Problem
 
 The current `ad-design-system` plugin provides one first-party brand compliance
-skill under `plugin/skills/applying-ad-design-system/`. That keeps Accelerate
+skill under `plugin/skills/applying-design-system/`. That keeps Accelerate
 Data visual guidance available in Claude Code and Codex, but the target plugin
 identity should be broader and less AD-prefixed: `design-system`. As part of
 that identity shift, the first-party skill should be renamed to
@@ -60,8 +60,7 @@ project-context workflow, not a design-system workflow, and belongs in
 - Keep the GitHub source path stable unless we separately decide to rename the
   repository.
 - Keep AD-owned brand compliance guidance as a first-class skill.
-- Rename the AD-owned skill from `applying-ad-design-system` to
-  `applying-design-system`.
+- Keep the AD-owned skill published as `applying-design-system`.
 - Add portable component and screen-composition workflows without hand-editing
   vendored upstream files.
 - Make upstream provenance obvious to future agents and maintainers.

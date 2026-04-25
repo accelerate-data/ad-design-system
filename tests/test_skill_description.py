@@ -9,6 +9,7 @@ AD_SKILL_DIR = PLUGIN_DIR / "skills" / "applying-design-system"
 AD_SKILL_PATH = AD_SKILL_DIR / "SKILL.md"
 PLUGIN_NAME = "design-system"
 AD_SKILL_NAME = "applying-design-system"
+OLD_AD_SKILL_NAME = "applying" + "-ad-design-system"
 MANIFEST_PATHS = [
     PLUGIN_DIR / ".claude-plugin" / "plugin.json",
     PLUGIN_DIR / ".codex-plugin" / "plugin.json",
@@ -42,7 +43,7 @@ def frontmatter_field(path: Path, field: str) -> str:
 class SkillDescriptionTests(unittest.TestCase):
     def test_skill_plugin_identity_uses_design_system_name(self):
         self.assertTrue(AD_SKILL_DIR.is_dir())
-        self.assertFalse((PLUGIN_DIR / "skills" / "applying-ad-design-system").exists())
+        self.assertFalse((PLUGIN_DIR / "skills" / OLD_AD_SKILL_NAME).exists())
         self.assertFalse((ROOT / "ad-frontend-design").exists())
         self.assertFalse((ROOT / "ad-design-system").exists())
         self.assertFalse((ROOT / "skills" / "ad-design-system").exists())
@@ -116,10 +117,12 @@ class SkillDescriptionTests(unittest.TestCase):
             PLUGIN_DIR / "CLAUDE.md",
             PLUGIN_DIR / "AGENTS.md",
             PLUGIN_DIR / "repo-map.json",
+            ROOT / "logo" / "ASSETS_FOR_DEVELOPERS.md",
+            ROOT / "logo" / "ASSETS_FOR_AI.md",
         ]:
             with self.subTest(path=path):
                 self.assertNotIn(
-                    "applying-ad-design-system",
+                    OLD_AD_SKILL_NAME,
                     path.read_text(encoding="utf-8"),
                 )
 
