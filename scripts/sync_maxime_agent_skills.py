@@ -108,6 +108,15 @@ FIGMA_WRITE_HELPER_REPLACEMENT = (
 ADAPTER_PATTERN_REPLACEMENTS = [
     (
         re.compile(
+            r"\*\*Launch 4 subagents in parallel\*\* "
+            r"\(use Task tool with `run_in_background` or parallel calls\)\. "
+            r"Each subagent receives the full spec content and reviews from its "
+            r"assigned perspective\."
+        ),
+        PARALLEL_AGENT_REPLACEMENT,
+    ),
+    (
+        re.compile(
             r"\*\*Launch ALL perspectives as parallel sub-agents\*\* "
             r"\(single message, multiple Task tool calls\)\."
         ),
@@ -136,6 +145,31 @@ ADAPTER_PATTERN_REPLACEMENTS = [
             r"`use_figma` call\."
         ),
         FIGMA_WRITE_HELPER_REPLACEMENT,
+    ),
+    (
+        re.compile(r"Via `use_figma` \(follow figma-use skill patterns\):"),
+        "Via a runtime-provided Figma write helper when available:",
+    ),
+    (
+        re.compile(
+            r"These are handled by the `figma-use` skill \u2014 load it before "
+            r"writing any `use_figma` code\. Key constraints the agent must "
+            r"respect:"
+        ),
+        (
+            "Use runtime-provided Figma write helper patterns before writing "
+            "any Figma automation code. Key constraints the agent must respect:"
+        ),
+    ),
+    (
+        re.compile(
+            r"- \*\*`skillNames: \"figma-use\"`\*\* \u2014 pass in every "
+            r"`use_figma` call \(logging parameter\)"
+        ),
+        (
+            "- Use the runtime helper's required logging or attribution "
+            "parameter when that helper exposes one."
+        ),
     ),
 ]
 STABLE_UPSTREAM_RECORD_FIELDS = [

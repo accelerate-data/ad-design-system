@@ -11,7 +11,7 @@ from scripts.sync_maxime_agent_skills import (
 )
 
 
-FORBIDDEN_RUNTIME_TERMS = ["Task tool", "run_in_background", "figma-use"]
+FORBIDDEN_RUNTIME_TERMS = ["Task tool", "run_in_background", "figma-use", "skillNames"]
 
 
 class SyncMaximeAgentSkillsTests(unittest.TestCase):
@@ -37,6 +37,23 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
 
         self.assertNotIn("Task tool", result)
         self.assertNotIn("run_in_background", result)
+        self.assertIn("Use parallel agent review when available", result)
+        self.assertIn("single-agent fallback", result)
+
+    def test_adapter_rewrites_bold_component_parallel_subagents_upstream_variant(self):
+        source = (
+            "**Launch 4 subagents in parallel** (use Task tool with "
+            "`run_in_background` or parallel calls). Each subagent receives the "
+            "full spec content and reviews from its assigned perspective."
+        )
+
+        result = apply_adapter_text(
+            source, relative_path=Path("component/references/actions/spec-review.md")
+        )
+
+        for forbidden_term in FORBIDDEN_RUNTIME_TERMS:
+            with self.subTest(forbidden_term=forbidden_term):
+                self.assertNotIn(forbidden_term, result)
         self.assertIn("Use parallel agent review when available", result)
         self.assertIn("single-agent fallback", result)
 
@@ -94,6 +111,31 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
         self.assertNotIn("figma-use", result)
         self.assertNotIn("skillNames", result)
         self.assertIn("Figma write helper", result)
+
+    def test_adapter_rewrites_current_figma_use_craft_lines(self):
+        source = "\n".join(
+            [
+                "Via `use_figma` (follow figma-use skill patterns):",
+                (
+                    "These are handled by the `figma-use` skill — load it "
+                    "before writing any `use_figma` code. Key constraints the "
+                    "agent must respect:"
+                ),
+                (
+                    '- **`skillNames: "figma-use"`** — pass in every '
+                    "`use_figma` call (logging parameter)"
+                ),
+            ]
+        )
+
+        result = apply_adapter_text(
+            source, relative_path=Path("design-screen/references/actions/craft.md")
+        )
+
+        self.assertNotIn("figma-use", result)
+        self.assertNotIn("skillNames", result)
+        self.assertIn("Figma write helper", result)
+        self.assertIn("runtime-provided", result)
 
     def test_write_upstream_record(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -216,6 +258,9 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
             (
                 "**Launch ALL perspectives as parallel sub-agents** "
                 "(single message, multiple Task tool calls).\n"
+                "**Launch 4 subagents in parallel** (use Task tool with "
+                "`run_in_background` or parallel calls). Each subagent receives "
+                "the full spec content and reviews from its assigned perspective.\n"
             ),
             encoding="utf-8",
         )
@@ -236,6 +281,12 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
                 "> **Agent:** Load this file when `craft` triggers. Also load the "
                 "`figma-use` skill (MANDATORY before any `use_figma` call). Always "
                 'pass `skillNames: "figma-use"` in every `use_figma` call.\n'
+                "Via `use_figma` (follow figma-use skill patterns):\n"
+                "These are handled by the `figma-use` skill — load it before "
+                "writing any `use_figma` code. Key constraints the agent must "
+                "respect:\n"
+                '- **`skillNames: "figma-use"`** — pass in every `use_figma` '
+                "call (logging parameter)\n"
             ),
             encoding="utf-8",
         )
