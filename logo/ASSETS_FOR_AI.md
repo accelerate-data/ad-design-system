@@ -7,7 +7,7 @@
 <!-- background_for: dark-bg=requires dark/colored bg | light-bg=requires light/white bg | any=works on any bg -->
 <!-- width_px / height_px: pixel dimensions for raster; nominal display size for h-named SVGs; — for fully scalable vectors -->
 <!-- cdn_base_url: http://assets.acceleratedata.ai/logo/ — url column = cdn_base_url + path -->
-<!-- design_system_skill: branding/plugin/skills/applying-design-system/SKILL.md -->
+<!-- design_system_skill: plugin/skills/applying-design-system/SKILL.md -->
 <!-- design_system_description: Complete design system with color tokens, typography, spacing, component patterns, and logo usage guidelines -->
 
 <!-- naming_patterns:

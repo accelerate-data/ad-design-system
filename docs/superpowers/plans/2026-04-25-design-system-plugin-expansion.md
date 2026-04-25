@@ -1146,7 +1146,7 @@ These evals cover:
 - Upstream attribution for generated `component` and `design-screen` skills.
 - Codex/Claude repo-guidance portability.
 - Figma-unavailable fallback behavior.
-- UX-engineer coverage for accessibility, responsive behavior, page states, component workflow, and screen composition.
+- UX-engineer coverage for brand application, component workflow, screen composition, accessibility, responsive behavior, page states, and Figma-free fallback.
 
 Run:
 

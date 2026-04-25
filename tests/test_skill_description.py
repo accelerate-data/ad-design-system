@@ -10,6 +10,7 @@ AD_SKILL_PATH = AD_SKILL_DIR / "SKILL.md"
 PLUGIN_NAME = "design-system"
 AD_SKILL_NAME = "applying-design-system"
 OLD_AD_SKILL_NAME = "applying" + "-ad-design-system"
+OLD_BRANDING_SKILL_PATH = "branding/plugin/skills/" + AD_SKILL_NAME
 MANIFEST_PATHS = [
     PLUGIN_DIR / ".claude-plugin" / "plugin.json",
     PLUGIN_DIR / ".codex-plugin" / "plugin.json",
@@ -123,6 +124,10 @@ class SkillDescriptionTests(unittest.TestCase):
             with self.subTest(path=path):
                 self.assertNotIn(
                     OLD_AD_SKILL_NAME,
+                    path.read_text(encoding="utf-8"),
+                )
+                self.assertNotIn(
+                    OLD_BRANDING_SKILL_PATH,
                     path.read_text(encoding="utf-8"),
                 )
 

@@ -43,9 +43,9 @@ Most common assets for new integrations:
 
 ## Design System Skill
 
-The `branding/plugin/skills/applying-design-system/` directory provides a complete design system covering color tokens, typography scales, spacing, component patterns, and logo guidance. It enforces brand-compliant UI across product, marketing, docs, and demo surfaces. The skill also includes logo selection guidance with CDN integration for the assets listed above.
+The `plugin/skills/applying-design-system/` directory provides a complete design system covering color tokens, typography scales, spacing, component patterns, and logo guidance. It enforces brand-compliant UI across product, marketing, docs, and demo surfaces. The skill also includes logo selection guidance with CDN integration for the assets listed above.
 
-See [`branding/plugin/skills/applying-design-system/SKILL.md`](../plugin/skills/applying-design-system/SKILL.md) for the full specification.
+See [`plugin/skills/applying-design-system/SKILL.md`](../plugin/skills/applying-design-system/SKILL.md) for the full specification.
 
 ---
 

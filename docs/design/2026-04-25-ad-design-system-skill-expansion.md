@@ -232,9 +232,9 @@ Implementation verification should include:
 - A targeted attribution check that generated upstream-derived skills retain
   upstream provenance and the vendored MIT license notice.
 - Focused Promptfoo smoke evals for plugin routing, upstream attribution,
-  Codex/Claude guidance portability, Figma-unavailable fallback behavior, and
-  UX-engineer coverage for accessibility, responsive behavior, page states,
-  component workflow, and screen composition.
+  Codex/Claude guidance portability, brand application, component workflow,
+  screen composition, accessibility, responsive behavior, page states, and
+  Figma-free fallback behavior.
 - A manual install smoke test through the local marketplace after the
   marketplace entry points at the updated plugin version.
 
