@@ -1,4 +1,4 @@
-# AD Design System Plugin
+# Design System Plugin
 
 Accelerate Data's design system — shared as a plugin for Claude Code and Codex.
 
@@ -15,7 +15,7 @@ plugin/
 ├── .claude-plugin/plugin.json
 ├── .codex-plugin/plugin.json
 ├── skills/
-│   └── applying-ad-design-system/
+│   └── applying-design-system/
 ├── AGENTS.md
 ├── CLAUDE.md
 ├── repo-map.json
@@ -28,7 +28,7 @@ Install via the Accelerate Data internal marketplace:
 
 ```bash
 claude marketplace add accelerate-data/plugin-marketplace
-claude plugin install ad-design-system@ad-internal-marketplace
+claude plugin install design-system@ad-internal-marketplace
 ```
 
 The plugin manifest is at [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).
@@ -38,8 +38,8 @@ For local development without a marketplace, symlink each skill directory into `
 ```bash
 mkdir -p ~/.claude/skills
 
-ln -s /absolute/path/to/ad-design-system/plugin/skills/applying-ad-design-system \
-  ~/.claude/skills/applying-ad-design-system
+ln -s /absolute/path/to/ad-design-system/plugin/skills/applying-design-system \
+  ~/.claude/skills/applying-design-system
 ```
 
 The symlink name should match the skill directory name.
@@ -53,8 +53,8 @@ For local development without a marketplace:
 ```bash
 mkdir -p ~/.codex/skills
 
-ln -s /absolute/path/to/ad-design-system/plugin/skills/applying-ad-design-system \
-  ~/.codex/skills/applying-ad-design-system
+ln -s /absolute/path/to/ad-design-system/plugin/skills/applying-design-system \
+  ~/.codex/skills/applying-design-system
 ```
 
 ## Development Notes
@@ -75,4 +75,4 @@ chmod +x .githooks/pre-commit
 
 ## Current Skills
 
-- `applying-ad-design-system` — brand-compliant visual guidance for all Accelerate Data surfaces.
+- `applying-design-system` — brand-compliant visual guidance for all Accelerate Data surfaces.

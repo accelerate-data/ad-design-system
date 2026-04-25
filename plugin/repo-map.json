@@ -6,7 +6,7 @@
   "test_frameworks": [],
   "applications": [
     {
-      "name": "ad-design-system plugin",
+      "name": "design-system plugin",
       "type": "shared plugin source",
       "description": "Plugin source for Accelerate Data's design system. Ships Claude and Codex manifests and canonical skills under skills/. Lives inside the ad-design-system repo alongside non-plugin brand assets (logo/, brand book, gamma-theme.md) at the parent level."
     }
@@ -32,15 +32,15 @@
   },
   "skills": [
     {
-      "name": "applying-ad-design-system",
-      "path": "skills/applying-ad-design-system/",
+      "name": "applying-design-system",
+      "path": "skills/applying-design-system/",
       "description": "Accelerate Data visual brand guidance for vibeData UI. Use for brand-compliant premium surfaces across product, marketing, docs, demos, and internal tools.",
       "references": [
-        "skills/applying-ad-design-system/component-examples.md"
+        "skills/applying-design-system/component-examples.md"
       ],
       "assets": [
-        "skills/applying-ad-design-system/assets/colors.json",
-        "skills/applying-ad-design-system/assets/logos/"
+        "skills/applying-design-system/assets/colors.json",
+        "skills/applying-design-system/assets/logos/"
       ]
     }
   ],

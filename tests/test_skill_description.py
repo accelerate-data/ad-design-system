@@ -9,6 +9,10 @@ AD_SKILL_DIR = PLUGIN_DIR / "skills" / "applying-design-system"
 AD_SKILL_PATH = AD_SKILL_DIR / "SKILL.md"
 PLUGIN_NAME = "design-system"
 AD_SKILL_NAME = "applying-design-system"
+MANIFEST_PATHS = [
+    PLUGIN_DIR / ".claude-plugin" / "plugin.json",
+    PLUGIN_DIR / ".codex-plugin" / "plugin.json",
+]
 
 REMOTE_COMPONENT_DESCRIPTION = """
 Design system component workflow. Spec, document, implement, review, spec-review, and audit
@@ -54,10 +58,7 @@ class SkillDescriptionTests(unittest.TestCase):
                 self.assertFalse(manifest_path.exists())
 
         versions = set()
-        for manifest_path in [
-            PLUGIN_DIR / ".claude-plugin" / "plugin.json",
-            PLUGIN_DIR / ".codex-plugin" / "plugin.json",
-        ]:
+        for manifest_path in MANIFEST_PATHS:
             with self.subTest(manifest_path=manifest_path):
                 manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
                 self.assertEqual(PLUGIN_NAME, manifest["name"])
@@ -67,6 +68,12 @@ class SkillDescriptionTests(unittest.TestCase):
                 versions.add(manifest["version"])
 
         self.assertEqual(1, len(versions))
+
+    def test_plugin_manifests_use_elastic_license_spdx_identifier(self):
+        for manifest_path in MANIFEST_PATHS:
+            with self.subTest(manifest_path=manifest_path):
+                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                self.assertEqual("Elastic-2.0", manifest["license"])
 
     def test_codex_manifest_displays_design_system(self):
         manifest = json.loads(
@@ -102,6 +109,34 @@ class SkillDescriptionTests(unittest.TestCase):
         for required_term in ["accelerate data", "vibedata", "brand", "visual"]:
             with self.subTest(required_term=required_term):
                 self.assertIn(required_term, local)
+
+    def test_plugin_docs_do_not_reference_old_skill_path(self):
+        for path in [
+            PLUGIN_DIR / "README.md",
+            PLUGIN_DIR / "CLAUDE.md",
+            PLUGIN_DIR / "AGENTS.md",
+            PLUGIN_DIR / "repo-map.json",
+        ]:
+            with self.subTest(path=path):
+                self.assertNotIn(
+                    "applying-ad-design-system",
+                    path.read_text(encoding="utf-8"),
+                )
+
+    def test_repo_map_skill_paths_exist(self):
+        repo_map = json.loads((PLUGIN_DIR / "repo-map.json").read_text(encoding="utf-8"))
+
+        for skill in repo_map["skills"]:
+            with self.subTest(skill=skill["name"], path=skill["path"]):
+                self.assertTrue((PLUGIN_DIR / skill["path"]).is_dir())
+
+            for reference_path in skill.get("references", []):
+                with self.subTest(skill=skill["name"], reference=reference_path):
+                    self.assertTrue((PLUGIN_DIR / reference_path).exists())
+
+            for asset_path in skill.get("assets", []):
+                with self.subTest(skill=skill["name"], asset=asset_path):
+                    self.assertTrue((PLUGIN_DIR / asset_path).exists())
 
 
 if __name__ == "__main__":
