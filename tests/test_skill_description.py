@@ -12,8 +12,9 @@ AD_SKILL_NAME = "applying-design-system"
 OLD_AD_SKILL_NAME = "applying" + "-ad-design-system"
 OLD_BRANDING_SKILL_PATH = "branding/plugin/skills/" + AD_SKILL_NAME
 OLD_MARKETPLACE_INSTALL = "ad-design-system" + "@ad-internal-marketplace"
-OLD_BRANDING_AI_DOC = "branding/logo/" + "ASSETS_FOR_AI.md"
-OLD_BRANDING_DEVELOPER_DOC = "branding/logo/" + "ASSETS_FOR_DEVELOPERS.md"
+OLD_BRANDING_LOGO_PREFIX = "branding" + "/logo/"
+OLD_BRANDING_AI_DOC = OLD_BRANDING_LOGO_PREFIX + "ASSETS_FOR_AI.md"
+OLD_BRANDING_DEVELOPER_DOC = OLD_BRANDING_LOGO_PREFIX + "ASSETS_FOR_DEVELOPERS.md"
 MANIFEST_PATHS = [
     PLUGIN_DIR / ".claude-plugin" / "plugin.json",
     PLUGIN_DIR / ".codex-plugin" / "plugin.json",
@@ -131,6 +132,7 @@ class SkillDescriptionTests(unittest.TestCase):
             OLD_AD_SKILL_NAME,
             OLD_BRANDING_SKILL_PATH,
             OLD_MARKETPLACE_INSTALL,
+            OLD_BRANDING_LOGO_PREFIX,
             OLD_BRANDING_AI_DOC,
             OLD_BRANDING_DEVELOPER_DOC,
         ]

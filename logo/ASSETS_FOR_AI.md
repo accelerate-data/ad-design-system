@@ -1,6 +1,6 @@
 # Vibedata Logo Assets — Machine-Readable Manifest
 
-<!-- source_svgs_path: branding/logo/archive/svg_sources/ -->
+<!-- source_svgs_path: logo/archive/svg_sources/ -->
 <!-- source_svgs: icon-dark.svg, icon-light.svg, icon-monochrome.svg, logo-dark.svg, logo-light.svg, logo-icon-lockup-dark.svg, logo-icon-lockup-light.svg -->
 <!-- Schema: logo_color describes the artwork color. background_for is the required background type. -->
 <!-- logo_color: light=white/light strokes | dark=dark strokes | monochrome=single-color mask -->

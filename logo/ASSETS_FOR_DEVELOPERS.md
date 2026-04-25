@@ -14,7 +14,7 @@
 
 > **Need a custom size or format?**
 > Source SVGs (7 files: icon, logo, and lockup in light/dark/monochrome) are in
-> `branding/logo/archive/svg_sources/`. Run `creation_scripts/generate_assets.py` to
+> `logo/archive/svg_sources/`. Run `creation_scripts/generate_assets.py` to
 > regenerate exports.
 
 ---

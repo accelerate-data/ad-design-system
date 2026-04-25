@@ -229,7 +229,7 @@ Set `plugin/.claude-plugin/plugin.json` to:
     "name": "Accelerate Data"
   },
   "repository": "https://github.com/accelerate-data/ad-design-system",
-  "license": "ELv2",
+  "license": "Elastic-2.0",
   "keywords": [
     "skills",
     "design-system",
@@ -255,7 +255,7 @@ Set `plugin/.codex-plugin/plugin.json` to:
     "name": "Accelerate Data"
   },
   "repository": "https://github.com/accelerate-data/ad-design-system",
-  "license": "ELv2",
+  "license": "Elastic-2.0",
   "keywords": [
     "skills",
     "design-system",
