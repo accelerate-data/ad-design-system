@@ -1,0 +1,86 @@
+description: Design system plugin takeover smoke evals
+
+providers:
+  - id: file://providers/design-system-router.js
+
+prompts:
+  - |
+    You are evaluating the design-system plugin instructions.
+
+    Installed skills:
+    - applying-design-system: AD-owned brand-compliant visual guidance for Accelerate Data and vibeData surfaces.
+    - component: upstream-attributed workflow from Maximepodgorski/agent-skills for design-system component spec, docs, dev, review, spec-review, and audit.
+    - design-screen: upstream-attributed workflow from Maximepodgorski/agent-skills for composing screens from existing design-system components.
+
+    Runtime rules:
+    - Use AGENTS.md for Codex, CLAUDE.md for Claude, and read both when both exist.
+    - Figma is optional for component and design-screen spec; continue from text/codebase context when unavailable.
+    - design-screen craft requires Figma write capability. If unavailable, skip craft and continue with design-screen ship.
+    - UX-engineering coverage includes brand application, component workflows, accessibility, responsive behavior, page states, and Figma-free implementation handoff.
+
+    User request: {{request}}
+
+    Respond with:
+    skill: <skill name>
+    reason: <why>
+    fallback: <fallback behavior if relevant>
+    attribution: <upstream or AD-owned>
+
+tests:
+  - vars:
+      request: Review this Accelerate Data dashboard for brand-compliant colors, typography, and logo usage.
+    assert:
+      - type: contains
+        value: "skill: applying-design-system"
+      - type: contains
+        value: "AD-owned"
+
+  - vars:
+      request: Spec a Button component from our design system. I do not have Figma available, but I can describe the states.
+    assert:
+      - type: contains
+        value: "skill: component"
+      - type: contains
+        value: "text/codebase"
+      - type: contains
+        value: "upstream"
+
+  - vars:
+      request: Compose a billing settings screen from existing components and then build it. Figma write access is unavailable.
+    assert:
+      - type: contains
+        value: "skill: design-screen"
+      - type: contains
+        value: "skip craft"
+      - type: contains
+        value: "ship"
+
+  - vars:
+      request: In Codex, implement component spec-review for a Modal and check the repo conventions.
+    assert:
+      - type: contains
+        value: "skill: component"
+      - type: not-contains
+        value: "only CLAUDE.md"
+      - type: contains
+        value: "AGENTS.md"
+
+  - vars:
+      request: Review a form field component for keyboard accessibility, token usage, variants, and component API quality.
+    assert:
+      - type: contains
+        value: "skill: component"
+      - type: contains
+        value: "accessibility"
+      - type: contains
+        value: "token"
+
+  - vars:
+      request: Compose a responsive onboarding screen using existing components, including loading state, empty state, and error state.
+    assert:
+      - type: contains
+        value: "skill: design-screen"
+      - type: contains
+        value: "responsive"
+      - type: contains
+        value: "page states"
