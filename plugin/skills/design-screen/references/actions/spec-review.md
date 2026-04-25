@@ -151,7 +151,7 @@ If user says "merge" or "apply":
 
 - **Standalone:** No dependency on analyze skill or any external tool
 - **Action-driven:** Every finding must force a decision (update spec / explore / question / no action)
-- **Parallel execution:** All perspectives run simultaneously (single message, multiple Task calls)
+Use parallel agent review when available, one reviewer per perspective. If the active agent runtime has no parallel-agent facility, use the single-agent fallback and review each perspective sequentially.
 - **No passive observations:** "This could be a problem" is not allowed. "IF X THEN Y → update spec" is.
 - **Max 2 re-review rounds:** If NEEDS REVISION, fix and re-review max twice. After that, user decides.
 - **Present perspectives first:** User sees which perspectives were selected before agents launch

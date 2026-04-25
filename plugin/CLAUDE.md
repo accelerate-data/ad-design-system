@@ -8,9 +8,12 @@ Ships Accelerate Data's design system as a Claude Code skill. Brand-compliant, p
 
 ## Skills
 
-Use these plugin-local skills when requests match:
+Use these plugin-local skills when requests match. Keep this list aligned with
+[`repo-map.json`](./repo-map.json).
 
 - `skills/applying-design-system/SKILL.md` — brand-compliant UI for any Accelerate Data surface (product, marketing, docs, demos)
+- `skills/component/SKILL.md` — generated upstream-derived component spec, implementation, review, and audit workflow
+- `skills/design-screen/SKILL.md` — generated upstream-derived screen composition, review, and shipping workflow
 
 ## Plugin boundary
 

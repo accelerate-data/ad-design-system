@@ -1,6 +1,6 @@
 # Spec-Review Action
 
-> **Agent:** Load this file when `spec-review` triggers. Launch 4 parallel subagents, one per perspective. Consolidate results into a single report.
+> **Agent:** Load this file when `spec-review` triggers. Use parallel agent review when available, one reviewer per perspective. If the active agent runtime has no parallel-agent facility, use the single-agent fallback and review each perspective sequentially. Consolidate results into a single report.
 
 Review a component spec from 4 expert perspectives in parallel. Input: spec path or component name. Output: consolidated multi-perspective review.
 

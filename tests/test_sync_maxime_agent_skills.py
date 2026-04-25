@@ -11,7 +11,14 @@ from scripts.sync_maxime_agent_skills import (
 )
 
 
-FORBIDDEN_RUNTIME_TERMS = ["Task tool", "run_in_background", "figma-use", "skillNames"]
+FORBIDDEN_RUNTIME_TERMS = [
+    "Task calls",
+    "Task tool",
+    "run_in_background",
+    "figma-use",
+    "skillNames",
+    "Launch 4 parallel subagents",
+]
 
 
 class SyncMaximeAgentSkillsTests(unittest.TestCase):
@@ -66,6 +73,40 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
         result = apply_adapter_text(
             source,
             relative_path=Path("design-screen/references/actions/spec-review.md"),
+        )
+
+        for forbidden_term in FORBIDDEN_RUNTIME_TERMS:
+            with self.subTest(forbidden_term=forbidden_term):
+                self.assertNotIn(forbidden_term, result)
+        self.assertIn("Use parallel agent review when available", result)
+        self.assertIn("single-agent fallback", result)
+
+    def test_adapter_rewrites_design_screen_multiple_task_calls_variant(self):
+        source = (
+            "- **Parallel execution:** All perspectives run simultaneously "
+            "(single message, multiple Task calls)"
+        )
+
+        result = apply_adapter_text(
+            source,
+            relative_path=Path("design-screen/references/actions/spec-review.md"),
+        )
+
+        for forbidden_term in FORBIDDEN_RUNTIME_TERMS:
+            with self.subTest(forbidden_term=forbidden_term):
+                self.assertNotIn(forbidden_term, result)
+        self.assertIn("Use parallel agent review when available", result)
+        self.assertIn("single-agent fallback", result)
+
+    def test_adapter_rewrites_component_agent_parallel_subagents_note(self):
+        source = (
+            "> **Agent:** Load this file when `spec-review` triggers. "
+            "Launch 4 parallel subagents, one per perspective. Consolidate "
+            "results into a single report."
+        )
+
+        result = apply_adapter_text(
+            source, relative_path=Path("component/references/actions/spec-review.md")
         )
 
         for forbidden_term in FORBIDDEN_RUNTIME_TERMS:
@@ -267,6 +308,11 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
             (
                 "**Launch ALL perspectives as parallel sub-agents** "
                 "(single message, multiple Task tool calls).\n"
+                "- **Parallel execution:** All perspectives run simultaneously "
+                "(single message, multiple Task calls)\n"
+                "> **Agent:** Load this file when `spec-review` triggers. "
+                "Launch 4 parallel subagents, one per perspective. Consolidate "
+                "results into a single report.\n"
                 "**Launch 4 subagents in parallel** (use Task tool with "
                 "`run_in_background` or parallel calls). Each subagent receives "
                 "the full spec content and reviews from its assigned perspective.\n"

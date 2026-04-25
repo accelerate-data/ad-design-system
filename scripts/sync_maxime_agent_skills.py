@@ -18,6 +18,11 @@ INCLUDED_PATHS = ["LICENSE", "component", "design-screen"]
 UPSTREAM_SOURCE = "Maximepodgorski/agent-skills"
 
 
+PARALLEL_AGENT_REPLACEMENT = (
+    "Use parallel agent review when available, one reviewer per perspective. "
+    "If the active agent runtime has no parallel-agent facility, use the "
+    "single-agent fallback and review each perspective sequentially."
+)
 ADAPTER_REPLACEMENTS = {
     "Read `CLAUDE.md` + codebase": (
         "Read repo agent guidance and codebase: use AGENTS.md for Codex, "
@@ -55,6 +60,18 @@ ADAPTER_REPLACEMENTS = {
         "Use parallel agent review when available, one reviewer per perspective. "
         "If unavailable, use the single-agent fallback and evaluate each "
         "perspective sequentially."
+    ),
+    (
+        "- **Parallel execution:** All perspectives run simultaneously "
+        "(single message, multiple Task calls)"
+    ): PARALLEL_AGENT_REPLACEMENT,
+    (
+        "> **Agent:** Load this file when `spec-review` triggers. "
+        "Launch 4 parallel subagents, one per perspective. Consolidate "
+        "results into a single report."
+    ): (
+        "> **Agent:** Load this file when `spec-review` triggers. "
+        f"{PARALLEL_AGENT_REPLACEMENT} Consolidate results into a single report."
     ),
     (
         "Deep adversarial analysis of a screen spec. Dynamic perspective "
@@ -96,11 +113,6 @@ ADAPTER_REPLACEMENTS = {
 }
 
 
-PARALLEL_AGENT_REPLACEMENT = (
-    "Use parallel agent review when available, one reviewer per perspective. "
-    "If the active agent runtime has no parallel-agent facility, use the "
-    "single-agent fallback and review each perspective sequentially."
-)
 FIGMA_WRITE_HELPER_REPLACEMENT = (
     "> **Agent:** Load this file when `craft` triggers. Use a runtime-provided "
     "Figma write helper when available before any Figma write call."
@@ -128,6 +140,24 @@ ADAPTER_PATTERN_REPLACEMENTS = [
             r"\(single message, multiple Task tool calls\)\."
         ),
         PARALLEL_AGENT_REPLACEMENT,
+    ),
+    (
+        re.compile(
+            r"- \*\*Parallel execution:\*\* All perspectives run simultaneously "
+            r"\(single message, multiple Task calls\)"
+        ),
+        PARALLEL_AGENT_REPLACEMENT,
+    ),
+    (
+        re.compile(
+            r"> \*\*Agent:\*\* Load this file when `spec-review` triggers\. "
+            r"Launch 4 parallel subagents, one per perspective\. Consolidate "
+            r"results into a single report\."
+        ),
+        (
+            "> **Agent:** Load this file when `spec-review` triggers. "
+            f"{PARALLEL_AGENT_REPLACEMENT} Consolidate results into a single report."
+        ),
     ),
     (
         re.compile(

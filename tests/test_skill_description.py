@@ -307,6 +307,18 @@ class SkillDescriptionTests(unittest.TestCase):
             with self.subTest(required_text=required_text):
                 self.assertIn(required_text, readme)
 
+    def test_claude_guidance_mentions_every_installed_skill_directory(self):
+        claude_guidance = (PLUGIN_DIR / "CLAUDE.md").read_text(encoding="utf-8")
+        installed_skill_names = [
+            path.name
+            for path in sorted((PLUGIN_DIR / "skills").iterdir())
+            if (path / "SKILL.md").is_file()
+        ]
+
+        for skill_name in installed_skill_names:
+            with self.subTest(skill_name=skill_name):
+                self.assertIn(skill_name, claude_guidance)
+
 
 if __name__ == "__main__":
     unittest.main()
