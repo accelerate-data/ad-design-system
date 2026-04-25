@@ -3,11 +3,15 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import scripts.sync_maxime_agent_skills as sync_script
 from scripts.sync_maxime_agent_skills import (
     ADAPTER_VERSION,
     apply_adapter_text,
     write_upstream_record,
 )
+
+
+FORBIDDEN_RUNTIME_TERMS = ["Task tool", "run_in_background", "figma-use"]
 
 
 class SyncMaximeAgentSkillsTests(unittest.TestCase):
@@ -36,6 +40,23 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
         self.assertIn("Use parallel agent review when available", result)
         self.assertIn("single-agent fallback", result)
 
+    def test_adapter_rewrites_bold_parallel_subagents_upstream_variant(self):
+        source = (
+            "**Launch ALL perspectives as parallel sub-agents** "
+            "(single message, multiple Task tool calls)."
+        )
+
+        result = apply_adapter_text(
+            source,
+            relative_path=Path("design-screen/references/actions/spec-review.md"),
+        )
+
+        for forbidden_term in FORBIDDEN_RUNTIME_TERMS:
+            with self.subTest(forbidden_term=forbidden_term):
+                self.assertNotIn(forbidden_term, result)
+        self.assertIn("Use parallel agent review when available", result)
+        self.assertIn("single-agent fallback", result)
+
     def test_adapter_keeps_figma_optional_for_screen_skill(self):
         source = '-> Warn: "Figma MCP not available. Continuing with text description."'
 
@@ -58,6 +79,21 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
 
         self.assertIn("Figma MCP write capability is unavailable", result)
         self.assertIn("skip craft and continue with `ship`", result)
+
+    def test_adapter_rewrites_figma_use_upstream_agent_line(self):
+        source = (
+            "> **Agent:** Load this file when `craft` triggers. Also load the "
+            "`figma-use` skill (MANDATORY before any `use_figma` call). Always "
+            'pass `skillNames: "figma-use"` in every `use_figma` call.'
+        )
+
+        result = apply_adapter_text(
+            source, relative_path=Path("design-screen/references/actions/craft.md")
+        )
+
+        self.assertNotIn("figma-use", result)
+        self.assertNotIn("skillNames", result)
+        self.assertIn("Figma write helper", result)
 
     def test_write_upstream_record(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -85,6 +121,129 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
         )
         self.assertEqual("2026-04-25T00:00:00Z", data["sync_timestamp"])
         self.assertEqual(ADAPTER_VERSION, data["adapter_version"])
+
+    def test_write_upstream_record_preserves_timestamp_when_snapshot_matches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            destination = Path(tmp) / "UPSTREAM.json"
+            write_upstream_record(
+                destination,
+                repo_url="https://github.com/Maximepodgorski/agent-skills",
+                branch="main",
+                commit="92eb9b0e98ce31b41c521d1d3666f09886054be3",
+                included_paths=["LICENSE", "component", "design-screen"],
+                sync_timestamp="2026-04-25T00:00:00Z",
+            )
+            write_upstream_record(
+                destination,
+                repo_url="https://github.com/Maximepodgorski/agent-skills",
+                branch="main",
+                commit="92eb9b0e98ce31b41c521d1d3666f09886054be3",
+                included_paths=["LICENSE", "component", "design-screen"],
+                sync_timestamp="2026-04-25T01:00:00Z",
+            )
+
+            data = json.loads(destination.read_text(encoding="utf-8"))
+
+        self.assertEqual("2026-04-25T00:00:00Z", data["sync_timestamp"])
+
+    def test_sync_adapts_fake_upstream_and_preserves_stable_upstream_record(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_root = Path(tmp)
+            upstream = tmp_root / "upstream"
+            repo_root = tmp_root / "repo"
+            self._write_fake_upstream(upstream)
+
+            cleanup = _NoopCleanup()
+            original_clone_upstream = sync_script.clone_upstream
+            original_current_commit = sync_script.current_commit
+            original_sync_timestamp = sync_script._sync_timestamp
+            timestamps = iter(["2026-04-25T00:00:00Z", "2026-04-25T01:00:00Z"])
+
+            try:
+                sync_script.clone_upstream = lambda branch: (upstream, cleanup)
+                sync_script.current_commit = (
+                    lambda repo: "92eb9b0e98ce31b41c521d1d3666f09886054be3"
+                )
+                sync_script._sync_timestamp = lambda: next(timestamps)
+
+                sync_script.sync(repo_root)
+                first_upstream = json.loads(
+                    (
+                        repo_root / "vendor" / "maxime-agent-skills" / "UPSTREAM.json"
+                    ).read_text(encoding="utf-8")
+                )
+                sync_script.sync(repo_root)
+                second_upstream = json.loads(
+                    (
+                        repo_root / "vendor" / "maxime-agent-skills" / "UPSTREAM.json"
+                    ).read_text(encoding="utf-8")
+                )
+            finally:
+                sync_script.clone_upstream = original_clone_upstream
+                sync_script.current_commit = original_current_commit
+                sync_script._sync_timestamp = original_sync_timestamp
+
+            generated_root = repo_root / "plugin" / "skills"
+            generated_markdown = "\n".join(
+                path.read_text(encoding="utf-8")
+                for path in generated_root.rglob("*.md")
+            )
+
+        for forbidden_term in FORBIDDEN_RUNTIME_TERMS:
+            with self.subTest(forbidden_term=forbidden_term):
+                self.assertNotIn(forbidden_term, generated_markdown)
+        self.assertEqual(first_upstream, second_upstream)
+        self.assertEqual("2026-04-25T00:00:00Z", second_upstream["sync_timestamp"])
+
+    def _write_fake_upstream(self, upstream: Path) -> None:
+        (upstream / "component" / "references" / "actions").mkdir(parents=True)
+        (upstream / "design-screen" / "references" / "actions").mkdir(parents=True)
+        (upstream / "LICENSE").write_text("MIT License\n", encoding="utf-8")
+        (upstream / "component" / "SKILL.md").write_text(
+            "\n".join(
+                [
+                    "---",
+                    "name: component",
+                    "---",
+                    "Launch 4 subagents in parallel (use Task tool with "
+                    "`run_in_background` or parallel calls).",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        (upstream / "component" / "references" / "actions" / "review.md").write_text(
+            (
+                "**Launch ALL perspectives as parallel sub-agents** "
+                "(single message, multiple Task tool calls).\n"
+            ),
+            encoding="utf-8",
+        )
+        (upstream / "design-screen" / "SKILL.md").write_text(
+            "\n".join(
+                [
+                    "---",
+                    "name: design-screen",
+                    "---",
+                    '-> Warn: "Figma MCP not available. Continuing with text description."',
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        (upstream / "design-screen" / "references" / "actions" / "craft.md").write_text(
+            (
+                "> **Agent:** Load this file when `craft` triggers. Also load the "
+                "`figma-use` skill (MANDATORY before any `use_figma` call). Always "
+                'pass `skillNames: "figma-use"` in every `use_figma` call.\n'
+            ),
+            encoding="utf-8",
+        )
+
+
+class _NoopCleanup:
+    def cleanup(self) -> None:
+        pass
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import tempfile
@@ -95,10 +96,63 @@ ADAPTER_REPLACEMENTS = {
 }
 
 
+PARALLEL_AGENT_REPLACEMENT = (
+    "Use parallel agent review when available, one reviewer per perspective. "
+    "If the active agent runtime has no parallel-agent facility, use the "
+    "single-agent fallback and review each perspective sequentially."
+)
+FIGMA_WRITE_HELPER_REPLACEMENT = (
+    "> **Agent:** Load this file when `craft` triggers. Use a runtime-provided "
+    "Figma write helper when available before any Figma write call."
+)
+ADAPTER_PATTERN_REPLACEMENTS = [
+    (
+        re.compile(
+            r"\*\*Launch ALL perspectives as parallel sub-agents\*\* "
+            r"\(single message, multiple Task tool calls\)\."
+        ),
+        PARALLEL_AGENT_REPLACEMENT,
+    ),
+    (
+        re.compile(
+            r"Launch ALL perspectives as parallel sub-agents "
+            r"\(single message, multiple Task tool calls\)\."
+        ),
+        PARALLEL_AGENT_REPLACEMENT,
+    ),
+    (
+        re.compile(
+            r"Launch 4 subagents in parallel "
+            r"\(use Task tool with `run_in_background` or parallel calls\)\."
+        ),
+        PARALLEL_AGENT_REPLACEMENT,
+    ),
+    (
+        re.compile(
+            r"> \*\*Agent:\*\* Load this file when `craft` triggers\. "
+            r"Also load the `figma-use` skill "
+            r"\(MANDATORY before any `use_figma` call\)\. "
+            r"Always pass `skillNames: \"figma-use\"` in every "
+            r"`use_figma` call\."
+        ),
+        FIGMA_WRITE_HELPER_REPLACEMENT,
+    ),
+]
+STABLE_UPSTREAM_RECORD_FIELDS = [
+    "repo_url",
+    "branch",
+    "commit",
+    "included_paths",
+    "adapter_version",
+]
+
+
 def apply_adapter_text(text: str, relative_path: Path) -> str:
     adapted = text
     for source, replacement in ADAPTER_REPLACEMENTS.items():
         adapted = adapted.replace(source, replacement)
+    for pattern, replacement in ADAPTER_PATTERN_REPLACEMENTS:
+        adapted = pattern.sub(replacement, adapted)
 
     if _needs_upstream_frontmatter(relative_path, adapted):
         adapted = _add_upstream_frontmatter(adapted)
@@ -146,7 +200,29 @@ def write_upstream_record(
     sync_timestamp: str,
 ) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
-    payload = {
+    payload = build_upstream_record(
+        repo_url=repo_url,
+        branch=branch,
+        commit=commit,
+        included_paths=included_paths,
+        sync_timestamp=sync_timestamp,
+    )
+    payload = _preserve_existing_sync_timestamp(destination, payload)
+    destination.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def build_upstream_record(
+    *,
+    repo_url: str,
+    branch: str,
+    commit: str,
+    included_paths: list[str],
+    sync_timestamp: str,
+) -> dict[str, object]:
+    return {
         "repo_url": repo_url,
         "branch": branch,
         "commit": commit,
@@ -154,10 +230,32 @@ def write_upstream_record(
         "sync_timestamp": sync_timestamp,
         "adapter_version": ADAPTER_VERSION,
     }
-    destination.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+
+
+def _preserve_existing_sync_timestamp(
+    destination: Path, payload: dict[str, object]
+) -> dict[str, object]:
+    if not destination.exists():
+        return payload
+
+    try:
+        existing = json.loads(destination.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return payload
+
+    if not isinstance(existing, dict):
+        return payload
+
+    same_snapshot = all(
+        existing.get(field) == payload.get(field)
+        for field in STABLE_UPSTREAM_RECORD_FIELDS
     )
+    if same_snapshot:
+        payload["sync_timestamp"] = existing.get(
+            "sync_timestamp", payload["sync_timestamp"]
+        )
+
+    return payload
 
 
 def clone_upstream(branch: str) -> tuple[Path, tempfile.TemporaryDirectory[str]]:
