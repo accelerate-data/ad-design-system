@@ -147,7 +147,7 @@ Provide a Figma URL for design-driven composition:
 
 The skill extracts the design's layout structure and maps Figma components to your existing library. Coverage % is based on actual design-to-code mapping.
 
-Requires [Figma MCP](https://github.com/anthropics/claude-code/blob/main/docs/figma.md). Falls back to text mode if unavailable.
+Figma integration is optional. Use a runtime-provided Figma integration when available; otherwise continue in text/codebase mode.
 
 ---
 

@@ -111,6 +111,13 @@ ADAPTER_REPLACEMENTS = {
         "Figma write helper | Loaded before any Figma write call when available | \u2192 Load it"
     ),
     (
+        "Requires [Figma MCP](https://github.com/anthropics/claude-code/blob/main/docs/figma.md). "
+        "Falls back to text mode if unavailable."
+    ): (
+        "Figma integration is optional. Use a runtime-provided Figma integration "
+        "when available; otherwise continue in text/codebase mode."
+    ),
+    (
         "| Figma MCP connected to your agent | Run `/mcp` in Claude Code \u2014 "
         'should show "figma" as connected |'
     ): (

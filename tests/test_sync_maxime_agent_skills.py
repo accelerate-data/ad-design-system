@@ -182,6 +182,11 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
         source = "\n".join(
             [
                 (
+                    "Requires [Figma MCP](https://github.com/anthropics/"
+                    "claude-code/blob/main/docs/figma.md). Falls back to text "
+                    "mode if unavailable."
+                ),
+                (
                     "| Figma MCP connected to your agent | Run `/mcp` in "
                     'Claude Code — should show "figma" as connected |'
                 ),
@@ -191,8 +196,11 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
 
         result = apply_adapter_text(source, relative_path=Path("design-screen/README.md"))
 
+        self.assertNotIn("github.com/anthropics/claude-code", result)
         self.assertNotIn("Claude Code", result)
         self.assertNotIn("Run `/mcp` to connect Figma", result)
+        self.assertIn("Figma integration is optional", result)
+        self.assertIn("text/codebase mode", result)
         self.assertIn("Figma write capability available", result)
         self.assertIn("Skip `craft`", result)
         self.assertIn("`/design-screen ship`", result)

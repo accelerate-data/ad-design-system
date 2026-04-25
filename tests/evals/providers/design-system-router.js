@@ -132,10 +132,13 @@ function route(prompt) {
         "continue with `ship`",
       ]) ||
       !hasAll(evidence.designScreenReadme, [
+        "Figma integration is optional",
+        "text/codebase mode",
         "Figma write capability available",
         "Skip `craft`",
         "`/design-screen ship`",
-      ])
+      ]) ||
+      evidence.designScreenReadme.includes("github.com/anthropics/claude-code")
     ) {
       return missingEvidence("design-screen skill lacks Figma-free ship fallback");
     }

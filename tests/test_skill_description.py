@@ -196,8 +196,11 @@ class SkillDescriptionTests(unittest.TestCase):
             PLUGIN_DIR / "skills" / "design-screen" / "README.md"
         ).read_text(encoding="utf-8")
 
+        self.assertNotIn("github.com/anthropics/claude-code", readme)
         self.assertNotIn("Run `/mcp` in Claude Code", readme)
         self.assertNotIn("Run `/mcp` to connect Figma", readme)
+        self.assertIn("Figma integration is optional", readme)
+        self.assertIn("text/codebase mode", readme)
         self.assertIn("Figma write capability available", readme)
         self.assertIn("Skip `craft`", readme)
         self.assertIn("`/design-screen ship`", readme)
