@@ -76,3 +76,10 @@ chmod +x .githooks/pre-commit
 ## Current Skills
 
 - `applying-design-system` — brand-compliant visual guidance for all Accelerate Data surfaces.
+
+## License
+
+This plugin subtree is licensed under Elastic License 2.0. See [LICENSE](./LICENSE).
+
+Upstream-generated skills will retain their upstream MIT notices under `vendor/`
+once those generated skills are added.

@@ -103,4 +103,8 @@ python generate_assets.py
 
 ## License
 
-MIT. See [LICENSE](./LICENSE).
+The root repository brand/source material is MIT-licensed. See [LICENSE](./LICENSE).
+
+The shipped plugin subtree under [`plugin/`](./plugin) uses Elastic License 2.0.
+See [plugin/LICENSE](./plugin/LICENSE). The plugin license governs installed
+Claude/Codex plugin content.

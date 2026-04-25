@@ -317,11 +317,12 @@ http://assets.acceleratedata.ai/logo/
 | `logo-icon-lockup-dark-h48.svg` | Lockups do **not** use the `h` prefix — only wordmarks do | `logo-icon-lockup-dark-48.svg` |
 | `logo-icon-lockup-dark-32.svg` | Lockup minimum size is 48 px | `logo-icon-lockup-dark-48.svg` |
 
-> **Rule — always look up, never interpolate**: Do not construct logo URLs by guessing the pattern. Always look up the exact path from the asset manifests listed below.
+> **Rule — always look up, never interpolate**: Do not construct logo URLs by guessing the pattern. Use the known CDN paths listed here, or use the bundled local subset in `assets/logos/` when offline access is required.
 
-> **Authoritative file lists** (every path and size):
-> - `branding/logo/ASSETS_FOR_AI.md` — complete machine-readable manifest (structured for LLM consumption)
-> - `branding/logo/ASSETS_FOR_DEVELOPERS.md` — developer quick-reference
+> **Source-repo-only references**: in this repository, `logo/ASSETS_FOR_AI.md` and
+> `logo/ASSETS_FOR_DEVELOPERS.md` contain the complete logo manifests. Those files
+> are not shipped in plugin installs; at runtime, use the CDN and bundled
+> `assets/logos/` subset instead.
 
 ### Local Assets (Subset)
 

@@ -12,6 +12,8 @@ AD_SKILL_NAME = "applying-design-system"
 OLD_AD_SKILL_NAME = "applying" + "-ad-design-system"
 OLD_BRANDING_SKILL_PATH = "branding/plugin/skills/" + AD_SKILL_NAME
 OLD_MARKETPLACE_INSTALL = "ad-design-system" + "@ad-internal-marketplace"
+OLD_BRANDING_AI_DOC = "branding/logo/" + "ASSETS_FOR_AI.md"
+OLD_BRANDING_DEVELOPER_DOC = "branding/logo/" + "ASSETS_FOR_DEVELOPERS.md"
 MANIFEST_PATHS = [
     PLUGIN_DIR / ".claude-plugin" / "plugin.json",
     PLUGIN_DIR / ".codex-plugin" / "plugin.json",
@@ -113,28 +115,31 @@ class SkillDescriptionTests(unittest.TestCase):
             with self.subTest(required_term=required_term):
                 self.assertIn(required_term, local)
 
-    def test_plugin_docs_do_not_reference_old_skill_path(self):
-        for path in [
-            PLUGIN_DIR / "README.md",
-            PLUGIN_DIR / "CLAUDE.md",
-            PLUGIN_DIR / "AGENTS.md",
-            PLUGIN_DIR / "repo-map.json",
+    def test_live_guidance_does_not_reference_stale_paths(self):
+        plugin_guidance_paths = [
+            path
+            for path in PLUGIN_DIR.rglob("*")
+            if path.suffix in {".md", ".json"} and path.is_file()
+        ]
+        paths = plugin_guidance_paths + [
+            ROOT / "README.md",
             ROOT / "logo" / "ASSETS_FOR_DEVELOPERS.md",
             ROOT / "logo" / "ASSETS_FOR_AI.md",
-        ]:
+            ROOT / "docs" / "design" / "2026-04-25-ad-design-system-skill-expansion.md",
+        ]
+        forbidden_strings = [
+            OLD_AD_SKILL_NAME,
+            OLD_BRANDING_SKILL_PATH,
+            OLD_MARKETPLACE_INSTALL,
+            OLD_BRANDING_AI_DOC,
+            OLD_BRANDING_DEVELOPER_DOC,
+        ]
+
+        for path in paths:
             with self.subTest(path=path):
-                self.assertNotIn(
-                    OLD_AD_SKILL_NAME,
-                    path.read_text(encoding="utf-8"),
-                )
-                self.assertNotIn(
-                    OLD_BRANDING_SKILL_PATH,
-                    path.read_text(encoding="utf-8"),
-                )
-                self.assertNotIn(
-                    OLD_MARKETPLACE_INSTALL,
-                    path.read_text(encoding="utf-8"),
-                )
+                content = path.read_text(encoding="utf-8")
+                for stale_string in forbidden_strings:
+                    self.assertNotIn(stale_string, content)
 
     def test_repo_map_skill_paths_exist(self):
         repo_map = json.loads((PLUGIN_DIR / "repo-map.json").read_text(encoding="utf-8"))
