@@ -110,6 +110,17 @@ ADAPTER_REPLACEMENTS = {
     "`figma-use` skill | Loaded before any `use_figma` call | \u2192 Load it": (
         "Figma write helper | Loaded before any Figma write call when available | \u2192 Load it"
     ),
+    (
+        "| Figma MCP connected to your agent | Run `/mcp` in Claude Code \u2014 "
+        'should show "figma" as connected |'
+    ): (
+        "| Figma write capability available in your agent runtime | Confirm the "
+        "runtime exposes Figma read/write tools before running `craft` |"
+    ),
+    '| "Figma MCP not available" | Run `/mcp` to connect Figma |': (
+        '| "Figma MCP not available" | Skip `craft` and continue with '
+        "`/design-screen ship` from the text/codebase spec |"
+    ),
 }
 
 

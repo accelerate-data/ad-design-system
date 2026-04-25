@@ -3,8 +3,7 @@ name: Version Bump Check
 on:
   pull_request:
     paths:
-      - "plugin/.claude-plugin/plugin.json"
-      - "plugin/.codex-plugin/plugin.json"
+      - "plugin/**"
 
 permissions:
   contents: read

@@ -178,6 +178,25 @@ class SyncMaximeAgentSkillsTests(unittest.TestCase):
         self.assertIn("Figma write helper", result)
         self.assertIn("runtime-provided", result)
 
+    def test_adapter_rewrites_design_screen_readme_figma_guidance(self):
+        source = "\n".join(
+            [
+                (
+                    "| Figma MCP connected to your agent | Run `/mcp` in "
+                    'Claude Code — should show "figma" as connected |'
+                ),
+                '| "Figma MCP not available" | Run `/mcp` to connect Figma |',
+            ]
+        )
+
+        result = apply_adapter_text(source, relative_path=Path("design-screen/README.md"))
+
+        self.assertNotIn("Claude Code", result)
+        self.assertNotIn("Run `/mcp` to connect Figma", result)
+        self.assertIn("Figma write capability available", result)
+        self.assertIn("Skip `craft`", result)
+        self.assertIn("`/design-screen ship`", result)
+
     def test_write_upstream_record(self):
         with tempfile.TemporaryDirectory() as tmp:
             destination = Path(tmp) / "UPSTREAM.json"

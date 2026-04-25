@@ -184,7 +184,7 @@ If conventions are older than 30 days, the skill warns you to re-init.
 | Requirement | How to check |
 |-------------|-------------|
 | Figma account with **Full seat** (not Dev/Viewer) | You can create and edit frames in Figma |
-| Figma MCP connected to your agent | Run `/mcp` in Claude Code — should show "figma" as connected |
+| Figma write capability available in your agent runtime | Confirm the runtime exposes Figma read/write tools before running `craft` |
 | A Figma file with a published design system library | Your team's DS file with components (Button, Input, etc.) |
 | An active screen spec | You already ran `/design-screen spec "..."` |
 
@@ -264,7 +264,7 @@ After verifying in Figma, either:
 
 | Problem | Solution |
 |---------|----------|
-| "Figma MCP not available" | Run `/mcp` to connect Figma |
+| "Figma MCP not available" | Skip `craft` and continue with `/design-screen ship` from the text/codebase spec |
 | "Write access denied" | You need a Full seat in Figma, not a Dev seat |
 | Many components show "unmapped" | Your Figma DS uses different names than the code — provide overrides or run `/design-screen init` first |
 | Layout looks wrong in Figma | This is expected for complex layouts — craft gives structure, not final design |

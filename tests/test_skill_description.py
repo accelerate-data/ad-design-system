@@ -191,6 +191,17 @@ class SkillDescriptionTests(unittest.TestCase):
         self.assertIn("Figma MCP write capability is unavailable", text)
         self.assertIn("continue with `ship`", text)
 
+    def test_design_screen_readme_documents_non_figma_fallback(self):
+        readme = (
+            PLUGIN_DIR / "skills" / "design-screen" / "README.md"
+        ).read_text(encoding="utf-8")
+
+        self.assertNotIn("Run `/mcp` in Claude Code", readme)
+        self.assertNotIn("Run `/mcp` to connect Figma", readme)
+        self.assertIn("Figma write capability available", readme)
+        self.assertIn("Skip `craft`", readme)
+        self.assertIn("`/design-screen ship`", readme)
+
     def test_generated_skills_cover_ux_engineering_workflows(self):
         required_paths = [
             PLUGIN_DIR / "skills" / "component" / "references" / "actions" / "spec.md",
