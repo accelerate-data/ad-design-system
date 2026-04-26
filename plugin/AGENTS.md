@@ -44,6 +44,37 @@ This plugin owns only the skills that physically live under `skills/`.
 - If a skill needs support material, place it under that skill directory.
 - CDN-hosted assets (e.g., `http://assets.acceleratedata.ai/logo/`) are the canonical source for logos in any runtime context.
 
+## Generated Upstream Skills
+
+`skills/component/` and `skills/design-screen/` are generated from the
+source-only upstream snapshot under repo-root `vendor/maxime-agent-skills/` plus
+the deterministic adapter in repo-root `scripts/sync_maxime_agent_skills.py`.
+
+- Do not hand-edit generated upstream-derived skill content unless the change
+  is an emergency repair.
+- Prefer changing the sync adapter, rerunning it, and reviewing the generated
+  diff.
+- Preserve upstream attribution from `Maximepodgorski/agent-skills`.
+- Preserve installed upstream notices in `THIRD_PARTY_NOTICES.md`.
+- Treat repo-root `vendor/` as source-only; it is not part of plugin installs.
+
+The AD-owned runtime skill is `skills/applying-design-system/`.
+
+## UX Engineering Coverage
+
+The plugin should give engineers enough guidance to build usable product UI,
+not just brand-colored UI.
+
+- `applying-design-system` covers AD brand application, visual tone, logos,
+  color, type, spacing, layout, and motion.
+- `component` covers component spec, documentation, implementation, review,
+  accessibility, token usage, and audit.
+- `design-screen` covers screen composition from existing components,
+  responsive behavior, page states, and implementation handoff.
+
+When changing generated upstream-derived skills, keep this coverage intact and
+update evals if routing or fallback behavior changes.
+
 ## Local Development Pattern
 
 For direct local use without a marketplace, symlink individual skill directories from `skills/<skill-name>` into:

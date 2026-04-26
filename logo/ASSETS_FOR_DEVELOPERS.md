@@ -14,7 +14,7 @@
 
 > **Need a custom size or format?**
 > Source SVGs (7 files: icon, logo, and lockup in light/dark/monochrome) are in
-> `branding/logo/archive/svg_sources/`. Run `creation_scripts/generate_assets.py` to
+> `logo/archive/svg_sources/`. Run `creation_scripts/generate_assets.py` to
 > regenerate exports.
 
 ---
@@ -43,9 +43,9 @@ Most common assets for new integrations:
 
 ## Design System Skill
 
-The `branding/plugin/skills/applying-ad-design-system/` directory provides a complete design system covering color tokens, typography scales, spacing, component patterns, and logo guidance. It enforces brand-compliant UI across product, marketing, docs, and demo surfaces. The skill also includes logo selection guidance with CDN integration for the assets listed above.
+The `plugin/skills/applying-design-system/` directory provides a complete design system covering color tokens, typography scales, spacing, component patterns, and logo guidance. It enforces brand-compliant UI across product, marketing, docs, and demo surfaces. The skill also includes logo selection guidance with CDN integration for the assets listed above.
 
-See [`branding/plugin/skills/applying-ad-design-system/SKILL.md`](../plugin/skills/applying-ad-design-system/SKILL.md) for the full specification.
+See [`plugin/skills/applying-design-system/SKILL.md`](../plugin/skills/applying-design-system/SKILL.md) for the full specification.
 
 ---
 

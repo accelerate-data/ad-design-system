@@ -7,7 +7,7 @@
 ## Problem
 
 The current `ad-design-system` plugin provides one first-party brand compliance
-skill under `plugin/skills/applying-ad-design-system/`. That keeps Accelerate
+skill under `plugin/skills/applying-design-system/`. That keeps Accelerate
 Data visual guidance available in Claude Code and Codex, but the target plugin
 identity should be broader and less AD-prefixed: `design-system`. As part of
 that identity shift, the first-party skill should be renamed to
@@ -60,14 +60,17 @@ project-context workflow, not a design-system workflow, and belongs in
 - Keep the GitHub source path stable unless we separately decide to rename the
   repository.
 - Keep AD-owned brand compliance guidance as a first-class skill.
-- Rename the AD-owned skill from `applying-ad-design-system` to
-  `applying-design-system`.
+- Keep the AD-owned skill published as `applying-design-system`.
 - Add portable component and screen-composition workflows without hand-editing
   vendored upstream files.
 - Make upstream provenance obvious to future agents and maintainers.
 - Keep Codex behavior correct when upstream text mentions `CLAUDE.md`.
 - Add focused behavioral eval coverage because the plugin will expose and adapt
   upstream workflow skills through the Accelerate Data marketplace.
+- Cover the practical UX-engineering workflow: brand application, component
+  specification and implementation, component review, screen composition from
+  existing components, accessibility checks, responsive behavior, page states,
+  and handoff when Figma is unavailable.
 
 ## Non-goals
 
@@ -161,8 +164,8 @@ content:
 - Keep `design-screen craft` available only when Figma MCP write capability is
   present. When it is unavailable, the generated skill must route users to the
   non-Figma `ship` path rather than treating the whole skill as blocked.
-- Map "Task tool" and "parallel subagents" wording to generic agent parallel
-  review guidance with a single-agent fallback.
+- Map upstream Claude-specific parallel review wording to generic agent
+  parallel review guidance with a single-agent fallback.
 - Preserve upstream license notices, attribution, and upstream skill authorship.
 
 The adapter should not rewrite skill intent, design-system principles, or
@@ -229,7 +232,9 @@ Implementation verification should include:
 - A targeted attribution check that generated upstream-derived skills retain
   upstream provenance and the vendored MIT license notice.
 - Focused Promptfoo smoke evals for plugin routing, upstream attribution,
-  Codex/Claude guidance portability, and Figma-unavailable fallback behavior.
+  Codex/Claude guidance portability, brand application, component workflow,
+  screen composition, accessibility, responsive behavior, page states, and
+  Figma-free fallback behavior.
 - A manual install smoke test through the local marketplace after the
   marketplace entry points at the updated plugin version.
 

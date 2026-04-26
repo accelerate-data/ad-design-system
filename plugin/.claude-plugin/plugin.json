@@ -1,16 +1,18 @@
 {
-  "name": "ad-design-system",
-  "description": "Brand compliance guidance for Accelerate Data and vibeData interfaces, including logo usage, color tokens, typography, spacing, and component patterns.",
-  "version": "0.1.2",
+  "name": "design-system",
+  "description": "Design system guidance for Accelerate Data and vibeData interfaces, including brand-compliant visual direction, component workflows, and screen composition.",
+  "version": "0.2.0",
   "author": {
     "name": "Accelerate Data"
   },
   "repository": "https://github.com/accelerate-data/ad-design-system",
-  "license": "MIT",
+  "license": "Elastic-2.0",
   "keywords": [
     "skills",
     "design-system",
     "brand",
+    "component",
+    "screen",
     "ui",
     "claude-code",
     "codex"

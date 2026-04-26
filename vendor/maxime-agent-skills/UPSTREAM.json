@@ -1,0 +1,12 @@
+{
+  "adapter_version": "2026-04-25.1",
+  "branch": "main",
+  "commit": "92eb9b0e98ce31b41c521d1d3666f09886054be3",
+  "included_paths": [
+    "LICENSE",
+    "component",
+    "design-screen"
+  ],
+  "repo_url": "https://github.com/Maximepodgorski/agent-skills",
+  "sync_timestamp": "2026-04-25T15:05:23Z"
+}

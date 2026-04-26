@@ -1,0 +1,55 @@
+name: sync-upstream-skills
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 9 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-upstream-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: tests/evals/package-lock.json
+
+      - name: Regenerate upstream skills
+        run: python scripts/sync_maxime_agent_skills.py
+
+      - name: Run checks
+        run: |
+          git diff --check
+          PYTHONDONTWRITEBYTECODE=1 python -m unittest \
+            tests.test_sync_maxime_agent_skills \
+            tests.test_skill_description \
+            -v
+          cd tests/evals
+          npm ci
+          npm run eval
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/sync-upstream-design-system-skills
+          title: "chore: sync upstream design system skills"
+          commit-message: "chore: sync upstream design system skills"
+          body: |
+            Regenerates `component` and `design-screen` from `Maximepodgorski/agent-skills`.
+
+            Review the generated runtime skill diff before merge because skill text is runtime behavior.
+          labels: dependencies

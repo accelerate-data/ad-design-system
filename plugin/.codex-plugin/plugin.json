@@ -1,34 +1,36 @@
 {
-  "name": "ad-design-system",
-  "version": "0.1.2",
-  "description": "Brand compliance guidance for Accelerate Data and vibeData interfaces, including logo usage, color tokens, typography, spacing, and component patterns.",
+  "name": "design-system",
+  "version": "0.2.0",
+  "description": "Design system guidance for Accelerate Data and vibeData interfaces, including brand-compliant visual direction, component workflows, and screen composition.",
   "author": {
     "name": "Accelerate Data"
   },
   "repository": "https://github.com/accelerate-data/ad-design-system",
-  "license": "MIT",
+  "license": "Elastic-2.0",
   "keywords": [
     "skills",
     "design-system",
     "brand",
+    "component",
+    "screen",
     "ui",
     "codex",
     "claude-code"
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Brand Compliance",
-    "shortDescription": "Brand-compliant UI guidance for Accelerate Data and vibeData surfaces.",
-    "longDescription": "Brand compliance guidance for Accelerate Data and vibeData interfaces, including visual direction, color tokens, typography, spacing, component patterns, and logo selection.",
+    "displayName": "Design System",
+    "shortDescription": "Design-system workflows and brand-compliant UI guidance.",
+    "longDescription": "Design system guidance for Accelerate Data and vibeData interfaces, including brand-compliant visual direction, component specification and review workflows, and screen composition from existing components.",
     "developerName": "Accelerate Data",
     "category": "Design",
     "capabilities": [
       "Write"
     ],
     "defaultPrompt": [
-      "Apply brand compliance guidance to this interface.",
-      "Review this screen for brand compliance.",
-      "Choose the right vibeData logo, colors, and component patterns."
+      "Apply design system guidance to this interface.",
+      "Review this screen for design system compliance.",
+      "Specify or review a design system component."
     ],
     "brandColor": "#00B4D8"
   }

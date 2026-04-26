@@ -1,0 +1,11 @@
+{
+  "name": "ad-design-system-evals",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "eval": "PROMPTFOO_DISABLE_TELEMETRY=1 promptfoo eval -c promptfooconfig.yaml"
+  },
+  "devDependencies": {
+    "promptfoo": "0.121.5"
+  }
+}
