@@ -93,4 +93,4 @@ Keep the symlink name identical to the skill directory name.
 
 - Keep all skill directories under `skills/`.
 - Avoid adding product-specific assumptions or external path dependencies to the shared skill.
-- The design skill is framework-agnostic — do not lock it to React/Tailwind in the canonical text.
+- The design skill's canonical text (SKILL.md spec, tokens, `styles.css`) is framework-agnostic — do not lock the guidance to React/Tailwind. The React components and UI kits bundled under `applying-design-system/` are reference implementations, not the only sanctioned stack.

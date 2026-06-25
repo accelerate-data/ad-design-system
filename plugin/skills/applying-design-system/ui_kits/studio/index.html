@@ -1,0 +1,70 @@
+<!-- @dsCard group="Vibedata Studio" viewport="1280x800" name="Studio App" subtitle="Agentic data platform — sidebar, overview, build agent, model catalog" -->
+<!-- @startingPoint section="Product" subtitle="Vibedata Studio app shell with sidebar + screens" viewport="1280x800" -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibedata Studio</title>
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; font-family: var(--font-sans); background: var(--bg-base); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 5px; border: 2px solid var(--bg-base); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel" src="Shell.jsx"></script>
+<script type="text/babel" src="Screens.jsx"></script>
+<script type="text/babel">
+  const { Button, IconButton, Badge } = window.VibedataDesignSystem_1cd9ed;
+
+  const META = {
+    overview: { title: "Overview", subtitle: "Platform health across build, deploy, and operate" },
+    build: { title: "Build", subtitle: "Generate governed data products from intent" },
+    catalog: { title: "Models", subtitle: "1,284 models · dbt on Microsoft Fabric" },
+    runs: { title: "Runs", subtitle: "Execution history", icon: "ph-play-circle" },
+    tests: { title: "Tests & quality", subtitle: "Coverage and Elementary checks", icon: "ph-flask" },
+    lineage: { title: "Lineage", subtitle: "Column-level data lineage", icon: "ph-graph" },
+    skills: { title: "Skills", subtitle: "Encoded organizational standards", icon: "ph-book-bookmark" },
+    settings: { title: "Settings", subtitle: "Workspace configuration", icon: "ph-gear-six" },
+  };
+
+  function App() {
+    const [active, setActive] = React.useState("overview");
+    const meta = META[active];
+    let screen;
+    if (active === "overview") screen = <OverviewScreen />;
+    else if (active === "build") screen = <BuildScreen />;
+    else if (active === "catalog") screen = <CatalogScreen />;
+    else screen = <PlaceholderScreen title={meta.title} icon={meta.icon || "ph-stack"} />;
+
+    return (
+      <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+        <StudioSidebar active={active} onNavigate={setActive} />
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+          <StudioTopBar title={meta.title} subtitle={meta.subtitle}>
+            <Badge variant="navy" icon={<i className="ph ph-git-branch" />}>main</Badge>
+            <IconButton variant="ghost" aria-label="Search"><i className="ph ph-magnifying-glass" /></IconButton>
+            <IconButton variant="ghost" aria-label="Notifications"><i className="ph ph-bell" /></IconButton>
+            <Button variant="primary" size="sm" iconLeft={<i className="ph ph-rocket-launch" />}>Deploy</Button>
+          </StudioTopBar>
+          <main style={{ flex: 1, overflowY: "auto", background: "var(--bg-surface)" }}>
+            {screen}
+          </main>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

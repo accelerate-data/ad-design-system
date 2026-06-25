@@ -101,7 +101,8 @@ chmod +x .githooks/pre-commit
 ## Current Skills
 
 - `applying-design-system` - brand-compliant visual guidance for Accelerate Data
-  surfaces.
+  surfaces, plus a Claude-designed runnable bundle (CSS tokens, Geist fonts,
+  brand marks, React components, and marketing + Studio UI kits).
 - `component` - generated upstream-derived component workflow from
   Maximepodgorski/agent-skills.
 - `design-screen` - generated upstream-derived screen workflow from

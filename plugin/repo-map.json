@@ -43,13 +43,21 @@
     {
       "name": "applying-design-system",
       "path": "skills/applying-design-system/",
-      "description": "Accelerate Data visual brand guidance for vibeData UI. Use for brand-compliant premium surfaces across product, marketing, docs, demos, and internal tools.",
+      "description": "Accelerate Data visual brand guidance for vibeData UI, plus a Claude-designed runnable design-system bundle: CSS tokens, Geist fonts, brand marks, React components, and full-screen UI kits (marketing + Studio). Use for brand-compliant premium surfaces across product, marketing, docs, demos, and internal tools.",
       "references": [
-        "skills/applying-design-system/component-examples.md"
+        "skills/applying-design-system/README.md",
+        "skills/applying-design-system/component-examples.md",
+        "skills/applying-design-system/_ds_manifest.json"
       ],
       "assets": [
         "skills/applying-design-system/assets/colors.json",
-        "skills/applying-design-system/assets/logos/"
+        "skills/applying-design-system/assets/logos/",
+        "skills/applying-design-system/assets/fonts/",
+        "skills/applying-design-system/styles.css",
+        "skills/applying-design-system/tokens/",
+        "skills/applying-design-system/components/",
+        "skills/applying-design-system/guidelines/",
+        "skills/applying-design-system/ui_kits/"
       ]
     },
     {

@@ -33,3 +33,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## Geist & Geist Mono (fonts)
+
+The `applying-design-system` skill bundles the Geist and Geist Mono webfonts
+(`skills/applying-design-system/assets/fonts/*.woff2`).
+
+- Upstream repository: https://github.com/vercel/geist-font
+- Copyright (c) 2023 Vercel, Inc.
+- Included paths: `Geist-Regular.woff2`, `Geist-Medium.woff2`, `Geist-SemiBold.woff2`,
+  `Geist-Bold.woff2`, `GeistMono-Regular.woff2`, `GeistMono-Medium.woff2`,
+  `GeistMono-SemiBold.woff2`
+
+These fonts are licensed under the SIL Open Font License, Version 1.1
+(https://openfontlicense.org). The font software may be used, studied, modified,
+and redistributed freely under that license; the fonts themselves may not be sold
+on their own. See the upstream repository for the full OFL text.
+

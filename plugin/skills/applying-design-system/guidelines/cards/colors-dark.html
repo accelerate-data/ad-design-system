@@ -1,0 +1,24 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Dark Surfaces" subtitle="Smoke base with raised & elevated layers, borders over shadows" -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--bg-base); padding: 20px; }
+  .row { display: flex; gap: 12px; }
+  .sw { flex: 1; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); }
+  .chip { height: 80px; }
+  .meta { padding: 10px 12px; background: var(--bg-elevated); }
+  .name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .hex { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:var(--bg-base)"></div><div class="meta"><div class="name">Base</div><div class="hex">#171c21</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--bg-surface)"></div><div class="meta"><div class="name">Surface</div><div class="hex">#1e2329</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--bg-elevated)"></div><div class="meta"><div class="name">Elevated</div><div class="hex">#262c33</div></div></div>
+  </div>
+</body>
+</html>

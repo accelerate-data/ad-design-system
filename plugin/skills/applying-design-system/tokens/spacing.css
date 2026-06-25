@@ -1,0 +1,35 @@
+/* ============================================================
+   Spacing & Radius — 4px grid, sharp technical radii
+   ============================================================ */
+
+:root {
+  /* Spacing scale (4px grid) */
+  --space-0: 0;
+  --space-1: 4px;    /* micro — icon gaps, tight inline */
+  --space-2: 8px;    /* tight — within components */
+  --space-3: 12px;   /* standard — related elements */
+  --space-4: 16px;   /* comfortable — section padding */
+  --space-5: 20px;
+  --space-6: 24px;   /* generous — between sections */
+  --space-8: 32px;   /* major — page sections */
+  --space-10: 40px;
+  --space-12: 48px;  /* extra large — hero */
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Border radius — sharp, technical. Never 16px+ on small elements. */
+  --radius-sm: 4px;   /* badges, tags, small buttons */
+  --radius-md: 6px;   /* buttons, inputs, small cards */
+  --radius-lg: 8px;   /* cards, modals, containers */
+  --radius-xl: 12px;  /* hero cards, feature sections (sparingly) */
+  --radius-full: 999px;
+
+  /* Border widths */
+  --border-width: 1px;
+  --border-width-thick: 2px;
+
+  /* Common control sizes */
+  --control-sm: 32px;
+  --control-md: 40px;
+  --control-lg: 48px;
+}

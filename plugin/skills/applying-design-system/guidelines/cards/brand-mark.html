@@ -1,0 +1,22 @@
+<!-- @dsCard group="Brand" viewport="700x160" name="Icon Mark" subtitle="AD monogram — app icon, favicon, avatar" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--bg-surface); display: flex; align-items: center; gap: 28px; padding: 0 32px; height: 160px; }
+  .tile { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .box { display: flex; align-items: center; justify-content: center; border-radius: var(--radius-lg); }
+  .light { background: #ffffff; border: 1px solid var(--border); }
+  .dark { background: var(--smoke); }
+  .n { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="tile"><div class="box light" style="width:96px;height:96px"><img src="../../assets/logos/mark-dark.svg" style="height:54px"></div><div class="n">mark-dark</div></div>
+  <div class="tile"><div class="box dark" style="width:96px;height:96px"><img src="../../assets/logos/mark-light.svg" style="height:54px"></div><div class="n">mark-light</div></div>
+  <div class="tile"><div class="box" style="width:64px;height:64px;overflow:hidden"><img src="../../assets/logos/avatar-400.png" style="width:64px;height:64px"></div><div class="n">avatar-400</div></div>
+  <div class="tile"><div class="box light" style="width:40px;height:40px"><img src="../../assets/logos/icon-dark-256.png" style="height:24px"></div><div class="n">favicon 32</div></div>
+</body>
+</html>

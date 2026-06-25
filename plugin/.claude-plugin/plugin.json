@@ -1,7 +1,7 @@
 {
   "name": "design-system",
   "description": "Design system guidance for Accelerate Data and vibeData interfaces, including brand-compliant visual direction, component workflows, and screen composition.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "Accelerate Data"
   },

@@ -1,0 +1,69 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Forms" subtitle="Button · IconButton · Input · Select · Checkbox · Switch" -->
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--bg-base); padding: 24px; color: var(--text-primary); }
+  .grp { margin-bottom: 22px; }
+  .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+  .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 520px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+  const { Button, IconButton, Input, Select, Checkbox, Switch } = window.VibedataDesignSystem_1cd9ed;
+  function Demo() {
+    return (
+      <div>
+        <div className="grp">
+          <div className="lbl">Button — variants</div>
+          <div className="row">
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="accent">Accent</Button>
+            <Button variant="danger">Danger</Button>
+            <Button variant="primary" disabled>Disabled</Button>
+          </div>
+        </div>
+        <div className="grp">
+          <div className="lbl">Button — sizes & icons · IconButton</div>
+          <div className="row">
+            <Button size="sm" variant="primary">Small</Button>
+            <Button size="md" variant="primary" iconLeft={<i className="ph ph-plus" />}>New model</Button>
+            <Button size="lg" variant="secondary" iconRight={<i className="ph ph-arrow-right" />}>Continue</Button>
+            <IconButton aria-label="Settings"><i className="ph ph-gear" /></IconButton>
+            <IconButton variant="primary" aria-label="Run"><i className="ph ph-play" /></IconButton>
+          </div>
+        </div>
+        <div className="grp">
+          <div className="cols">
+            <Input label="Pipeline name" placeholder="orders_daily" hint="lowercase, underscores" />
+            <Input label="Email" defaultValue="bad@" error="Enter a valid email" iconLeft={<i className="ph ph-envelope" />} />
+            <Select label="Materialization" defaultValue="incremental">
+              <option value="table">table</option>
+              <option value="incremental">incremental</option>
+              <option value="view">view</option>
+            </Select>
+            <div style={{display:"flex",flexDirection:"column",gap:14,justifyContent:"center"}}>
+              <Checkbox label="Run quality gates" defaultChecked />
+              <Switch label="Auto-deploy" defaultChecked />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script>
+</body>
+</html>

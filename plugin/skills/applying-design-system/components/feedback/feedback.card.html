@@ -1,0 +1,54 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Feedback" subtitle="Badge variants · Alert callouts" -->
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--bg-base); padding: 24px; color: var(--text-primary); }
+  .grp { margin-bottom: 20px; }
+  .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .stack { display: grid; gap: 12px; max-width: 460px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+  const { Badge, Alert } = window.VibedataDesignSystem_1cd9ed;
+  function Demo() {
+    return (
+      <div>
+        <div className="grp">
+          <div className="lbl">Badge</div>
+          <div className="row">
+            <Badge variant="pacific">v2.4.1</Badge>
+            <Badge variant="navy">Governed</Badge>
+            <Badge variant="seafoam">Tier: Gold</Badge>
+            <Badge variant="success" icon={<i className="ph ph-check-circle" />}>Production</Badge>
+            <Badge variant="warning" icon={<i className="ph ph-warning" />}>Pending</Badge>
+            <Badge variant="error" icon={<i className="ph ph-x-circle" />}>Failed</Badge>
+            <Badge variant="info" icon={<i className="ph ph-info" />}>Running</Badge>
+            <Badge variant="neutral">Draft</Badge>
+          </div>
+        </div>
+        <div className="grp">
+          <div className="lbl">Alert</div>
+          <div className="stack">
+            <Alert variant="success" title="Deploy passed" icon={<i className="ph ph-check-circle" />}>All 42 quality gates green. Promoted to production.</Alert>
+            <Alert variant="error" title="Build failed" icon={<i className="ph ph-x-circle" />} onDismiss={() => {}}>3 models have failing tests in staging.</Alert>
+            <Alert variant="info" icon={<i className="ph ph-info" />}>Schema drift detected on <b>stg_orders</b>.</Alert>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script>
+</body>
+</html>

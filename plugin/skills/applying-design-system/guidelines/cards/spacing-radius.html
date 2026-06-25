@@ -1,0 +1,24 @@
+<!-- @dsCard group="Spacing" viewport="700x150" name="Radius Scale" subtitle="Sharp & technical — sm 4 / md 6 / lg 8 / xl 12" -->
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--bg-base); padding: 24px; }
+  .row { display: flex; gap: 20px; }
+  .item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .box { width: 76px; height: 76px; background: var(--powder); border: 1px solid var(--arctic); border-top-left-radius: 0; }
+  .n { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="item"><div class="box" style="border-radius:var(--radius-sm)"></div><div class="n">sm · 4</div></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-md)"></div><div class="n">md · 6</div></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-lg)"></div><div class="n">lg · 8</div></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-xl)"></div><div class="n">xl · 12</div></div>
+    <div class="item"><div class="box" style="border-radius:var(--radius-full)"></div><div class="n">full</div></div>
+  </div>
+</body>
+</html>
