@@ -40,7 +40,8 @@ The marketplace entry references this repo via `git-subdir` with `path: "plugin"
 | [`logo/ASSETS_FOR_DEVELOPERS.md`](./logo/ASSETS_FOR_DEVELOPERS.md) | Developers integrating logos | Quick-picks table and the "light vs dark" cheat sheet (the name describes artwork color, not page theme). |
 | [`logo/creation_scripts/README.md`](./logo/creation_scripts/README.md) | Brand maintainers | How `generate_assets.py` reads `logo-export-checklist.xlsx` and produces the full export tree from the 7 source SVGs. |
 | [`gamma-theme.md`](./gamma-theme.md) | Anyone making Gamma decks | Brand-aligned color, text, and background values to paste into Gamma's theme builder. |
-| [`pitch/Vibedata-Pitch-Template.pptx`](./pitch/Vibedata-Pitch-Template.pptx) | Anyone building a pitch deck | Brand-aligned PowerPoint pitch template for Vibedata decks. |
+| [`templates/Vibedata-Pitch-Template.pptx`](./templates/Vibedata-Pitch-Template.pptx) | Anyone building a pitch deck | Brand-aligned PowerPoint pitch template for VibeData decks. |
+| [`templates/Accelerate-Data-Document-Template.dotx`](./templates/Accelerate-Data-Document-Template.dotx) | Anyone writing company documents | Reusable Word template with a cover, native styles, tables, and page numbers. An editable `.docx` copy and usage guide are in [`templates/`](./templates/README.md). |
 | [`Accelerate Data - Brand Book.pdf`](./Accelerate%20Data%20-%20Brand%20Book.pdf) | All brand consumers | Authoritative brand guidelines — the source of truth that everything else distills. |
 
 ### Asset tree
@@ -57,7 +58,7 @@ The marketplace entry references this repo via `git-subdir` with `path: "plugin"
 │   ├── docs/                          # Documentation site logos
 │   ├── archive/                       # Source SVGs and previous exports
 │   └── creation_scripts/              # Asset generation automation (see its own README)
-├── pitch/                             # Brand-aligned pitch deck templates (PowerPoint)
+├── templates/                         # PowerPoint deck and Word document templates
 ├── gamma-theme.md
 └── Accelerate Data - Brand Book.pdf
 ```
