@@ -1,6 +1,6 @@
 # Design System Evals
 
-Focused Promptfoo smoke evals for the `design-system` plugin takeover.
+Focused Promptfoo smoke evals for the `ad-design-system` plugin takeover.
 
 These evals cover:
 

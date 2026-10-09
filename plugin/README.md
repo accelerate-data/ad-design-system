@@ -34,7 +34,7 @@ Install via the Accelerate Data internal marketplace:
 
 ```bash
 claude marketplace add accelerate-data/plugin-marketplace
-claude plugin install design-system@ad-internal-marketplace
+claude plugin install ad-design-system@ad-internal-marketplace
 ```
 
 The plugin manifest is at

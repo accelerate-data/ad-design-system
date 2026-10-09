@@ -61,12 +61,12 @@ function route(prompt) {
   const evidence = pluginEvidence();
 
   if (
-    evidence.claudeManifest.name !== "design-system" ||
-    evidence.codexManifest.name !== "design-system" ||
+    evidence.claudeManifest.name !== "ad-design-system" ||
+    evidence.codexManifest.name !== "ad-design-system" ||
     evidence.codexManifest.interface.displayName !== "Design System" ||
     !evidence.pluginTreeExists
   ) {
-    return missingEvidence("plugin manifests do not expose the design-system plugin");
+    return missingEvidence("plugin manifests do not expose the ad-design-system plugin");
   }
 
   if (

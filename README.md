@@ -2,18 +2,18 @@
 
 Accelerate Data's design system repo. Two distinct kinds of content live here:
 
-1. **The `design-system` Claude/Codex plugin** under [`plugin/`](./plugin).
+1. **The `ad-design-system` Claude/Codex plugin** under [`plugin/`](./plugin).
 2. **Brand reference material** at the repo root — logo assets, brand book, theme configs, documentation. Maintained alongside the plugin but **not shipped with it**.
 
 ---
 
 ## 1. Plugin source — [`plugin/`](./plugin)
 
-The `design-system` plugin for Claude Code and Codex. This subtree is what gets installed by users of the Accelerate Data marketplace:
+The `ad-design-system` plugin for Claude Code and Codex. This subtree is what gets installed by users of the Accelerate Data marketplace:
 
 ```bash
 claude marketplace add accelerate-data/plugin-marketplace
-claude plugin install design-system@ad-internal-marketplace
+claude plugin install ad-design-system@ad-internal-marketplace
 ```
 
 See [`plugin/README.md`](./plugin/README.md) for plugin-specific details.

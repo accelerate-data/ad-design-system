@@ -7,11 +7,10 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_DIR = ROOT / "plugin"
 AD_SKILL_DIR = PLUGIN_DIR / "skills" / "applying-design-system"
 AD_SKILL_PATH = AD_SKILL_DIR / "SKILL.md"
-PLUGIN_NAME = "design-system"
+PLUGIN_NAME = "ad-design-system"
 AD_SKILL_NAME = "applying-design-system"
 OLD_AD_SKILL_NAME = "applying" + "-ad-design-system"
 OLD_BRANDING_SKILL_PATH = "branding" + "/plugin/skills/" + AD_SKILL_NAME
-OLD_MARKETPLACE_INSTALL = "ad-design-system" + "@ad-internal-marketplace"
 OLD_BRANDING_LOGO_PREFIX = "branding" + "/logo/"
 OLD_BRANDING_AI_DOC = OLD_BRANDING_LOGO_PREFIX + "ASSETS_FOR_AI.md"
 OLD_BRANDING_DEVELOPER_DOC = OLD_BRANDING_LOGO_PREFIX + "ASSETS_FOR_DEVELOPERS.md"
@@ -272,7 +271,6 @@ class SkillDescriptionTests(unittest.TestCase):
         forbidden_strings = [
             OLD_AD_SKILL_NAME,
             OLD_BRANDING_SKILL_PATH,
-            OLD_MARKETPLACE_INSTALL,
             OLD_BRANDING_LOGO_PREFIX,
             OLD_BRANDING_AI_DOC,
             OLD_BRANDING_DEVELOPER_DOC,

@@ -9,7 +9,7 @@
   "test_frameworks": [],
   "applications": [
     {
-      "name": "design-system plugin",
+      "name": "ad-design-system plugin",
       "type": "shared plugin source",
       "description": "Plugin source for Accelerate Data's design system. Ships Claude and Codex manifests plus three installed skills under skills/: AD-owned brand application, upstream-derived component workflow, and upstream-derived screen composition. Lives inside the ad-design-system repo alongside source-only brand assets and upstream vendor snapshots at the parent level."
     }

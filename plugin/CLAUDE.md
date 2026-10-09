@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Claude-specific routing for the `design-system` plugin. Canonical guidance lives in [`AGENTS.md`](./AGENTS.md). Read it first.
+Claude-specific routing for the `ad-design-system` plugin. Canonical guidance lives in [`AGENTS.md`](./AGENTS.md). Read it first.
 
 ## Plugin purpose
 
