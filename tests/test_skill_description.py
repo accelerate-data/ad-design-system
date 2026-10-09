@@ -111,7 +111,7 @@ class SkillDescriptionTests(unittest.TestCase):
     def test_ad_skill_description_stays_brand_visual_specific(self):
         local = frontmatter_field(AD_SKILL_PATH, "description").lower()
 
-        for required_term in ["accelerate data", "vibedata", "brand", "visual"]:
+        for required_term in ["accelerate data", "brand", "visual"]:
             with self.subTest(required_term=required_term):
                 self.assertIn(required_term, local)
 
@@ -266,7 +266,6 @@ class SkillDescriptionTests(unittest.TestCase):
             ROOT / "README.md",
             ROOT / "logo" / "ASSETS_FOR_DEVELOPERS.md",
             ROOT / "logo" / "ASSETS_FOR_AI.md",
-            ROOT / "docs" / "design" / "2026-04-25-ad-design-system-skill-expansion.md",
         ]
         forbidden_strings = [
             OLD_AD_SKILL_NAME,

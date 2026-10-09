@@ -1,22 +1,18 @@
-# Vibedata Design System
+# Accelerate Data Design System
 
-The design system for **Vibedata** by **Accelerate Data** — the agentic coordination layer for data platforms. This project encodes the brand's visual language (color, type, spacing, motion, logos), a set of reusable React components, and high-fidelity recreations of the marketing site and the Studio product so design agents can produce on-brand interfaces, decks, and assets.
+The design system for **Accelerate Data**, the parent company brand. This project encodes the brand's visual language (color, type, spacing, motion, logos) and a set of reusable React components so design agents can produce on-brand interfaces, decks, and assets.
 
 > **Brand personality:** the calm mastery and grounded authority of a senior data engineer. Precise, rational, deeply systems-minded. Governance over hype. Quiet confidence, subtly futuristic. The calm expert you turn to when data must be done right.
 
 ---
 
-## Company & product context
+## Company context
 
-- **Accelerate Data** is the company; **Vibedata** (one word) is the product — "the agentic coordination layer for data platforms."
-- Positioning: *"Organizational data engineering standards, encoded and enforced."* Data teams lose weeks to **coordination tax** — intent lost between role switches, fix patterns never captured. Vibedata encodes org standards as **skills** so agents build, deploy, and operate pipelines with a team's accumulated knowledge.
-- The product loop is **Build → Deploy → Operate**, an improvement flywheel where resolved incidents become new skills and tests.
-- Technically it is **dbt-native on Microsoft Fabric** (Lakehouse, OneLake), with adapters, ingestion (dlt), semantic models (TMDL/DAX), and governance/quality (Elementary) as first-class concerns.
+- **Accelerate Data** is the company. Its brand book is the source of truth for everything here.
 
 ### Sources used to build this system
 Stored for reference (you may not have access):
 - **GitHub — brand & design system:** `accelerate-data/ad-design-system` — brand book PDF, logo asset tree + manifests (`logo/ASSETS_FOR_AI.md`), the `applying-design-system` skill (color/type/spacing/component spec), `gamma-theme.md`, and a reference marketing page (`sample/index.html`). Explore this repo for deeper brand fidelity.
-- **GitHub — product context & copy:** `accelerate-data/vibedata-official` — the skill/plugin marketplace README with product positioning, the Build/Deploy/Operate model, and plugin catalog (`ad-migration`, `fabric-cli`, `vibedata-dbt-skills`, etc).
 - **Fonts:** Geist & Geist Mono (woff2) from `vercel/geist-font` (OFL).
 - **Logo CDN (canonical at runtime):** `http://assets.acceleratedata.ai/logo/` — always look up exact paths from the manifest; never pattern-interpolate.
 
@@ -24,21 +20,15 @@ Stored for reference (you may not have access):
 
 ## Content fundamentals
 
-How Vibedata writes. Match this voice in every surface.
+How Accelerate Data writes. Match this voice in every surface.
 
 - **Tone:** calm, authoritative, systems-minded. Confident without hype. Reads like a senior engineer who has seen the failure modes and removed them.
-- **Person:** address the reader as **you** ("Your data engineering standards, encoded and enforced"). The product/company is **we/Vibedata**. Agents are named by role in lowercase mono — `build-agent`, `ingestion-agent`, `ci`.
+- **Person:** address the reader as **you** ("Your data engineering standards, encoded and enforced"). The product/company is **we/Accelerate Data**. Agents are named by role in lowercase mono — `build-agent`, `ingestion-agent`, `ci`.
 - **Casing:** sentence case for headings and buttons ("Get started", "Book a demo", "New model") — *not* Title Case. UPPERCASE only for tiny eyebrow labels and table headers, always with positive letter-spacing.
 - **Sentence style:** short, declarative, precise. Lead with the outcome. Strip ambiguity. Favor concrete nouns (pipelines, lineage, quality gates, PRs) over abstractions.
-- **Numbers & technical values:** always in **Geist Mono** with `tabular-nums` — counts, durations (`48s`), versions (`v2.4.1`), IDs, percentages, money. This is a core brand tell.
-- **Vocabulary:** governed, governance, coordination layer, encoded/enforced, standards, skills, medallion (staging → intermediate → mart), tier (gold/silver), SCD2, quality gates, lineage, reviewable.
+- **Numbers & technical values:** always in **Geist Mono** with `tabular-nums` — counts, durations (`48s`), versions (`2.4.1`), IDs, percentages, money. This is a core brand tell.
 - **Emoji:** never. Not in product, not in marketing. Iconography carries meaning instead.
-- **Punctuation:** use the middle dot `·` as a separator in metadata rows (`v2.4.1 · 48ms · 200 OK`). Em dashes for asides, used sparingly.
-
-**Examples (on-brand):**
-- "Your data engineering standards, encoded and enforced."
-- "Every PR runs context-informed quality gates — documentation, code quality, test coverage, and data quality."
-- "42 / 42 gates green · ready to merge."
+- **Punctuation:** use the middle dot `·` as a separator in metadata rows (`2.4.1 · 48ms · 200 OK`). Em dashes for asides, used sparingly.
 
 **Avoid:** exclamation marks, hype words ("revolutionary", "magical"), Title Case buttons, emoji, decorative stats with no meaning.
 
@@ -99,7 +89,7 @@ Root files
 - `assets/fonts/` — Geist & Geist Mono woff2. `assets/logos/` — brand marks.
 - `README.md` (this file) · `SKILL.md` (Agent-Skills-compatible entry).
 
-Components (`window.VibedataDesignSystem_*`) — each has `.jsx` + `.d.ts` + `.prompt.md`
+Components (`window.ADDesignSystem_*`) — each has `.jsx` + `.d.ts` + `.prompt.md`
 - `components/forms/` — **Button, IconButton, Input, Select, Checkbox, Switch**
 - `components/feedback/` — **Badge, Alert**
 - `components/data/` — **Card, StatCard, Avatar, Tag**
@@ -108,11 +98,7 @@ Components (`window.VibedataDesignSystem_*`) — each has `.jsx` + `.d.ts` + `.p
 Foundation cards (Design System tab) — `guidelines/cards/`
 - Colors (6), Type (4), Spacing/radius/elevation (3), Brand (3).
 
-UI kits — `ui_kits/`
-- `marketing/` — the Vibedata landing page (light, theme-toggle). Real reference existed.
-- `studio/` — the Vibedata Studio product app (dark): Overview, Build agent, Models catalog. Composed from documented patterns — see its README for the important caveat.
-
 ---
 
 ## Using this system
-Link `styles.css`, then use the CSS custom properties (`var(--pacific)`, `var(--text-primary)`, `var(--space-4)`, `var(--radius-lg)`, `var(--font-mono)`, …). In React, read components from the compiled bundle: `const { Button } = window.VibedataDesignSystem_1cd9ed`. For deeper brand fidelity, explore the source repos linked above.
+Link `styles.css`, then use the CSS custom properties (`var(--pacific)`, `var(--text-primary)`, `var(--space-4)`, `var(--radius-lg)`, `var(--font-mono)`, …). In React, read components from the compiled bundle: `const { Button } = window.ADDesignSystem_1cd9ed`. For deeper brand fidelity, explore the source repos linked above.

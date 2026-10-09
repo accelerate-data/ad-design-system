@@ -1,6 +1,6 @@
 {
   "name": "ad-design-system",
-  "description": "Design system guidance for the Accelerate Data (parent company) brand, including brand-compliant visual direction, component workflows, and screen composition. For the Vibedata product brand use the vd-design-system plugin.",
+  "description": "Design system guidance for the Accelerate Data (parent company) brand, including brand-compliant visual direction, component workflows, and screen composition.",
   "version": "0.4.0",
   "author": {
     "name": "Accelerate Data"

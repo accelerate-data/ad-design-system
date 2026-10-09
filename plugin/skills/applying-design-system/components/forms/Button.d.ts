@@ -17,5 +17,5 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   children?: React.ReactNode;
 }
 
-/** Primary action button for Vibedata surfaces. */
+/** Primary action button for Accelerate Data surfaces. */
 export function Button(props: ButtonProps): JSX.Element;

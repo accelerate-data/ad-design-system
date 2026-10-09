@@ -1,4 +1,4 @@
-# Vibedata Logo Assets — Developer Reference
+# Accelerate Data Logo Assets — Developer Reference
 
 > ## ⚠️ Light vs Dark — Which one do I want?
 >

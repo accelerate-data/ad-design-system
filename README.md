@@ -40,7 +40,6 @@ The marketplace entry references this repo via `git-subdir` with `path: "plugin"
 | [`logo/ASSETS_FOR_DEVELOPERS.md`](./logo/ASSETS_FOR_DEVELOPERS.md) | Developers integrating logos | Quick-picks table and the "light vs dark" cheat sheet (the name describes artwork color, not page theme). |
 | [`logo/creation_scripts/README.md`](./logo/creation_scripts/README.md) | Brand maintainers | How `generate_assets.py` reads `logo-export-checklist.xlsx` and produces the full export tree from the 7 source SVGs. |
 | [`gamma-theme.md`](./gamma-theme.md) | Anyone making Gamma decks | Brand-aligned color, text, and background values to paste into Gamma's theme builder. |
-| [`templates/Vibedata-Pitch-Template.pptx`](./templates/Vibedata-Pitch-Template.pptx) | Anyone building a pitch deck | Brand-aligned PowerPoint pitch template for Vibedata decks. |
 | [`templates/Accelerate-Data-Document-Template.dotx`](./templates/Accelerate-Data-Document-Template.dotx) | Anyone writing company documents | Reusable Word template with a cover, native styles, tables, and page numbers. An editable `.docx` copy and usage guide are in [`templates/`](./templates/README.md). |
 | [`Accelerate Data - Brand Book.pdf`](./Accelerate%20Data%20-%20Brand%20Book.pdf) | All brand consumers | Authoritative brand guidelines — the source of truth that everything else distills. |
 
@@ -56,7 +55,7 @@ The marketplace entry references this repo via `git-subdir` with `path: "plugin"
 │   ├── marketplaces/                  # Azure marketplace logos
 │   ├── ops/email/                     # Email template logos
 │   ├── docs/                          # Documentation site logos
-│   ├── archive/                       # Source SVGs and previous exports
+│   ├── archive/                       # Source SVGs (the masters for creation_scripts)
 │   └── creation_scripts/              # Asset generation automation (see its own README)
 ├── templates/                         # PowerPoint deck and Word document templates
 ├── gamma-theme.md

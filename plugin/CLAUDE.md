@@ -4,7 +4,7 @@ Claude-specific routing for the `ad-design-system` plugin. Canonical guidance li
 
 ## Plugin purpose
 
-Ships Accelerate Data's design system as a Claude Code skill. Brand-compliant, premium UI guidance for vibeData product, marketing, docs, and demos.
+Ships Accelerate Data's design system as a Claude Code skill. Brand-compliant, premium UI guidance for marketing, docs, demos, and internal tools.
 
 ## Skills
 
