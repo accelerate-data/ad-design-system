@@ -1,6 +1,6 @@
 import React from "react";
 
-/** Native select styled to match Vibedata inputs, with a chevron affordance. */
+/** Native select styled to match the design system inputs, with a chevron affordance. */
 export function Select({ label, hint, id, disabled = false, children, style = {}, ...rest }) {
   const selectId = id || React.useId();
   const [focus, setFocus] = React.useState(false);

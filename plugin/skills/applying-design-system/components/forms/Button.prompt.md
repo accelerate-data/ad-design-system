@@ -1,4 +1,4 @@
-Primary action button for Vibedata surfaces — use for any clickable action, choosing the variant by importance.
+Primary action button for Accelerate Data surfaces — use for any clickable action, choosing the variant by importance.
 
 ```jsx
 <Button variant="primary" onClick={save}>Save changes</Button>

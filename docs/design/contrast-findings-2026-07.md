@@ -1,6 +1,6 @@
 # Contrast findings — two prescribed combinations fail WCAG AA
 
-**Found:** 27 July 2026, while building the VibeData investor-deck platform against this design system.
+**Found:** 27 July 2026, while building an investor-deck platform against this design system.
 **Status:** open. Nothing in this repository has been changed; this is a report.
 
 Both findings are *faithful readings of the source*, not misuse. An implementer following `SKILL.md`

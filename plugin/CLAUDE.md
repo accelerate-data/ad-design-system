@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-Claude-specific routing for the `design-system` plugin. Canonical guidance lives in [`AGENTS.md`](./AGENTS.md). Read it first.
+Claude-specific routing for the `ad-design-system` plugin. Canonical guidance lives in [`AGENTS.md`](./AGENTS.md). Read it first.
 
 ## Plugin purpose
 
-Ships Accelerate Data's design system as a Claude Code skill. Brand-compliant, premium UI guidance for vibeData product, marketing, docs, and demos.
+Ships Accelerate Data's design system as a Claude Code skill. Brand-compliant, premium UI guidance for marketing, docs, demos, and internal tools.
 
 ## Skills
 

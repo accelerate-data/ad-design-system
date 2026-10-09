@@ -19,9 +19,7 @@
               "components/data/**",
               "components/feedback/**",
               "components/forms/**",
-              "components/navigation/**",
-              "ui_kits/marketing/**",
-              "ui_kits/studio/**"
+              "components/navigation/**"
             ],
             "message": "Import design-system components from 'index.js', not component internals."
           }

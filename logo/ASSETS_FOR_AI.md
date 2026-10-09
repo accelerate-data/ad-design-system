@@ -1,4 +1,4 @@
-# Vibedata Logo Assets — Machine-Readable Manifest
+# Accelerate Data Logo Assets — Machine-Readable Manifest
 
 <!-- source_svgs_path: logo/archive/svg_sources/ -->
 <!-- source_svgs: icon-dark.svg, icon-light.svg, icon-monochrome.svg, logo-dark.svg, logo-light.svg, logo-icon-lockup-dark.svg, logo-icon-lockup-light.svg -->

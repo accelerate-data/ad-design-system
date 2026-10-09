@@ -1,6 +1,6 @@
 ---
 name: applying-design-system
-description: Accelerate Data visual brand guidance for vibeData UI. Use for brand-compliant premium surfaces across product, marketing, docs, demos, and internal tools when the interface represents Accelerate Data.
+description: Accelerate Data visual brand guidance. Use for brand-compliant premium surfaces across marketing, docs, demos, and internal tools when the interface represents Accelerate Data.
 ---
 
 # Accelerate Data Design System
@@ -16,7 +16,6 @@ Alongside the guidance below, this skill ships a **Claude-designed, runnable** d
 - **`tokens/`** — CSS custom properties (`colors`, `typography`, `spacing`, `elevation`, `motion`). `_ds_manifest.json` indexes every token and component.
 - **`assets/fonts/`** — Geist & Geist Mono (woff2). **`assets/logos/`** — brand marks (wordmark / lockup / monogram, light & dark).
 - **`components/`** — React components (forms, feedback, data, navigation), each with a `.prompt.md` usage example. **`guidelines/cards/`** — color/type/spacing/brand specimen cards.
-- **`ui_kits/`** — full-screen recreations: `marketing/` (landing page) and `studio/` (the product app).
 
 For static artifacts, copy assets out and link `styles.css`. For production code, read the tokens and `README.md` and follow the rules below. The remainder of this file is the framework-agnostic specification.
 
@@ -37,8 +36,6 @@ Accelerate Data embodies the **calm mastery and grounded authority of a senior d
 - **Never logos or loud patterns** - restraint defines the aesthetic
 
 ### When to Use This Skill
-- vibeData Studio interface
-- vibeData marketing pages
 - Documentation sites
 - Demo applications
 - Internal tools

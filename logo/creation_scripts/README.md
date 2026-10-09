@@ -1,10 +1,10 @@
 # Logo Asset Exporter
 
-This workspace includes a script that reads `logo-export-checklist.xlsx` and generates logo assets under `output/`.
+This workspace includes a script that reads `logo-export-checklist.xlsx` and generates logo assets under `output_from_scripts/`.
 
 ## Required Source Files
 
-The script only uses these masters from `sources/`:
+The script only uses these masters from `../archive/svg_sources/`:
 
 - `icon-light.svg`
 - `icon-dark.svg`
@@ -44,7 +44,7 @@ Examples:
 
 Special case:
 
-- `safari-pinned-tab.svg` always uses `sources/icon-monochrome.svg`.
+- `safari-pinned-tab.svg` always uses `../archive/svg_sources/icon-monochrome.svg`.
 
 ## Open Graph Rows
 
@@ -81,7 +81,7 @@ python generate_assets.py --dry-run
 
 Files are written to:
 
-- `output/<Suggested Path>/<final filename>`
+- `output_from_scripts/<Suggested Path>/<final filename>`
 
 If path collisions still occur after color/range suffixing, deterministic numeric suffixes are added:
 
@@ -91,7 +91,7 @@ If path collisions still occur after color/range suffixing, deterministic numeri
 
 After generation, the script writes:
 
-- `output/ASSETS_MANIFEST.md`
+- `output_from_scripts/ASSETS_MANIFEST.md`
 
 The manifest includes:
 

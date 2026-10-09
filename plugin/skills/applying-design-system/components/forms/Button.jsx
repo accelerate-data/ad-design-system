@@ -1,7 +1,7 @@
 import React from "react";
 
 /**
- * Vibedata primary button. Steady, controlled — no spring or bounce.
+ * Primary button. Steady, controlled — no spring or bounce.
  * Variants map to the brand's action hierarchy.
  */
 export function Button({

@@ -5,10 +5,10 @@ providers:
 
 prompts:
   - |
-    You are evaluating the design-system plugin instructions.
+    You are evaluating the ad-design-system plugin instructions.
 
     Installed skills:
-    - applying-design-system: AD-owned brand-compliant visual guidance for Accelerate Data and vibeData surfaces.
+    - applying-design-system: AD-owned brand-compliant visual guidance for Accelerate Data surfaces.
     - component: upstream-attributed workflow from Maximepodgorski/agent-skills for design-system component spec, docs, dev, review, spec-review, and audit.
     - design-screen: upstream-attributed workflow from Maximepodgorski/agent-skills for composing screens from existing design-system components.
 

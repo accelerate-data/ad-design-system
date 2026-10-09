@@ -5,7 +5,6 @@ repository; they are not bundled with the design-system plugin.
 
 | File | Use |
 | --- | --- |
-| [Vibedata-Pitch-Template.pptx](Vibedata-Pitch-Template.pptx) | Existing PowerPoint pitch deck, moved from `pitch/` without changing its contents. |
 | [Accelerate-Data-Document-Template.dotx](Accelerate-Data-Document-Template.dotx) | Word template for Accelerate Data company documents, proposals, and reports. |
 | [Accelerate-Data-Document-Template.docx](Accelerate-Data-Document-Template.docx) | Editable document copy for previewing or starting with Save As. |
 
