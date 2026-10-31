@@ -51,16 +51,24 @@ def font(style, family, size, ink, bold=False):
         fonts.set(qn(f"w:{key}"), family)
 
 
+# CT_PPr children that follow w:pBdr in ECMA-376 schema order.
+AFTER_PBDR = (
+    "w:shd", "w:tabs", "w:suppressAutoHyphens", "w:kinsoku", "w:wordWrap", "w:overflowPunct",
+    "w:topLinePunct", "w:autoSpaceDE", "w:autoSpaceDN", "w:bidi", "w:adjustRightInd",
+    "w:snapToGrid", "w:spacing", "w:ind", "w:contextualSpacing", "w:mirrorIndents",
+    "w:suppressOverlap", "w:jc", "w:textDirection", "w:textAlignment", "w:textboxTightWrap",
+    "w:outlineLvl", "w:divId", "w:cnfStyle", "w:rPr", "w:sectPr", "w:pPrChange",
+)
+
+
 def border(paragraph, side="bottom", ink="pacific", size=8, space=8):
     props = paragraph._p.get_or_add_pPr()
     borders = element("w:pBdr")
     for edge in ("top", "left", "bottom", "right", "between"):
-        if edge != side:
-            borders.append(element(f"w:{edge}", **{"w:val": "nil"}))
-    borders.append(element(f"w:{side}", **{
-        "w:val": "single", "w:sz": size, "w:space": space, "w:color": color(ink)
-    }))
-    props.append(borders)
+        borders.append(element(f"w:{edge}", **({
+            "w:val": "single", "w:sz": size, "w:space": space, "w:color": color(ink)
+        } if edge == side else {"w:val": "nil"})))
+    props.insert_element_before(borders, *AFTER_PBDR)
 
 
 def field(paragraph, code, fallback):
@@ -79,20 +87,20 @@ def table_style(document):
     font(style, "Geist", 10, "smoke")
     style.paragraph_format.space_after = Pt(3)
     props = element("w:tblPr")
-    margins = element("w:tblCellMar")
-    for edge in ("top", "left", "bottom", "right"):
-        margins.append(element(f"w:{edge}", **{"w:w": 120, "w:type": "dxa"}))
-    props.append(margins)
     borders = element("w:tblBorders")
     for edge in ("top", "left", "bottom", "right", "insideH", "insideV"):
         borders.append(element(f"w:{edge}", **{
             "w:val": "single", "w:sz": 4, "w:color": color("gray-200")
         }))
     props.append(borders)
+    margins = element("w:tblCellMar")
+    for edge in ("top", "left", "bottom", "right"):
+        margins.append(element(f"w:{edge}", **{"w:w": 120, "w:type": "dxa"}))
+    props.append(margins)
     style.element.append(props)
     first = element("w:tblStylePr", **{"w:type": "firstRow"})
     cell = element("w:tcPr")
-    cell.append(element("w:shd", **{"w:fill": color("navy")}))
+    cell.append(element("w:shd", **{"w:val": "clear", "w:fill": color("navy")}))
     run = element("w:rPr")
     run.append(element("w:b"))
     run.append(element("w:color", **{"w:val": color("white")}))
@@ -151,12 +159,12 @@ def build():
     styles["AD table header"].font.bold = True
     styles["AD table header"].paragraph_format.space_after = Pt(3)
     cp = styles["AD callout"].element.get_or_add_pPr()
-    cp.append(element("w:shd", **{"w:fill": color("powder")}))
+    cp.insert_element_before(element("w:shd", **{"w:val": "clear", "w:fill": color("powder")}), *AFTER_PBDR[1:])
     styles["AD callout"].paragraph_format.space_before = Pt(12)
     styles["AD callout"].paragraph_format.space_after = Pt(16)
     styles["AD callout"].paragraph_format.keep_together = True
-    styles["AD code"].element.get_or_add_pPr().append(
-        element("w:shd", **{"w:fill": color("pearl")}))
+    styles["AD code"].element.get_or_add_pPr().insert_element_before(
+        element("w:shd", **{"w:val": "clear", "w:fill": color("pearl")}), *AFTER_PBDR[1:])
     styles["AD code"].paragraph_format.keep_together = True
     font(styles["Strong"], "Geist", 10.5, "smoke", bold=True)
     table_style(doc)
@@ -177,12 +185,11 @@ def build():
     footer.add_run("Accelerate Data  ·  [Classification]")
     footer.paragraph_format.tab_stops.add_tab_stop(width, WD_TAB_ALIGNMENT.RIGHT)
     footer.add_run("\t")
-    field(footer, "PAGE", "2")
+    field(footer, "PAGE", "1")
     footer.add_run(" / ")
-    field(footer, "NUMPAGES", "3")
+    field(footer, "NUMPAGES", "1")
     border(footer, side="top", ink="gray-200", size=4)
     section.first_page_footer.paragraphs[0].text = "acceleratedata.ai  ·  [Classification]"
-    doc.settings.element.append(element("w:updateFields", **{"w:val": "true"}))
 
     # Cover: ordinary paragraphs remain editable and flow naturally for long titles.
     p = doc.add_paragraph()
@@ -303,7 +310,9 @@ def package(source):
     parts["word/fontTable.xml"] = etree.tostring(fonts)
     parts["word/_rels/fontTable.xml.rels"] = etree.tostring(rels)
     settings = etree.fromstring(parts["word/settings.xml"])
-    settings.append(element("w:embedTrueTypeFonts"))
+    zoom = settings.find("w:zoom", ns)
+    zoom.set(qn("w:percent"), "100")
+    zoom.addnext(element("w:embedTrueTypeFonts"))
     parts["word/settings.xml"] = etree.tostring(settings)
     types = etree.fromstring(parts["[Content_Types].xml"])
     etree.SubElement(types, "{http://schemas.openxmlformats.org/package/2006/content-types}Default",
